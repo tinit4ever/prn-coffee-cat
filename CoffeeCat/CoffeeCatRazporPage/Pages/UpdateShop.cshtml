@@ -1,0 +1,82 @@
+﻿@page
+@model UpdateShopModel
+@using Entities
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Update Shop";
+}
+
+<style>
+    .shop-section, .table-section {
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+        .shop-section h3, .table-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Shop.ShopId" />
+    <div class="shop-section">
+        <h3>Shop Details</h3>
+        <div>
+            <label for="ShopName">Shop Name:</label>
+            <input id="ShopName" name="ShopName" type="text" value="@Model.Shop.ShopName" />
+        </div>
+        <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+    </div>
+
+    @for (int i = 0; i < Model.Tables.Count; i++)
+    {
+        <div class="table-section">
+            <h3>Table @i Details</h3>
+            <input type="hidden" asp-for="Tables[i].TableId" />
+            <div>
+                <label for="Tables[i].TableName">Table Name:</label>
+                <input id="Tables[i].TableName" name="Tables[i].TableName" type="text" value="@Model.Tables[i].TableName" />
+            </div>
+            <div>
+                <label for="Tables[i].TableCapacity">Table Capacity:</label>
+                <input id="Tables[i].TableCapacity" name="Tables[i].TableCapacity" type="number" value="@Model.Tables[i].TableCapacity" />
+            </div>
+            <!-- Các trường nhập liệu khác cho bàn ở đây -->
+        </div>
+    }
+    <input type="submit" value="Update Shop" onclick="return confirm('Are you sure you want to update this shop?');" />
+
+</form>

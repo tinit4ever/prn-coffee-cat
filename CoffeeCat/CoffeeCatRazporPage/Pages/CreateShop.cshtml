@@ -1,0 +1,66 @@
+﻿@page
+@model CreateShopModel
+@{
+    ViewData["Title"] = "Create Shop";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" id="createShopForm">
+    <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+
+    <div id="tablesDiv">
+        <div>
+            <label for="ShopName">Shop Name:</label>
+            <input id="ShopName" name="ShopName" type="text" />
+        </div>
+        <div>
+            <label for="ShopEmail">Shop Email:</label>
+            <input id="ShopEmail" name="ShopEmail" type="text" />
+        </div>
+        <div>
+            <label for="ShopAddress">Shop Address:</label>
+            <input id="ShopAddress" name="ShopAddress" type="text" />
+        </div>
+        <div>
+            <label for="ShopTelephone">Shop Telephone:</label>
+            <input id="ShopTelephone" name="ShopTelephone" type="text" />
+        </div>
+        <div>
+            <label for="ShopArea">Shop Area:</label>
+            <input id="ShopArea" name="ShopArea" type="text" />
+        </div>
+    </div>
+
+    <button type="button" id="addTableButton">Thêm bàn</button>
+    <input type="submit" value="Create Shop" onclick="return ('Bạn có chắc chắn muốn lưu cửa hàng này không?');" />
+    <button type="button" onclick="if(confirm('Bạn có chắc chắn muốn hủy không?')) { window.location.href='/ShopManager'; }">Cancel</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var tableIndex = 0;
+
+        $('#addTableButton').click(function () {
+            var tableDiv = $(`
+                        <div>
+                            <label for="Tables[${tableIndex}].TableName">Table Name:</label>
+                            <input id="Tables[${tableIndex}].TableName" name="Tables[${tableIndex}].TableName" type="text" />
+                            <label for="Tables[${tableIndex}].TableCapacity">Table Capacity:</label>
+                            <input id="Tables[${tableIndex}].TableCapacity" name="Tables[${tableIndex}].TableCapacity" type="text" />
+                            <button type="button" class="deleteTableButton">Xóa</button>
+                        </div>
+                    `);
+
+            tableDiv.find('.deleteTableButton').click(function () {
+                tableDiv.remove();
+            });
+
+            $('#tablesDiv').append(tableDiv);
+
+            tableIndex++;
+        });
+    });
+</script>
+
