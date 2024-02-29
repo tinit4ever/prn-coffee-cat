@@ -1,0 +1,77 @@
+﻿@* @page
+@model CatmanagerModel
+@{
+    ViewData["Title"] = "Coffee Shops";
+}
+
+<div class="container">
+    <h1 class="text-center my-4">Coffee Shops</h1>
+
+    <!-- Sắp xếp và Tạo mới -->
+    <div class="d-flex justify-content-between my-3">
+        <div>
+            <a asp-page-handler="Sort" asp-route-sortOrder="Name" class="btn btn-link mx-2">Sort by Name</a>
+            <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort </a>
+        </div>
+        <div>
+            <a asp-page="CreateCat" class="btn btn-primary">Create New Cat</a>
+        </div>
+    </div>
+
+    <!-- Tìm kiếm -->
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="searchString" class="form-control" placeholder="Search">
+            <!-- Thêm trường sortOrder vào form tìm kiếm -->
+            <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Enabled</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cat in Model.Cats)
+            {
+                <tr>
+                    <td>@cat.CatName</td>
+                    <td>@cat.CatImage</td>
+                    <td>@cat.CatEnabled ?? false)</td>
+                    <td>
+                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@cat.CatId" asp-route-isEnabled="@(!cat.CatEnabled)">
+                            <button type="submit" class="btn btn-link">@((cat.CatEnabled ?? false) ? "Disable" : "Enable")</button>
+                        </form>
+                        <!-- Nút Update -->
+                        <a asp-page="UpdateCat" asp-route-id="@cat.ShopId" class="btn btn-link">Update</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div class="d-flex justify-content-center my-3">
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div *@>

@@ -1,5 +1,4 @@
-
-
+create database CoffeeCat;
 
 CREATE TABLE Roles (
     role_id INT PRIMARY KEY IDENTITY(1,1),
@@ -13,12 +12,16 @@ CREATE TABLE Shops (
     shop_email VARCHAR(255) NULL,
     shop_address VARCHAR(255) NULL,
     shop_telephone VARCHAR(255) NULL,
-	shop_area VARCHAR(255) NULL,
 	shop_image VARCHAR(255) NULL,
     shop_enabled BIT NULL
 );
-
-
+CREATE TABLE Areas (
+    area_id INT PRIMARY KEY IDENTITY(1,1),
+	area_name VARCHAR(255) NOT NULL,
+	 area_enabled BIT NULL,
+	 shop_id INT,
+	 CONSTRAINT fk_areas_coffee_shops FOREIGN KEY (shop_id) REFERENCES Shops(shop_id)
+	 );
 CREATE TABLE Users (
     customer_id INT PRIMARY KEY IDENTITY(1,1),
     customer_name VARCHAR(255) NOT NULL,
@@ -38,8 +41,8 @@ CREATE TABLE Cats (
     cat_name VARCHAR(255) NOT NULL,
     cat_image VARCHAR(255) NULL,
     cat_enabled BIT NULL,
-    shop_id INT,
-    CONSTRAINT fk_cats_coffee_shops FOREIGN KEY (shop_id) REFERENCES Shops(shop_id)
+    area_id INT,
+    CONSTRAINT fk_cats_coffee_shops FOREIGN KEY (area_id) REFERENCES Areas(area_id)
 );
 
 CREATE TABLE Tables (
@@ -48,25 +51,19 @@ CREATE TABLE Tables (
     table_capacity INT NULL,
     table_status BIT DEFAULT 'TRUE',
     table_enabled BIT,
-    shop_id INT,
-    CONSTRAINT fk_tables_coffee_shops FOREIGN KEY (shop_id) REFERENCES Shops(shop_id)
+    area_id INT,
+    CONSTRAINT fk_tables_coffee_shops FOREIGN KEY (area_id) REFERENCES Areas(area_id)
 );
 
-CREATE TABLE Menus (
-    menu_id INT PRIMARY KEY IDENTITY(1,1),
-    menu_name VARCHAR(255) NOT NULL,
-    menu_enabled BIT NULL,
-    shop_id INT,
-    CONSTRAINT fk_menus_coffee_shops FOREIGN KEY (shop_id) REFERENCES Shops(shop_id)
-);
+
 
 CREATE TABLE MenuItems (
     item_id INT PRIMARY KEY IDENTITY(1,1),
     item_name VARCHAR(255) NOT NULL,
     item_price DECIMAL(8, 2)NULL,
     item_enabled BIT NULL,
-    menu_id INT,
-    CONSTRAINT fk_menu_items_menus FOREIGN KEY (menu_id) REFERENCES Menus(menu_id)
+    shop_id INT,
+    CONSTRAINT fk_menu_items_shops FOREIGN KEY (shop_id) REFERENCES Shops(shop_id)
 );
 
 CREATE TABLE ShopVouchers (
@@ -118,16 +115,20 @@ VALUES
 ( 'Admin', 1),
 ( 'Customer', 1),
 ( 'Manager', 1);
-INSERT INTO Shops ( shop_name, shop_email, shop_address, shop_telephone,shop_enabled,shop_area,shop_image)
+INSERT INTO Shops ( shop_name, shop_email, shop_address, shop_telephone,shop_enabled,shop_image)
 VALUES
-('Coffee Shop 1', 'shop1@example.com', '123 Main St', '123456789', 1,'floor_1',''),
-( 'Coffee Shop 2', 'shop2@example.com', '456 Elm St', '987654321', 1,'floor_2','');
+('Coffee Shop 1', 'shop1@example.com', '123 Main St', '123456789', 1,''),
+( 'Coffee Shop 2', 'shop2@example.com', '456 Elm St', '987654321', 1,'');
+INSERT INTO Areas ( area_name, area_enabled,shop_id)
+VALUES
+('floor1', 1,1),
+( 'floor2', 1,1);
 INSERT INTO Users ( customer_name, customer_email, customer_password, customer_telephone, customer_enabled, role_id, shop_id)
 VALUES
 ( 'John Doe', 'john@example.com', 'password123', '123456789', 1, 1, 1),
 ( 'Jane Smith', 'jane@example.com', 'password456', '987654321', 1, 2, 2);
 
-INSERT INTO Cats ( cat_name, cat_image, cat_enabled, shop_id)
+INSERT INTO Cats ( cat_name, cat_image, cat_enabled, area_id)
 VALUES
 ( 'Fluffy', 'fluffy.jpg', 1, 1),
 ( 'Whiskers', 'whiskers.jpg', 1, 1),

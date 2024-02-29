@@ -29,7 +29,14 @@ namespace Repositories
         {
             return await Task.FromResult(context.Shops.AsNoTracking());
         }
-
+        public async Task<IQueryable<Cat>> GetAllCatAsync()
+        {
+            return await Task.FromResult(context.Cats.AsNoTracking());
+        }
+        public async Task<Cat> GetCatByIdAsync(int id)
+        {
+            return await context.Cats.FindAsync(id);
+        }
         public async Task AddAsync(T entity)
         {
             context.Add(entity);
