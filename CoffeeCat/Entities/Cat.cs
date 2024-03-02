@@ -13,7 +13,7 @@ public partial class Cat
 
     public bool? CatEnabled { get; set; }
 
-    public int? ShopId { get; set; }
+    public int? AreaId { get; set; }
 
-    public virtual Shop? Shop { get; set; }
+    public virtual Area? Area { get; set; }
 }

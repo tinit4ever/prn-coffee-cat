@@ -15,9 +15,9 @@ public partial class Table
 
     public bool? TableEnabled { get; set; }
 
-    public int? ShopId { get; set; }
+    public int? AreaId { get; set; }
 
-    public virtual Shop? Shop { get; set; }
+    public virtual Area? Area { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }

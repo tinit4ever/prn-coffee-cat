@@ -13,9 +13,9 @@ public partial class MenuItem
 
     public bool? ItemEnabled { get; set; }
 
-    public int? MenuId { get; set; }
+    public int? ShopId { get; set; }
 
-    public virtual Menu? Menu { get; set; }
+    public virtual Shop? Shop { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }
