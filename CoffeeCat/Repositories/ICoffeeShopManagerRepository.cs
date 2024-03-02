@@ -12,7 +12,7 @@ namespace Repositories
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task ToggleEnabledAsync(int id, bool isEnabled);
-        Task<List<Table>> GetByShopIdAsync(int shopId);
+        Task<List<Table>> GetByAreaIdAsync(int AreaId);
         Task<Table> GetTableByIdAsync(int id);
     }
 }

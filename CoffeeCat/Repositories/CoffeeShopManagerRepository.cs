@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Repositories
 {
     public class CoffeeShopManagerRepository<T> : ICoffeeShopManagerRepository<T> where T : class
     {
-        private  CoffeeCatContext context;
+        private CoffeeCatContext context;
 
         public CoffeeShopManagerRepository(CoffeeCatContext context)
         {
@@ -65,10 +66,10 @@ namespace Repositories
                 await context.SaveChangesAsync();
             }
         }
-        public async Task<List<Table>> GetByShopIdAsync(int shopId)
+        public async Task<List<Table>> GetByAreaIdAsync(int AreaId)
         {
             return await context.Tables
-                .Where(t => t.ShopId == shopId)
+                .Where(t => t.AreaId == AreaId)
                 .ToListAsync();
         }
  

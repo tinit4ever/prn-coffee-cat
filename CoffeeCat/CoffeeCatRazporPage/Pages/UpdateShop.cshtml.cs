@@ -34,14 +34,15 @@ namespace CoffeeCatRazporPage.Pages
             }
 
             // Kh?i t?o ShopName n?u nó là null
-            if (Shop.ShopName == null)
-            {
-                Shop.ShopName = "";
-            }
+            /* if (Shop.ShopName == null)
+             {
+                 Shop.ShopName = "";
+             }
 
-            Tables = await tableRepository.GetByShopIdAsync(id);
+             Tables = await tableRepository.GetByShopIdAsync(id);
 
-            return Page();
+             return Page();*/
+            return null;
         }
 
         public async Task<IActionResult> OnPostAsync()

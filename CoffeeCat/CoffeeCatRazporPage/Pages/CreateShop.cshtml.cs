@@ -37,13 +37,13 @@ namespace CoffeeCatRazporPage.Pages
             await shopRepository.AddAsync(Shop);
 
             // Thêm danh sách các bàn
-            foreach (var table in Tables)
+          /*  foreach (var table in Tables)
             {
                 table.ShopId = Shop.ShopId;
                 table.TableEnabled = true;
                 // Gán id của cửa hàng cho từng bàn
                 await tableRepository.AddAsync(table);
-            }
+            }*/
 
             return RedirectToPage("./ShopManage");
         }
