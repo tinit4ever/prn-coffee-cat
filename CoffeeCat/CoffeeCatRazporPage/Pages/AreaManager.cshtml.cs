@@ -1,18 +1,16 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using Repositories;
 
 namespace CoffeeCatRazporPage.Pages
 {
-    public class CatmanagerModel : PageModel
+    public class AreaManagerModel : PageModel
     {
-        private readonly ICoffeeShopManagerRepository<Cat> repository;
+        private readonly ICoffeeShopManagerRepository<Area> repository;
 
-        public CatmanagerModel(ICoffeeShopManagerRepository<Cat> repository)
+        public AreaManagerModel(ICoffeeShopManagerRepository<Area> repository)
         {
             this.repository = repository;
         }
@@ -20,19 +18,19 @@ namespace CoffeeCatRazporPage.Pages
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public IEnumerable<Cat> Cats { get; set; }
+        public IEnumerable<Area> Areas { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
 
         public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId)
         {
             // Lấy danh sách cửa hàng từ repository
-            IQueryable<Cat> catsQuery = await repository.GetCatsByAreaIdAsync(1);
+            IQueryable<Area> areasQuery = await repository.GetAreasByShopIdAsync(1);
 
             // Tìm kiếm
             if (!string.IsNullOrEmpty(SearchString))
             {
-                catsQuery = catsQuery.Where(s => s.CatName.Contains(SearchString));
+                areasQuery = areasQuery.Where(s => s.AreaName.Contains(SearchString));
             }
 
             // Sắp xếp
@@ -41,39 +39,35 @@ namespace CoffeeCatRazporPage.Pages
 
             switch (sortOrder)
             {
-                case "name_desc":
-                    catsQuery = catsQuery.OrderByDescending(s => s.CatName);
-                    break;
+               
                 case "Address":
-                    catsQuery = catsQuery.OrderBy(s => s.CatId);
+                    areasQuery = areasQuery.OrderBy(s => s.AreaId);
                     break;
                 case "address_desc":
-                    catsQuery = catsQuery.OrderByDescending(s => s.CatId);
+                    areasQuery = areasQuery.OrderByDescending(s => s.AreaId);
                     break;
-                default:
-                    catsQuery = catsQuery.OrderBy(s => s.CatName);
-                    break;
+               
             }
 
             // Phân trang
             int pageSize = 5;
             CurrentPage = pageIndex ?? 1;
-            TotalPages = (int)Math.Ceiling(await catsQuery.CountAsync() / (double)pageSize);
+            TotalPages = (int)Math.Ceiling(await areasQuery.CountAsync() / (double)pageSize);
 
-            Cats = await catsQuery.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToListAsync();
+            Areas = await areasQuery.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled)
         {
-            var cat = await repository.GetCatByIdAsync(id);
+            var area = await repository.GetAreaByIdAsync(id);
 
-            if (cat == null)
+            if (area == null)
             {
                 return NotFound();
             }
 
-            cat.CatEnabled = isEnabled;
-            await repository.UpdateAsync(cat);
+            area.AreaEnabled = isEnabled;
+            await repository.UpdateAsync(area);
 
             return RedirectToPage();
         }

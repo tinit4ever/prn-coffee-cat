@@ -5,33 +5,33 @@ using Repositories;
 
 namespace CoffeeCatRazporPage.Pages
 {
-    public class UpdateCatModel : PageModel
+    public class UpdateAreaModel : PageModel
     {
-        private readonly ICoffeeShopManagerRepository<Cat> catRepository;
+        private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
         private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public UpdateCatModel(ICoffeeShopManagerRepository<Cat> catRepository, ICoffeeShopManagerRepository<Area> areaRepository)
+        public UpdateAreaModel(ICoffeeShopManagerRepository<Cat> catRepository, ICoffeeShopManagerRepository<Area> areaRepository)
         {
-            this.catRepository = catRepository;
+            this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
         }
 
         [BindProperty]
-        public Cat cat { get; set; }
+        public Area area { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            cat = await catRepository.GetCatByIdAsync(1);
+            area = await areaRepository.GetAreaByIdAsync(1);
 
-            if (cat == null)
+            if (area == null)
             {
                 return NotFound();
             }
 
             // Kh?i t?o ShopName n?u nó là null
-            if (cat.CatName == null)
+            if (area.AreaName == null)
             {
-                cat.CatName = "";
+                area.AreaName = "";
             }
 
 
@@ -44,12 +44,12 @@ namespace CoffeeCatRazporPage.Pages
             {
                 return Page();
             }
-            cat.CatEnabled = false;
-            await catRepository.UpdateAsync(cat);
+            area.AreaEnabled = false;
+            await areaRepository.UpdateAsync(area);
 
 
 
-            return RedirectToPage("./CatManager");
+            return RedirectToPage("./AreaManager");
         }
     }
 }

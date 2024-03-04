@@ -55,28 +55,29 @@
     <div class="shop-section">
         <h3>Shop Details</h3>
         <div>
-            <label for="ShopName">Shop Name:</label>
-            <input id="ShopName" name="ShopName" type="text" value="@Model.Shop.ShopName" />
+            <label asp-for="Shop.ShopName"></label>
+            <input asp-for="Shop.ShopName" class="form-control" />
+            <span asp-validation-for="Shop.ShopName" class="text-danger"></span>
         </div>
-        <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+        <div>
+            <label asp-for="Shop.ShopEmail"></label>
+            <input asp-for="Shop.ShopEmail" class="form-control" />
+            <span asp-validation-for="Shop.ShopEmail" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Shop.ShopAddress"></label>
+            <input asp-for="Shop.ShopAddress" class="form-control" />
+            <span asp-validation-for="Shop.ShopAddress" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Shop.ShopTelephone"></label>
+            <input asp-for="Shop.ShopTelephone" class="form-control" />
+            <span asp-validation-for="Shop.ShopTelephone" class="text-danger"></span>
+        </div>
     </div>
 
-    @for (int i = 0; i < Model.Tables.Count; i++)
-    {
-        <div class="table-section">
-            <h3>Table @i Details</h3>
-            <input type="hidden" asp-for="Tables[i].TableId" />
-            <div>
-                <label for="Tables[i].TableName">Table Name:</label>
-                <input id="Tables[i].TableName" name="Tables[i].TableName" type="text" value="@Model.Tables[i].TableName" />
-            </div>
-            <div>
-                <label for="Tables[i].TableCapacity">Table Capacity:</label>
-                <input id="Tables[i].TableCapacity" name="Tables[i].TableCapacity" type="number" value="@Model.Tables[i].TableCapacity" />
-            </div>
-            <!-- Các trường nhập liệu khác cho bàn ở đây -->
-        </div>
-    }
+  
+   
     <input type="submit" value="Update Shop" onclick="return confirm('Are you sure you want to update this shop?');" />
 
 </form>

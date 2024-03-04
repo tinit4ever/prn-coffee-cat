@@ -1,0 +1,26 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.CreateAreaModel
+@{
+    ViewData["Title"] = "Create Area";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" id="createAreaForm">
+    <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+
+    <div id="areasDiv">
+        <div>
+            <label for="AreaName">Area Name:</label>
+            <input id="AreaName" name="AreaName" type="text" />
+        </div>
+
+        <div>
+            <label for="AreaEnable">Area Enable:</label>
+            <input id="AreaEnable" name="AreaEnable" type="text" />
+        </div>
+    </div>
+
+    <input type="submit" value="Create Area" onclick="return ('Are you sure you want to save ?');" />
+    <button type="button" onclick="if(confirm('Are you sure you want to cancel ?')) { window.location.href='/AreaManager'; }">Cancel</button>
+</form>

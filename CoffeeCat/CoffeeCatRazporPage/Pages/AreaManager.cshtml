@@ -1,5 +1,5 @@
 ﻿@page
-@model CatmanagerModel
+@model CoffeeCatRazporPage.Pages.AreaManagerModel
 @{
     ViewData["Title"] = "Coffee Shops";
 }
@@ -10,11 +10,10 @@
     <!-- Sắp xếp và Tạo mới -->
     <div class="d-flex justify-content-between my-3">
         <div>
-            <a asp-page-handler="Sort" asp-route-sortOrder="Name" class="btn btn-link mx-2">Sort by Name</a>
             <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort </a>
         </div>
         <div>
-            <a asp-page="CreateCat" class="btn btn-primary">Create New Cat</a>
+            <a asp-page="CreateArea" class="btn btn-primary">Create New Area</a>
         </div>
     </div>
 
@@ -34,24 +33,22 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Image</th>
                 <th>Enabled</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var cat in Model.Cats)
+            @foreach (var area in Model.Areas)
             {
                 <tr>
-                    <td>@cat.CatName</td>
-                    <td>@cat.CatImage</td>
-                    <td>@(cat.CatEnabled ?? false)</td>
+                    <td>@area.AreaName</td>             
+                    <td>@(area.AreaEnabled ?? false)</td>
                     <td>
-                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@cat.CatId" asp-route-isEnabled="@(!cat.CatEnabled)">
-                            <button type="submit" class="btn btn-link">@((cat.CatEnabled ?? false) ? "Disable" : "Enable")</button>
+                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@area.AreaId" asp-route-isEnabled="@(!area.AreaEnabled)">
+                            <button type="submit" class="btn btn-link">@((area.AreaEnabled ?? false) ? "Disable" : "Enable")</button>
                         </form>
                         <!-- Nút Update -->
-                        <a asp-page="UpdateCat" asp-route-id="@cat.AreaId" class="btn btn-link">Update</a>
+                        <a asp-page="UpdateCat" asp-route-id="@area.AreaId" class="btn btn-link">Update</a>
                     </td>
                 </tr>
             }

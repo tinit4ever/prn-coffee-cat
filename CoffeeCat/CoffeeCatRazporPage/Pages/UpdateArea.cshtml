@@ -1,9 +1,9 @@
 ﻿@page
-@model CoffeeCatRazporPage.Pages.UpdateCatModel
+@model CoffeeCatRazporPage.Pages.UpdateAreaModel
 @using Entities
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
-    ViewData["Title"] = "Update Cat";
+    ViewData["Title"] = "Update Area";
 }
 
 <style>
@@ -51,13 +51,13 @@
 <h2>@ViewData["Title"]</h2>
 
 <form method="post">
-    <input type="hidden" asp-for="cat.CatId" />
+    <input type="hidden" asp-for="area.AreaId" />
     <div class="shop-section">
         <h3>Shop Details</h3>
         <div>
-            <label asp-for="cat.CatName"></label>
-            <input asp-for="cat.CatName" class="form-control" />
-            <span asp-validation-for="cat.CatName" class="text-danger"></span>
+            <label asp-for="area.AreaName"></label>
+            <input asp-for="area.AreaName" class="form-control" />
+            <span asp-validation-for="area.AreaName" class="text-danger"></span>
         </div>
        
     </div>

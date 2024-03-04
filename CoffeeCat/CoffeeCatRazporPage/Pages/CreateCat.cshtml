@@ -1,0 +1,26 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.CreateCatModel
+@{
+    ViewData["Title"] = "Create Cat";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" id="createCatForm">
+    <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+
+    <div id="catsDiv">
+        <div>
+            <label for="CatName">Cat Name:</label>
+            <input id="CatName" name="CatName" type="text" />
+        </div>
+
+        <div>
+            <label for="CatEnable">Cat Enable:</label>
+            <input id="CatEnable" name="CatEnable" type="text" />
+        </div>
+    </div>
+
+    <input type="submit" value="Create Cat" onclick="return ('Are you sure you want to save ?');" />
+    <button type="button" onclick="if(confirm('Are you sure you want to cancel ?')) { window.location.href='/CatManager'; }">Cancel</button>
+</form>

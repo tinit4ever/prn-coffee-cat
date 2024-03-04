@@ -11,20 +11,20 @@ namespace CoffeeCatRazporPage.Pages
     public class CreateShopModel : PageModel
     {
         private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
-        private readonly ICoffeeShopManagerRepository<Table> tableRepository;
+        private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public CreateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Table> tableRepository)
+        public CreateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository)
         {
             this.shopRepository = shopRepository;
-            this.tableRepository = tableRepository;
-            this.Tables = new List<Table>();
+            this.areaRepository = areaRepository;
+            this.Areas = new List<Area>();
         }
 
         [BindProperty]
         public Shop Shop { get; set; }
         public bool ShopEnabled { get; set; }
         [BindProperty]
-        public List<Table> Tables { get; set; } // Để tạo một danh sách các bàn
+        public List<Area> Areas { get; set; } 
         
         public async Task<IActionResult> OnPostAsync()
         {
@@ -34,18 +34,9 @@ namespace CoffeeCatRazporPage.Pages
             }
 
             Shop.ShopEnabled = false;
-            await shopRepository.AddAsync(Shop);
+            await shopRepository.AddAsync(Shop);           
 
-            // Thêm danh sách các bàn
-          /*  foreach (var table in Tables)
-            {
-                table.ShopId = Shop.ShopId;
-                table.TableEnabled = true;
-                // Gán id của cửa hàng cho từng bàn
-                await tableRepository.AddAsync(table);
-            }*/
-
-            return RedirectToPage("./ShopManage");
+            return RedirectToPage("./ShopManager");
         }
     }
 }

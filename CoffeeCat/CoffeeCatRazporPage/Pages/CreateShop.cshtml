@@ -9,7 +9,7 @@
 <form method="post" id="createShopForm">
     <!-- Các trường nhập liệu cho cửa hàng ở đây -->
 
-    <div id="tablesDiv">
+    <div id="areasDiv">
         <div>
             <label for="ShopName">Shop Name:</label>
             <input id="ShopName" name="ShopName" type="text" />
@@ -28,35 +28,10 @@
         </div>
     </div>
 
-    <button type="button" id="addTableButton">Thêm bàn</button>
-    <input type="submit" value="Create Shop" onclick="return ('Bạn có chắc chắn muốn lưu cửa hàng này không?');" />
-    <button type="button" onclick="if(confirm('Bạn có chắc chắn muốn hủy không?')) { window.location.href='/ShopManager'; }">Cancel</button>
+    <button type="button" id="addAreaButton">Add Area</button>
+    <input type="submit" value="Create Shop" onclick="return ('Are you sure you want to save ?');" />
+    <button type="button" onclick="if(confirm('Are you sure you want to cancel ?')) { window.location.href='/ShopManager'; }">Cancel</button>
 </form>
 
-@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var tableIndex = 0;
 
-        $('#addTableButton').click(function () {
-            var tableDiv = $(`
-                        <div>
-                            <label for="Tables[${tableIndex}].TableName">Table Name:</label>
-                            <input id="Tables[${tableIndex}].TableName" name="Tables[${tableIndex}].TableName" type="text" />
-                            <label for="Tables[${tableIndex}].TableCapacity">Table Capacity:</label>
-                            <input id="Tables[${tableIndex}].TableCapacity" name="Tables[${tableIndex}].TableCapacity" type="text" />
-                            <button type="button" class="deleteTableButton">Xóa</button>
-                        </div>
-                    `);
-
-            tableDiv.find('.deleteTableButton').click(function () {
-                tableDiv.remove();
-            });
-
-            $('#tablesDiv').append(tableDiv);
-
-            tableIndex++;
-        });
-    });
-</script> *@
 

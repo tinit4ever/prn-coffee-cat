@@ -1,6 +1,7 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Protocol.Core.Types;
 using Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,19 +11,21 @@ namespace CoffeeCatRazporPage.Pages
     public class UpdateShopModel : PageModel
     {
         private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
-        private readonly ICoffeeShopManagerRepository<Table> tableRepository;
+        private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public UpdateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Table> tableRepository)
+        public UpdateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository)
         {
             this.shopRepository = shopRepository;
-            this.tableRepository = tableRepository;
+            this.areaRepository = areaRepository;
         }
 
         [BindProperty]
         public Shop Shop { get; set; }
 
-        [BindProperty]
-        public List<Table> Tables { get; set; }
+
+
+
+
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -34,30 +37,25 @@ namespace CoffeeCatRazporPage.Pages
             }
 
             // Kh?i t?o ShopName n?u nó là null
-            /* if (Shop.ShopName == null)
-             {
-                 Shop.ShopName = "";
-             }
+            if (Shop.ShopName == null)
+            {
+                Shop.ShopName = "";
+            }
 
-             Tables = await tableRepository.GetByShopIdAsync(id);
-
-             return Page();*/
+         
             return null;
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
-            }*/
-
+            }
+            Shop.ShopEnabled = false;
             await shopRepository.UpdateAsync(Shop);
 
-            foreach (var table in Tables)
-            {
-                await tableRepository.UpdateAsync(table);
-            }
+
 
             return RedirectToPage("./ShopManager");
         }
