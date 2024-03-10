@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Repositories;
 
 namespace CoffeeCatRazporPage.Pages
@@ -25,10 +26,10 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnGetAsync(int areaId)
         {
-            // Lấy danh sách mèo theo areaId
-            Cats = await catRepository.GetCatByAreaIdAsync(1);
-            // Kiểm tra xem khu vực có tồn tại không
-            area = await areaRepository.GetAreaByIdAsync(1);
+           
+            Cats = await catRepository.GetCatByAreaIdAsync(areaId);
+          
+            area = await areaRepository.GetAreaByIdAsync(areaId);
             if (area == null)
             {
                 return NotFound();
@@ -39,16 +40,16 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+      /*      if (!ModelState.IsValid)
             {
                 return Page();
-            }
+            }*/
             Cat.CatEnabled = false;
-
             await catRepository.AddAsync(Cat);
 
 
-            return RedirectToPage("./ShopManager");
+            return RedirectToPage("./CatManager", new { areaId = area.AreaId, pageIndex = 1 });
+
         }
     }
 }

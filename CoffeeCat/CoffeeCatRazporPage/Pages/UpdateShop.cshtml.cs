@@ -48,16 +48,13 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            
             Shop.ShopEnabled = false;
             await shopRepository.UpdateAsync(Shop);
 
 
 
-            return RedirectToPage("./ShopManager");
+            return RedirectToPage("./ShopManager", new {  pageIndex = 1 });
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@page
-@model CoffeeCatRazporPage.Pages.UpdateCatModel
+@model CoffeeCatRazporPage.Pages.UpdateTableModel
 @using Entities
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
@@ -7,7 +7,7 @@
 }
 
 <style>
-    .area-section, .cat-section {
+    .area-section, .table-section {
         border: 1px solid #ddd;
         margin-bottom: 20px;
         padding: 20px;
@@ -15,7 +15,7 @@
         background-color: #f9f9f9;
     }
 
-        .area-section, .cat-section h3 {
+        .area-section, .table-section h3 {
             color: #333;
             margin-bottom: 15px;
         }
@@ -50,25 +50,26 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="cat.CatId" />
-    <div class="cat-section">
-        <h3>Cat Details</h3>
+<form method="post">
+    <input type="hidden" asp-for="table.TableId" />
+    <div class="table-section">
+        <h3>Table Details</h3>
         <div>
-            <label asp-for="cat.CatName"></label>
-            <input asp-for="cat.CatName" class="form-control" />
-            <span asp-validation-for="cat.CatName" class="text-danger"></span>
+            <label asp-for="table.TableName"></label>
+            <input asp-for="table.TableName" class="form-control" />
+            <span asp-validation-for="table.TableName" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="cat.CatImage"></label>
-            <input type="file" asp-for="CatImageFile" class="form-control" />
-            <span asp-validation-for="cat.CatImage" class="text-danger"></span>
+            <label asp-for="table.TableCapacity"></label>
+            <input asp-for="table.TableCapacity" class="form-control" />
+            <span asp-validation-for="table.TableCapacity" class="text-danger"></span>
         </div>
 
+       
     </div>
 
 
 
-    <input type="submit" value="Update Cat" onclick="return confirm('Are you sure you want to update this cat?');" />
+    <input type="submit" value="Update Table" onclick="return confirm('Are you sure you want to update this table?');" />
 
 </form>

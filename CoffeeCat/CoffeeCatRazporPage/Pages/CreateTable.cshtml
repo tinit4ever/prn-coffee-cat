@@ -1,0 +1,26 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.CreateTableModel
+@{
+    ViewData["Title"] = "Create Table";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" id="createTableForm">
+    <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+
+    <div id="tablesDiv">
+        <div>
+            <label for="TableName">Table Name:</label>
+            <input id="TableName" name="TableName" type="text" />
+        </div>
+
+        <div>
+            <label for="TableCapacity">Table Capacity:</label>
+            <input id="TableCapacity" name="TableCapacity" type="text" />
+        </div>
+    </div>
+
+    <input type="submit" value="Create Table" onclick="return ('Are you sure you want to save ?');" />
+    <button type="button" onclick="if(confirm('Are you sure you want to cancel ?')) { window.location.href='/CatManager'; }">Cancel</button>
+</form>

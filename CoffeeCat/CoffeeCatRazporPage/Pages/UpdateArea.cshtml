@@ -7,7 +7,7 @@
 }
 
 <style>
-    .shop-section, .table-section {
+    .shop-section, .area-section {
         border: 1px solid #ddd;
         margin-bottom: 20px;
         padding: 20px;
@@ -15,7 +15,7 @@
         background-color: #f9f9f9;
     }
 
-        .shop-section h3, .table-section h3 {
+        .shop-section h3, .area-section h3 {
             color: #333;
             margin-bottom: 15px;
         }
@@ -52,8 +52,8 @@
 
 <form method="post">
     <input type="hidden" asp-for="area.AreaId" />
-    <div class="shop-section">
-        <h3>Shop Details</h3>
+    <div class="area-section">
+        <h3>Area Details</h3>
         <div>
             <label asp-for="area.AreaName"></label>
             <input asp-for="area.AreaName" class="form-control" />
@@ -64,6 +64,6 @@
 
 
 
-    <input type="submit" value="Update Shop" onclick="return confirm('Are you sure you want to update this shop?');" />
+    <input type="submit" value="Update Area" onclick="return confirm('Are you sure you want to update this area?');" />
 
 </form>

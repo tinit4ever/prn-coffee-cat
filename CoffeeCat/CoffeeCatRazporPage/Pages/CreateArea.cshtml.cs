@@ -23,12 +23,12 @@ namespace CoffeeCatRazporPage.Pages
         public Area area { get; set; }
         public List<Area> Areas { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int areaId)
+        public async Task<IActionResult> OnGetAsync(int ShopId)
         {
             // Lấy danh sách mèo theo areaId
-            Areas = await areaRepository.GetAreaByShopIdAsync(1);
-            // Kiểm tra xem khu vực có tồn tại không
-            area = await areaRepository.GetAreaByIdAsync(1);
+            Areas = await areaRepository.GetAreaByShopIdAsync(ShopId);
+            
+            area = await areaRepository.GetAreaByIdAsync(ShopId);
             if (area == null)
             {
                 return NotFound();
@@ -39,16 +39,16 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+        /*    if (!ModelState.IsValid)
             {
                 return Page();
-            }
+            }*/
             area.AreaEnabled = false;
 
             await areaRepository.AddAsync(area);
 
 
-            return RedirectToPage("./AreaManager");
+            return RedirectToPage("./AreaManager", new { shopId = area.ShopId, pageIndex = 1});
         }
     }
 }

@@ -23,12 +23,18 @@ namespace CoffeeCatRazporPage.Pages
         public IEnumerable<Cat> Cats { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
+        public int AreaId { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int PageIndex { get; set; } = 1;
+
+        [BindProperty(SupportsGet = true)]
+        public string SortOrder { get; set; }
 
         public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId)
         {
             // Lấy danh sách cửa hàng từ repository
-            IQueryable<Cat> catsQuery = await repository.GetCatsByAreaIdAsync(1);
-
+            IQueryable<Cat> catsQuery = await repository.GetCatsByAreaIdAsync(areaId);
+            AreaId = areaId;
             // Tìm kiếm
             if (!string.IsNullOrEmpty(SearchString))
             {
@@ -75,7 +81,7 @@ namespace CoffeeCatRazporPage.Pages
             cat.CatEnabled = isEnabled;
             await repository.UpdateAsync(cat);
 
-            return RedirectToPage();
+            return RedirectToPage(new { areaId = cat.AreaId, pageIndex = PageIndex });
         }
     }
 }

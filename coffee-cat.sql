@@ -117,7 +117,7 @@ VALUES
 ( 'Manager', 1);
 INSERT INTO Shops ( shop_name, shop_email, shop_address, shop_telephone,shop_enabled,shop_image)
 VALUES
-('Coffee Shop 1', 'shop1@example.com', '123 Main St', '123456789', 1,''),
+('Coffee Shop 1', '', '123 Main St', '123456789', 1,''),
 ( 'Coffee Shop 2', 'shop2@example.com', '456 Elm St', '987654321', 1,'');
 INSERT INTO Areas ( area_name, area_enabled,shop_id)
 VALUES

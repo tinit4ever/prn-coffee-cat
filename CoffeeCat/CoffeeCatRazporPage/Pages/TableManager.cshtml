@@ -1,5 +1,5 @@
 ﻿@page
-@model ShopManager
+@model CoffeeCatRazporPage.Pages.TableManagerModel
 @{
     ViewData["Title"] = "Coffee Shops";
 }
@@ -10,11 +10,11 @@
     <!-- Sắp xếp và Tạo mới -->
     <div class="d-flex justify-content-between my-3">
         <div>
-            <a asp-page-handler="Sort" asp-route-sortOrder="Name" class="btn btn-link mx-2">Sort by Name</a>
-            <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort by Address</a>
+            <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort </a>
         </div>
         <div>
-            <a asp-page="CreateShop" class="btn btn-primary">Create New Shop</a>
+
+            <a asp-page="CreateTable" asp-route-tableId="@Model.AreaId" class="btn btn-primary">Create New Table</a>
         </div>
     </div>
 
@@ -29,49 +29,39 @@
             </div>
         </div>
     </form>
+
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Telephone</th>
+                <th>Capacity</th>
+                <th>Status</th>
                 <th>Enabled</th>
-                <th>Image</th>
                 <th>Action</th>
-                <th>Manage</th> <!-- Cột mới -->
             </tr>
         </thead>
         <tbody>
-            @foreach (var shop in Model.Shops)
+            @foreach (var table in Model.Tables)
             {
                 <tr>
-                    <td>@shop.ShopId</td>
-                    <td>@shop.ShopName</td>
-                    <td>@shop.ShopEmail</td>
-                    <td>@shop.ShopAddress</td>
-                    <td>@shop.ShopTelephone</td>
-                    <td>@(shop.ShopEnabled ?? false)</td>
-                    <td>@shop.ShopImage</td>
+                    <td>@table.TableId</td>
+                    <td>@table.TableName</td>
+                    <td>@table.TableCapacity</td>
+                    <td>@table.TableStatus</td>
+                    <td>@(table.TableEnabled ?? false)</td>
                     <td>
-                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@shop.ShopId" asp-route-isEnabled="@(!shop.ShopEnabled)">
-                            <button type="submit" class="btn btn-link">@((shop.ShopEnabled ?? false) ? "Disable" : "Enable")</button>
+                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@table.TableId" asp-route-isEnabled="@(!table.TableEnabled)">
+                            <button type="submit" class="btn btn-link">@((table.TableEnabled ?? false) ? "Disable" : "Enable")</button>
                         </form>
                         <!-- Nút Update -->
-                        <a asp-page="UpdateShop" asp-route-id="@shop.ShopId" class="btn btn-link">Update</a>
-                    </td>
-                    <td>
-                        <div>
-                            <a asp-page="AreaManager" asp-route-ShopId="@shop.ShopId" class="btn btn-link">Manage Area</a>
-                            <br />
-                            <a asp-page="MenuManager" asp-route-ShopId="@shop.ShopId" class="btn btn-link">Manage Menu</a>
-                        </div>
+                        <a asp-page="UpdateTable" asp-route-areaId="@table.AreaId " asp-route-id="@table.TableId" class="btn btn-link">Update</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
     <!-- Phân trang -->
     <div class="d-flex justify-content-center my-3">
         @if (Model.TotalPages > 1)
@@ -81,11 +71,10 @@
                     @for (var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
+                            <a class="page-link" asp-page="./TableManager" asp-route-pageIndex="@i" asp-route-areaId="@Model.AreaId">@i</a>
                         </li>
                     }
                 </ul>
             </nav>
         }
     </div>
-</div>

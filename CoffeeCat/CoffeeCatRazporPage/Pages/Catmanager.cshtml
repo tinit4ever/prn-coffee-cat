@@ -1,11 +1,11 @@
 ﻿@page
 @model CatmanagerModel
 @{
-    ViewData["Title"] = "Coffee Shops";
+    ViewData["Title"] = "Cat Manager";
 }
 
 <div class="container">
-    <h1 class="text-center my-4">Coffee Shops</h1>
+    <h1 class="text-center my-4">Cat Manager</h1>
 
     <!-- Sắp xếp và Tạo mới -->
     <div class="d-flex justify-content-between my-3">
@@ -14,7 +14,8 @@
             <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort </a>
         </div>
         <div>
-            <a asp-page="CreateCat" class="btn btn-primary">Create New Cat</a>
+
+            <a asp-page="CreateCat" asp-route-areaId="@Model.AreaId" class="btn btn-primary">Create New Cat</a>
         </div>
     </div>
 
@@ -33,9 +34,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Image</th>
                 <th>Enabled</th>
+                <th>Manage</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -43,15 +46,18 @@
             @foreach (var cat in Model.Cats)
             {
                 <tr>
+                    <td>@cat.CatId</td>
                     <td>@cat.CatName</td>
-                    <td>@cat.CatImage</td>
-                    <td>@(cat.CatEnabled ?? false)</td>
                     <td>
+                        <img src="@cat.CatImage" alt="Cat Image" style="max-width: 100px; max-height: 100px;" />
+                    <td>
+                    <td>@(cat.CatEnabled ?? false)</td>
+                  
                         <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@cat.CatId" asp-route-isEnabled="@(!cat.CatEnabled)">
                             <button type="submit" class="btn btn-link">@((cat.CatEnabled ?? false) ? "Disable" : "Enable")</button>
                         </form>
                         <!-- Nút Update -->
-                        <a asp-page="UpdateCat" asp-route-id="@cat.AreaId" class="btn btn-link">Update</a>
+                        <a asp-page="UpdateCat" asp-route-areaId="@cat.AreaId "asp-route-id="@cat.CatId" class="btn btn-link">Update</a>
                     </td>
                 </tr>
             }
@@ -67,11 +73,10 @@
                     @for (var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
+                            <a class="page-link" asp-page="./CatManager" asp-route-pageIndex="@i" asp-route-areaId="@Model.AreaId">@i</a>
                         </li>
                     }
                 </ul>
             </nav>
         }
     </div>
-</div>

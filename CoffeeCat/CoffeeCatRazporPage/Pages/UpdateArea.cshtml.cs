@@ -1,6 +1,7 @@
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
 using Repositories;
 
 namespace CoffeeCatRazporPage.Pages
@@ -10,46 +11,38 @@ namespace CoffeeCatRazporPage.Pages
         private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
         private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public UpdateAreaModel(ICoffeeShopManagerRepository<Cat> catRepository, ICoffeeShopManagerRepository<Area> areaRepository)
+        public UpdateAreaModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository)
         {
             this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
         }
 
         [BindProperty]
+        public Shop shop { get; set; }
+        [BindProperty]
         public Area area { get; set; }
+        public List<Area> Areas { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int id)
+
+        public async Task<IActionResult> OnGetAsync( int id, int shopId)
         {
-            area = await areaRepository.GetAreaByIdAsync(1);
+            Areas = await areaRepository.GetAreaByShopIdAsync(shopId);
+            area = await areaRepository.GetAreaByIdAsync(id);
+            area.ShopId = shopId;
+       
 
-            if (area == null)
-            {
-                return NotFound();
-            }
-
-            // Kh?i t?o ShopName n?u n� l� null
-            if (area.AreaName == null)
-            {
-                area.AreaName = "";
-            }
-
-
-            return null;
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int shopId)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            area.ShopId = shopId;
             area.AreaEnabled = false;
             await areaRepository.UpdateAsync(area);
 
-
-
-            return RedirectToPage("./AreaManager");
+            // Cập nhật lại thông tin phân trang
+            return RedirectToPage("./AreaManager", new { shopId = area.ShopId, pageIndex = 1 });
         }
+        
     }
-}
+    }

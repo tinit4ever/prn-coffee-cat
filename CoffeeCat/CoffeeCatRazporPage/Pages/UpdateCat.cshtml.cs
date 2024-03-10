@@ -1,4 +1,4 @@
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
@@ -18,38 +18,49 @@ namespace CoffeeCatRazporPage.Pages
 
         [BindProperty]
         public Cat cat { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int id)
+        public List<Cat> Cats { get; set; }
+        public IFormFile CatImageFile { get; set; }
+        public async Task<IActionResult> OnGetAsync(int id, int AreaId)
         {
-            cat = await catRepository.GetCatByIdAsync(1);
+            Cats = await catRepository.GetCatByAreaIdAsync(AreaId);
+            cat = await catRepository.GetCatByIdAsync(id);
 
-            if (cat == null)
+            cat.AreaId = AreaId;
+            if (!string.IsNullOrEmpty(cat.CatImage))
             {
-                return NotFound();
+
+                cat.CatImage = "Image/" + Guid.NewGuid().ToString() + "_" + CatImageFile.FileName;
             }
 
-            // Kh?i t?o ShopName n?u n� l� null
-            if (cat.CatName == null)
-            {
-                cat.CatName = "";
-            }
-
-
-            return null;
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int AreaId)
         {
-            if (!ModelState.IsValid)
+            // Xử lý tệp tin ảnh được tải lên
+            if (CatImageFile != null && CatImageFile.Length > 0)
             {
-                return Page();
+                // Lưu trữ ảnh vào thư mục trên máy chủ
+                var imagePath = "Image" + Guid.NewGuid().ToString() + "_" + CatImageFile.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await CatImageFile.CopyToAsync(stream);
+                }
+
+                // Gán đường dẫn của ảnh vào thuộc tính cat.CatImage
+                cat.CatImage = imagePath;
             }
+
+            // Gán các giá trị còn lại cho cat
+            cat.AreaId = AreaId;
             cat.CatEnabled = false;
+
+            // Lưu dữ liệu của cat vào cơ sở dữ liệu
             await catRepository.UpdateAsync(cat);
 
-
-
-            return RedirectToPage("./CatManager");
+            // Chuyển hướng sau khi cập nhật thành công
+            return RedirectToPage("./CatManager", new { areaId = cat.AreaId, pageIndex = 1 });
         }
     }
 }

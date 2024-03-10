@@ -22,17 +22,18 @@ namespace Repositories
         {
             return await context.Shops.FindAsync(id);
         }
-        public async Task<Table> GetTableByIdAsync(int id)
+ 
+        public Task<IQueryable<Cat>> GetCatsByAreaIdAsync(int areaId)
         {
-            return await context.Tables.FindAsync(id);
+            return Task.FromResult(context.Cats.Where(c => c.AreaId == areaId));
         }
         public async Task<IQueryable<Shop>> GetAllAsync()
         {
             return await Task.FromResult(context.Shops.AsNoTracking());
         }
-        public Task<IQueryable<Cat>> GetCatsByAreaIdAsync(int areaId)
+        public Task<IQueryable<Table>> GetTablesByAreaIdAsync(int areaId)
         {
-            return Task.FromResult(context.Cats.Where(c => c.AreaId == areaId));
+            return Task.FromResult(context.Tables.Where(c => c.AreaId == areaId));
         }
         public Task<IQueryable<Area>> GetAreasByShopIdAsync(int shopId)
         {
@@ -45,6 +46,13 @@ namespace Repositories
                 .Where(t => t.AreaId == AreaId)
                 .ToListAsync();
         }
+        public async Task<List<Table>> GetTableByAreaIdAsync(int AreaId)
+        {
+            return await context.Tables
+                .Where(t => t.AreaId == AreaId)
+                .ToListAsync();
+        }
+
         public async Task AddAsync(T entity)
         {
             context.Add(entity);
@@ -87,6 +95,21 @@ namespace Repositories
         public async Task<Cat> GetCatByIdAsync(int id)
         {
             return await context.Cats.FindAsync(id);
+        }
+        public async Task<Table> GetTableByIdAsync(int id)
+        {
+
+            return await context.Tables.FindAsync(id);
+
+        }
+        public async Task<Shop> GetShopByIdAsync(int? shopId)
+        {
+            if (shopId == null)
+            {
+                return null;
+            }
+
+            return await context.Shops.FindAsync(shopId);
         }
     }
 }

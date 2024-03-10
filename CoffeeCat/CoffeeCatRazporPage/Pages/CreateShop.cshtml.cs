@@ -36,7 +36,7 @@ namespace CoffeeCatRazporPage.Pages
             Shop.ShopEnabled = false;
             await shopRepository.AddAsync(Shop);           
 
-            return RedirectToPage("./ShopManager");
+            return RedirectToPage("./ShopManager", new { pageIndex = 1 });
         }
     }
 }

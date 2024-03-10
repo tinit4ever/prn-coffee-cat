@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public interface ICustomerRepository
+    public class ApplicationUser : IdentityUser
     {
-        Task<User?> GetUserByEmailAsync(string email);
+        public int? RoleId { get; set; }
+        public virtual Role Role { get; set; }
     }
+
 }

@@ -6,6 +6,8 @@ namespace Repositories
     {
         Task<Shop> GetShopByIdAsync(int id);
         Task<Area> GetAreaByIdAsync(int id);
+        Task<Table> GetTableByIdAsync(int id);
+
         Task<Cat> GetCatByIdAsync(int id);
         Task<IQueryable<Shop>> GetAllAsync();
         Task<List<Area>> GetAreaByShopIdAsync(int shopId);
@@ -18,6 +20,8 @@ namespace Repositories
         Task UpdateAsync(T entity);
         Task ToggleEnabledAsync(int id, bool isEnabled);
 
-        Task<Table> GetTableByIdAsync(int id);
+        Task<IQueryable<Table>> GetTablesByAreaIdAsync(int areaId);
+        Task<List<Table>> GetTableByAreaIdAsync(int AreaId);
+        Task<Shop> GetShopByIdAsync(int? shopId);
     }
 }

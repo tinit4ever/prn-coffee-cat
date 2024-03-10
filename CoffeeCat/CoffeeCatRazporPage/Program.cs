@@ -10,7 +10,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<CoffeeCatContext>(options =>
 options.UseSqlServer
 (builder.Configuration.GetConnectionString("CoffeeCatDb")));
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<CoffeeCatContext>();
 builder.Services.AddTransient(typeof(ICoffeeShopManagerRepository<>), typeof(CoffeeShopManagerRepository<>));
+builder.Services.AddTransient(typeof(ICustomerRepository), typeof(CustomerRepository));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
