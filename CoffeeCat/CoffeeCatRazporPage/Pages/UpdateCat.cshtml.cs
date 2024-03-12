@@ -37,7 +37,7 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync(int AreaId)
         {
-            // Xử lý tệp tin ảnh được tải lên
+
             if (CatImageFile != null && CatImageFile.Length > 0)
             {
                 // Lưu trữ ảnh vào thư mục trên máy chủ
@@ -48,7 +48,6 @@ namespace CoffeeCatRazporPage.Pages
                     await CatImageFile.CopyToAsync(stream);
                 }
 
-                // Gán đường dẫn của ảnh vào thuộc tính cat.CatImage
                 cat.CatImage = imagePath;
             }
 

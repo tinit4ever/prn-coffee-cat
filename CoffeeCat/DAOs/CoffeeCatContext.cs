@@ -44,8 +44,8 @@ public partial class CoffeeCatContext : DbContext
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", true, true)
             .Build();
-        var connectionString = configuration.GetConnectionString("CoffeeCatDb");
-        optionsBuilder.UseSqlServer(connectionString);
+        var ConnectionStrings = configuration.GetConnectionString("CoffeeCatDb");
+        optionsBuilder.UseSqlServer(ConnectionStrings);
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

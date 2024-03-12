@@ -9,14 +9,14 @@ public partial class Booking
 
     public string BookingCode { get; set; } = null!;
 
-    public DateTime? BookingStartTime { get; set; }
+    public DateTime? BookingStartTime { get; set; } 
 
     public DateTime? BookingEndTime { get; set; }
 
     public bool? BookingEnabled { get; set; }
 
     public int? CustomerId { get; set; }
-
+ 
     public virtual User? Customer { get; set; }
 
     public virtual ICollection<MenuItem> Items { get; set; } = new List<MenuItem>();

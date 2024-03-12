@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace Repositories
     public class CoffeeShopManagerRepository<T> : ICoffeeShopManagerRepository<T> where T : class
     {
         private CoffeeCatContext context;
+        private readonly DbSet<T> _dbSet;
 
         public CoffeeShopManagerRepository(CoffeeCatContext context)
         {
             this.context = context;
+
         }
 
         public async Task<Shop> GetShopByIdAsync(int id)
@@ -59,8 +62,53 @@ namespace Repositories
             await context.SaveChangesAsync();
         }
 
+        public async Task AddTablesToBookingAsync(int bookingId, List<int> tableIds)
+        {
+            // Lấy đặt bàn từ cơ sở dữ liệu
+            var booking = await context.Bookings.FindAsync(bookingId);
+            if (booking == null)
+            {
+                // Xử lý khi không tìm thấy đặt bàn
+                return;
+            }
 
-        public async Task UpdateAsync(T entity)
+            // Lấy danh sách các bàn từ cơ sở dữ liệu
+            var tablesToAdd = await context.Tables.Where(t => tableIds.Contains(t.TableId)).ToListAsync();
+
+            // Thêm danh sách các bàn vào đặt bàn
+            foreach (var tableToAdd in tablesToAdd)
+            {
+                booking.Tables.Add(tableToAdd);
+            }
+
+
+            await context.SaveChangesAsync();
+        }
+        public async Task AddMenuItemsToBookingAsync(int bookingId, List<int> menuItems)
+        {           
+            var booking = await context.Bookings.FindAsync(bookingId);
+            if (booking == null)
+            {
+               
+                return;
+            }
+                   
+            var menuItemsToAdd = await context.MenuItems.Where(t => menuItems.Contains(t.ItemId)).ToListAsync();
+
+           
+            foreach (var menuItemToAdd in menuItemsToAdd)
+            {
+                booking.Items.Add(menuItemToAdd);
+            }
+
+
+            await context.SaveChangesAsync();
+        }
+        public async Task<List<MenuItem>> GetAllMenuItemAsync()
+         {
+            return await context.MenuItems.ToListAsync();
+    }
+    public async Task UpdateAsync(T entity)
         {
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
@@ -68,11 +116,15 @@ namespace Repositories
 
 
 
-  /*      public async Task<IEnumerable<Shop>> GetEnabledShopsAsync()
+        /*      public async Task<IEnumerable<Shop>> GetEnabledShopsAsync()
+              {
+                  return await context.Shops.Where(s => s.ShopEnabled).ToListAsync();
+              }
+      */
+        public async Task<List<Table>> GetAllTableAsync()
         {
-            return await context.Shops.Where(s => s.ShopEnabled).ToListAsync();
+            return await context.Tables.ToListAsync();
         }
-*/
         public async Task ToggleEnabledAsync(int id, bool isEnabled)
         {
             var shop = await context.Shops.FindAsync(id);
@@ -111,5 +163,48 @@ namespace Repositories
 
             return await context.Shops.FindAsync(shopId);
         }
+        public async Task AddAsync(Booking entity)
+        {
+            context.Bookings.Add(entity);
+            await context.SaveChangesAsync();
+        }
+        public async Task<Booking> GetBookingByTableAndTimeAsync(int tableId, DateTime bookingStartTime, DateTime bookingEndTime)
+        {
+            var booking = await context.Bookings
+                .Include(b => b.Tables)
+                .FirstOrDefaultAsync(b => b.Tables.Any(t => t.TableId == tableId) &&
+                                           b.BookingStartTime <= bookingEndTime &&
+                                           b.BookingEndTime >= bookingStartTime);
+
+            return booking;
+        }
+
+        public async Task<List<Table>> GetAvailableTablesAsync(DateTime startTime, DateTime endTime)
+        {
+
+            var unavailableTables = await context.Tables
+     .Where(table => table.Bookings.Any(booking =>
+         (booking.BookingStartTime < endTime && booking.BookingEndTime > startTime)))
+     .ToListAsync();
+
+            var allTables = await context.Tables.ToListAsync();
+
+            var availableTables = allTables.Except(unavailableTables).ToList();
+
+            return availableTables;
+
+        }
+
+
+
+
+        public async Task AddMultipleAsync(List<Booking> entities)
+        {
+            context.Bookings.AddRange(entities);
+            await context.SaveChangesAsync();
+        }
+
+
     }
 }
+

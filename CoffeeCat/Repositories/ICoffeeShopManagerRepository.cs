@@ -23,5 +23,13 @@ namespace Repositories
         Task<IQueryable<Table>> GetTablesByAreaIdAsync(int areaId);
         Task<List<Table>> GetTableByAreaIdAsync(int AreaId);
         Task<Shop> GetShopByIdAsync(int? shopId);
+        Task<List<Table>> GetAllTableAsync();
+        Task<List<MenuItem>> GetAllMenuItemAsync();
+        Task AddMenuItemsToBookingAsync(int bookingId, List<int> menuItems);
+        Task AddAsync(Booking entity);
+        Task AddMultipleAsync(List<Booking> entities);
+        Task AddTablesToBookingAsync(int bookingId, List<int> tableIds);
+        Task<Booking> GetBookingByTableAndTimeAsync(int tableId, DateTime bookingStartTime, DateTime bookingEndTime);
+        Task<List<Table>> GetAvailableTablesAsync(DateTime startTime, DateTime endTime);
     }
 }

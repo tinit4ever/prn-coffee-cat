@@ -21,5 +21,34 @@ namespace Repositories
         {
             return await context.Users.Include(u => u.Role).Include(u => u.Shop).FirstOrDefaultAsync(u => u.CustomerEmail == email);
         }
+        public async Task AddAsync(Booking entity)
+        {
+            context.Bookings.Add(entity);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<Booking> GetByIdAsync(int id)
+        {
+            return await context.Bookings.FindAsync(id);
+        }
+
+        public async Task<List<Booking>> GetAllAsync()
+        {
+            return await context.Bookings.ToListAsync();
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var booking = await GetByIdAsync(id);
+            if (booking == null)
+                return false;
+
+            context.Bookings.Remove(booking);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+
     }
 }
+
