@@ -34,7 +34,8 @@
             <input asp-for="confirmPassword" class="form-control" type="text" placeholder="Confirm your password" autocomplete="new-password" />
             <span asp-validation-for="confirmPassword" class="text-danger"></span>
         </div>
-
+        <br />
         <button type="submit" class="btn btn-primary" style="width:150px;">Register</button>
+        <a asp-page="/Auth/SignIn" class="btn btn-secondary" style="width:150px;">Login</a>
     </div>
 </form>
