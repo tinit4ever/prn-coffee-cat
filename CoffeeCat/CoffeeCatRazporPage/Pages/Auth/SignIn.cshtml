@@ -1,0 +1,30 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.Auth.SignInModel
+@{
+}
+
+<link rel="stylesheet" href="~/@(nameof(CoffeeCatRazporPage)).styles.css" />
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Login</h2>
+            <br />
+        </div>
+
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input asp-for="useremail" class="form-control" />
+            <span asp-validation-for="useremail" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input asp-for="password" class="form-control" />
+            <span asp-validation-for="password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Login</button>
+        <button type="submit" class="btn btn-secondary" style="width:150px;">Sign Up</button>
+    </div>
+</form>
