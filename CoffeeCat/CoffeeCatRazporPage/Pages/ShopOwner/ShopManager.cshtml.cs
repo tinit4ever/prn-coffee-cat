@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class ShopManager : PageModel
     {

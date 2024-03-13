@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class UpdateAreaModel : PageModel
     {
@@ -24,12 +24,12 @@ namespace CoffeeCatRazporPage.Pages
         public List<Area> Areas { get; set; }
 
 
-        public async Task<IActionResult> OnGetAsync( int id, int shopId)
+        public async Task<IActionResult> OnGetAsync(int id, int shopId)
         {
             Areas = await areaRepository.GetAreaByShopIdAsync(shopId);
             area = await areaRepository.GetAreaByIdAsync(id);
             area.ShopId = shopId;
-       
+
 
             return Page();
         }
@@ -43,6 +43,6 @@ namespace CoffeeCatRazporPage.Pages
             // Cập nhật lại thông tin phân trang
             return RedirectToPage("./AreaManager", new { shopId = area.ShopId, pageIndex = 1 });
         }
-        
+
     }
-    }
+}

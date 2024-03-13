@@ -6,7 +6,7 @@ using Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class UpdateShopModel : PageModel
     {
@@ -42,19 +42,19 @@ namespace CoffeeCatRazporPage.Pages
                 Shop.ShopName = "";
             }
 
-         
+
             return null;
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            
+
             Shop.ShopEnabled = false;
             await shopRepository.UpdateAsync(Shop);
 
 
 
-            return RedirectToPage("./ShopManager", new {  pageIndex = 1 });
+            return RedirectToPage("./ShopManager", new { pageIndex = 1 });
         }
     }
 }

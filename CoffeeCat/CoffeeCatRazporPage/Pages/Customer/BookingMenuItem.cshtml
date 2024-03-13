@@ -1,5 +1,5 @@
 ﻿@page
-@model CoffeeCatRazporPage.Pages.BookingMenuItemModel
+@model BookingMenuItemModel
 @{
     ViewData["Title"] = "Booking Menu Items";
 }
@@ -8,6 +8,7 @@
 
 <form method="post">
     <input type="hidden" asp-for="BookingId" />
+    <input type="hidden" asp-for="ShopId" /> 
 
     <div class="form-group">
         <label for="menuItemIds">Select Menu Items:</label>
@@ -21,3 +22,4 @@
 
     <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
+

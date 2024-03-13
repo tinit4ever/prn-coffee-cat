@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
-    public class AreaManagerModel : PageModel
+    public class TableManagerModel : PageModel
     {
-        private readonly ICoffeeShopManagerRepository<Area> repository;
+        private readonly ICoffeeShopManagerRepository<Table> repository;
 
-        public AreaManagerModel(ICoffeeShopManagerRepository<Area> repository)
+        public TableManagerModel(ICoffeeShopManagerRepository<Table> repository)
         {
             this.repository = repository;
         }
@@ -18,27 +18,25 @@ namespace CoffeeCatRazporPage.Pages
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public IEnumerable<Area> Areas { get; set; }
+        public IEnumerable<Table> Tables { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
-        public int ShopId { get; set; }
+        public IEnumerable<Cat> Cats { get; set; }
+        public int AreaId { get; set; }
         [BindProperty(SupportsGet = true)]
         public int PageIndex { get; set; } = 1;
 
         [BindProperty(SupportsGet = true)]
         public string SortOrder { get; set; }
-
-
-
-        public async Task OnGetAsync(int? pageIndex, string sortOrder, int shopId)
+        public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId)
         {
-            
-            IQueryable<Area> areasQuery = await repository.GetAreasByShopIdAsync(shopId);
-            ShopId = shopId;
+            // Lấy danh sách cửa hàng từ repository
+            IQueryable<Table> tableQuery = await repository.GetTablesByAreaIdAsync(areaId);
+            AreaId = areaId;
             // Tìm kiếm
             if (!string.IsNullOrEmpty(SearchString))
             {
-                areasQuery = areasQuery.Where(s => s.AreaName.Contains(SearchString));
+                tableQuery = tableQuery.Where(s => s.TableName.Contains(SearchString));
             }
 
             // Sắp xếp
@@ -47,38 +45,38 @@ namespace CoffeeCatRazporPage.Pages
 
             switch (sortOrder)
             {
-               
+
                 case "Address":
-                    areasQuery = areasQuery.OrderBy(s => s.AreaId);
+                    tableQuery = tableQuery.OrderBy(s => s.TableId);
                     break;
                 case "address_desc":
-                    areasQuery = areasQuery.OrderByDescending(s => s.AreaId);
+                    tableQuery = tableQuery.OrderByDescending(s => s.TableId);
                     break;
-               
+
             }
 
             // Phân trang
             int pageSize = 5;
             CurrentPage = pageIndex ?? 1;
-            TotalPages = (int)Math.Ceiling(await areasQuery.CountAsync() / (double)pageSize);
+            TotalPages = (int)Math.Ceiling(await tableQuery.CountAsync() / (double)pageSize);
 
-            Areas = await areasQuery.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToListAsync();
-       
+            Tables = await tableQuery.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled)
         {
-            var area = await repository.GetAreaByIdAsync(id);
+            var table = await repository.GetTableByIdAsync(id);
 
-            if (area == null)
+            if (table == null)
             {
                 return NotFound();
             }
 
-            area.AreaEnabled = isEnabled;
-            await repository.UpdateAsync(area);
+            table.TableEnabled = isEnabled;
+            await repository.UpdateAsync(table);
 
-            return RedirectToPage(new { shopId = area.ShopId, pageIndex = PageIndex });
+
+            return RedirectToPage(new { areaId = table.AreaId, pageIndex = PageIndex });
         }
     }
 }

@@ -1,0 +1,52 @@
+﻿@page
+@model BookingHistoryModel
+@{
+    ViewData["Title"] = "Booking History";
+}
+
+<h1>Booking History for Customer: @Model.BookingHistory.FirstOrDefault()?.CustomerId</h1>
+
+@if (Model.BookingHistory != null && Model.BookingHistory.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Items</th>
+                <th>Tables</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.BookingHistory)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.BookingStartTime</td>
+                    <td>@booking.BookingEndTime</td>
+                    <td>
+                        <ul>
+                            @foreach (var item in booking.Items)
+                            {
+                                <li>item name: @item.ItemName - price: @item.ItemPrice vnđ</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (var table in booking.Tables)
+                            {
+                                <li>table: @table.TableName - capacity:@table.TableCapacity</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No booking history found for this customer.</p>
+}

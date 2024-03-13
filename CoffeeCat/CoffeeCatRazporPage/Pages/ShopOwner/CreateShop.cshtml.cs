@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class CreateShopModel : PageModel
     {
@@ -17,15 +17,15 @@ namespace CoffeeCatRazporPage.Pages
         {
             this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
-            this.Areas = new List<Area>();
+            Areas = new List<Area>();
         }
 
         [BindProperty]
         public Shop Shop { get; set; }
         public bool ShopEnabled { get; set; }
         [BindProperty]
-        public List<Area> Areas { get; set; } 
-        
+        public List<Area> Areas { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -34,7 +34,7 @@ namespace CoffeeCatRazporPage.Pages
             }
 
             Shop.ShopEnabled = false;
-            await shopRepository.AddAsync(Shop);           
+            await shopRepository.AddAsync(Shop);
 
             return RedirectToPage("./ShopManager", new { pageIndex = 1 });
         }

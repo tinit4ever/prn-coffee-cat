@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class CreateTableModel : PageModel
     {
@@ -14,7 +14,7 @@ namespace CoffeeCatRazporPage.Pages
         {
             this.tableRepository = tableRepository;
             this.areaRepository = areaRepository;
-            this.Tables = new List<Table>();
+            Tables = new List<Table>();
         }
 
         [BindProperty]
@@ -25,7 +25,7 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnGetAsync(int areaId)
         {
-           
+
             Tables = await tableRepository.GetTableByAreaIdAsync(areaId);
             // Kiểm tra xem khu vực có tồn tại không
             area = await areaRepository.GetAreaByIdAsync(areaId);
@@ -49,7 +49,7 @@ namespace CoffeeCatRazporPage.Pages
             await tableRepository.AddAsync(table);
 
 
-            return RedirectToPage("./TableManager",  new { areaId = table.AreaId, pageIndex = 1 });
+            return RedirectToPage("./TableManager", new { areaId = table.AreaId, pageIndex = 1 });
 
         }
     }

@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.Customer
 {
     public class BookingTableModel : PageModel
     {
@@ -42,17 +43,27 @@ namespace CoffeeCatRazporPage.Pages
         public List<Table> Tables { get; set; }
         [TempData]
         public int BookingId { get; set; }
-
+        [BindProperty]
+        public int AreaId { get; set; }
+        [BindProperty]
+        public int ShopId { get; set; }
+        [BindProperty]
+        public bool IsTableSelectionRequired { get; set; }
         public async Task<IActionResult> OnGet()
         {
-            if (Request.Query.TryGetValue("startTime", out var startTime) &&
+            IsTableSelectionRequired = true;
+            if (Request.Query.TryGetValue("areaId", out var areaId) &&
+                Request.Query.TryGetValue("shopId", out var shopId) &&
+                Request.Query.TryGetValue("startTime", out var startTime) &&
                 Request.Query.TryGetValue("endTime", out var endTime))
             {
+                AreaId = int.Parse(areaId);
                 BookingStartTime = DateTime.Parse(startTime);
                 BookingEndTime = DateTime.Parse(endTime);
+                ShopId = int.Parse(shopId);
 
-                var availableTables = await bookingRepository.GetAvailableTablesAsync(BookingStartTime, BookingEndTime);
-                Tables = availableTables.Where(table => table.TableStatus == true).ToList();
+                var availableTables = await bookingRepository.GetAvailableTablesAsync(AreaId,BookingStartTime, BookingEndTime);
+                Tables = availableTables.Where(table => table.TableStatus == true && table.TableEnabled == true).ToList();
             }
 
             return Page();
@@ -70,21 +81,20 @@ namespace CoffeeCatRazporPage.Pages
                 BookingEndTime = BookingEndTime,
                 BookingEnabled = true
             };
-
+ 
             if (areAllTablesAvailable)
             {
                 await bookingRepository.AddAsync(booking);
                 await bookingRepository.AddTablesToBookingAsync(booking.BookingId, TableIds);
-                return RedirectToPage("/BookingMenuItem", new { bookingId = booking.BookingId });
+
+                return RedirectToPage("/Customer/BookingMenuItem", new { bookingId = booking.BookingId, shopId = ShopId });
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "One or more selected tables are not available for the specified date.");
-                Tables = await tableRepository.GetAllTableAsync();
                 return Page();
             }
         }
-
         private string GenerateBookingCode()
         {
             string code = "BOOK" + DateTime.Now.ToString("yyyyMMddHHmmss");

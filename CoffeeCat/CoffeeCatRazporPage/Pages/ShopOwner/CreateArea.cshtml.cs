@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class CreateAreaModel : PageModel
     {
@@ -14,7 +14,7 @@ namespace CoffeeCatRazporPage.Pages
         {
             this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
-            this.Areas = new List<Area>();
+            Areas = new List<Area>();
         }
 
         [BindProperty]
@@ -27,7 +27,7 @@ namespace CoffeeCatRazporPage.Pages
         {
             // Lấy danh sách mèo theo areaId
             Areas = await areaRepository.GetAreaByShopIdAsync(ShopId);
-            
+
             area = await areaRepository.GetAreaByIdAsync(ShopId);
             if (area == null)
             {
@@ -39,16 +39,16 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-        /*    if (!ModelState.IsValid)
-            {
-                return Page();
-            }*/
+            /*    if (!ModelState.IsValid)
+                {
+                    return Page();
+                }*/
             area.AreaEnabled = false;
 
             await areaRepository.AddAsync(area);
 
 
-            return RedirectToPage("./AreaManager", new { shopId = area.ShopId, pageIndex = 1});
+            return RedirectToPage("./AreaManager", new { shopId = area.ShopId, pageIndex = 1 });
         }
     }
 }

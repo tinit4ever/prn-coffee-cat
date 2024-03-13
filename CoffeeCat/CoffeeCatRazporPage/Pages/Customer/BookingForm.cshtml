@@ -1,5 +1,5 @@
 ﻿@page
-@model CoffeeCatRazporPage.Pages.BookingFormModel
+@model BookingFormModel
 @{
     ViewData["Title"] = "Booking Form";
 }
@@ -7,6 +7,8 @@
 <h1>Booking Form</h1>
 
 <form method="post">
+    <input type="hidden" id="AreaId" name="AreaId" value="@Model.AreaId"> <!-- Thêm trường ẩn AreaId -->
+
     <div class="form-group">
         <label for="BookingStartDate">Booking Start Date:</label>
         <input type="date" class="form-control" id="BookingStartDate" name="BookingStartDate">
@@ -29,6 +31,7 @@
             <option value="17:00">5:00 PM</option>
         </select>
     </div>
+    <input type="hidden" name="ShopId" id="ShopId" value="@Model.ShopId">
     <button type="button" class="btn btn-primary" id="checkAvailability">Check Availability</button>
 </form>
 
@@ -46,13 +49,12 @@
             updateMinDate();
 
             $("#checkAvailability").click(function () {
+                var areaId = $("#AreaId").val();
                 var startDate = $("#BookingStartDate").val();
                 var startTime = $("#BookingStartTime").val();
                 var endTime = $("#BookingEndTime").val();
 
-               
                 var fullStartTime = startDate + "T" + startTime;
-                
                 var fullEndTime = startDate + "T" + endTime;
 
                 if (new Date(fullStartTime) >= new Date(fullEndTime)) {
@@ -60,8 +62,7 @@
                     return;
                 }
 
-               
-                window.location.href = '/BookingTable?startTime=' + encodeURIComponent(fullStartTime) + '&endTime=' + encodeURIComponent(fullEndTime);
+                window.location.href = '/Customer/BookingTable?areaId=' + @Model.AreaId + '&shopId=' + @Model.ShopId + '&startTime=' + encodeURIComponent(fullStartTime) + '&endTime=' + encodeURIComponent(fullEndTime);
             });
         });
 

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.ShopOwner
 {
     public class CreateCatModel : PageModel
     {
@@ -15,7 +15,7 @@ namespace CoffeeCatRazporPage.Pages
         {
             this.catRepository = catRepository;
             this.areaRepository = areaRepository;
-            this.Cats = new List<Cat>();
+            Cats = new List<Cat>();
         }
 
         [BindProperty]
@@ -26,9 +26,9 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnGetAsync(int areaId)
         {
-           
+
             Cats = await catRepository.GetCatByAreaIdAsync(areaId);
-          
+
             area = await areaRepository.GetAreaByIdAsync(areaId);
             if (area == null)
             {
@@ -40,10 +40,10 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-      /*      if (!ModelState.IsValid)
-            {
-                return Page();
-            }*/
+            /*      if (!ModelState.IsValid)
+                  {
+                      return Page();
+                  }*/
             Cat.CatEnabled = false;
             await catRepository.AddAsync(Cat);
 

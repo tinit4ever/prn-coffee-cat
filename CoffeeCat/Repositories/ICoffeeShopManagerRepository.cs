@@ -30,6 +30,8 @@ namespace Repositories
         Task AddMultipleAsync(List<Booking> entities);
         Task AddTablesToBookingAsync(int bookingId, List<int> tableIds);
         Task<Booking> GetBookingByTableAndTimeAsync(int tableId, DateTime bookingStartTime, DateTime bookingEndTime);
-        Task<List<Table>> GetAvailableTablesAsync(DateTime startTime, DateTime endTime);
+        Task<List<Table>> GetAvailableTablesAsync(int areaId, DateTime startTime, DateTime endTime);
+        Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId);
+        Task<List<MenuItem>> GetAllMenuItemByShopIdAsync(int ShopId);
     }
 }

@@ -1,14 +1,13 @@
 ﻿@page
-@model CoffeeCatRazporPage.Pages.BookingTableModel
+@model BookingTableModel
 @{
     ViewData["Title"] = "Booking";
 }
 
-
 <h1>Booking</h1>
 
-<form method="post">
-    @if (Model.Tables != null && Model.Tables.Any())
+<form method="post" onsubmit="return validateForm()">
+    @if (Model.IsTableSelectionRequired && Model.Tables != null && Model.Tables.Any())
     {
         <div class="form-group">
             <label for="TableIds">Select Tables:</label>
@@ -29,9 +28,29 @@
         <label for="BookingEndTime">Booking End Time:</label>
         <input type="datetime-local" class="form-control" id="BookingEndTime" asp-for="BookingEndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" readonly>
     </div>
+    <input type="hidden" id="AreaId" name="AreaId">
     <button type="submit" class="btn btn-primary">Book</button>
 </form>
 
+@section Scripts {
+    <script>
+        // Lấy areaId từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const areaId = urlParams.get('areaId');
 
+        
+        document.getElementById('AreaId').value = areaId;
 
+      
+        function validateForm() {
+            
+            const selectedTables = document.getElementById('TableIds').selectedOptions;
+            if (selectedTables.length === 0) {
+                alert('Please select at least one table.');
+                return false; 
+            }
 
+            return true; 
+        }
+    </script>
+}

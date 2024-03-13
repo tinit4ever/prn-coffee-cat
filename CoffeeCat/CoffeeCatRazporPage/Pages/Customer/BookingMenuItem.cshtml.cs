@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages
+namespace CoffeeCatRazporPage.Pages.Customer
 {
     public class BookingMenuItemModel : PageModel
     {
@@ -22,12 +22,13 @@ namespace CoffeeCatRazporPage.Pages
         public int BookingId { get; set; }
         [BindProperty]
         public List<int> menuItemIds { get; set; }
-
+        public int ShopId { get; set; }
         public List<MenuItem> MenuItems { get; set; }
-        public async Task<IActionResult> OnGetAsync(int bookingId)
+        public async Task<IActionResult> OnGetAsync(int bookingId,int shopId)
         {
             BookingId = bookingId;
-            MenuItems = await menuItemRepository.GetAllMenuItemAsync();
+            ShopId = shopId;
+            MenuItems = await menuItemRepository.GetAllMenuItemByShopIdAsync(shopId);
 
             return Page();
         }
@@ -35,12 +36,12 @@ namespace CoffeeCatRazporPage.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-           
-         
-        await menuItemRepository.AddMenuItemsToBookingAsync(BookingId, menuItemIds);
-            
 
-            return RedirectToPage("/BookingSuccess");
+
+            await menuItemRepository.AddMenuItemsToBookingAsync(BookingId, menuItemIds);
+
+
+            return RedirectToPage("/Customer/BookingHistory");
         }
     }
 }

@@ -108,7 +108,12 @@ namespace Repositories
          {
             return await context.MenuItems.ToListAsync();
     }
-    public async Task UpdateAsync(T entity)
+        public async Task<List<MenuItem>> GetAllMenuItemByShopIdAsync(int ShopId)
+        {
+            return await context.MenuItems.Where(i => i.ShopId == ShopId && i.ItemEnabled == true)
+                .ToListAsync();
+        }
+        public async Task UpdateAsync(T entity)
         {
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
@@ -172,31 +177,36 @@ namespace Repositories
         {
             var booking = await context.Bookings
                 .Include(b => b.Tables)
-                .FirstOrDefaultAsync(b => b.Tables.Any(t => t.TableId == tableId) &&
+                .FirstOrDefaultAsync(b => b.Tables.Any(t => t.TableId == tableId && t.TableEnabled == true) &&
                                            b.BookingStartTime <= bookingEndTime &&
                                            b.BookingEndTime >= bookingStartTime);
 
             return booking;
         }
 
-        public async Task<List<Table>> GetAvailableTablesAsync(DateTime startTime, DateTime endTime)
+        public async Task<List<Table>> GetAvailableTablesAsync(int areaId, DateTime startTime, DateTime endTime)
         {
-
             var unavailableTables = await context.Tables
-     .Where(table => table.Bookings.Any(booking =>
-         (booking.BookingStartTime < endTime && booking.BookingEndTime > startTime)))
-     .ToListAsync();
+                .Where(table => table.AreaId == areaId && table.Bookings.Any(booking =>
+                    (booking.BookingStartTime < endTime && booking.BookingEndTime > startTime)))
+                .ToListAsync();
 
-            var allTables = await context.Tables.ToListAsync();
+            var allTablesInArea = await context.Tables
+                .Where(table => table.AreaId == areaId)
+                .ToListAsync();
 
-            var availableTables = allTables.Except(unavailableTables).ToList();
+            var availableTables = allTablesInArea.Except(unavailableTables).ToList();
 
             return availableTables;
-
         }
 
+        public async Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId)
+        {
+            return await context.Bookings.Include(b => b.Tables )
+            .Include(b => b.Items).Where(b => b.CustomerId == customerId).ToListAsync();
+        }
 
-
+   
 
         public async Task AddMultipleAsync(List<Booking> entities)
         {
