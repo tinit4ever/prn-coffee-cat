@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities;
 
-public partial class Shop
-{
+public partial class Shop {
     public int ShopId { get; set; }
 
+    [Display(Name = "Shop Name")]
+    [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
     public string ShopName { get; set; } = null!;
 
     public string? ShopEmail { get; set; }

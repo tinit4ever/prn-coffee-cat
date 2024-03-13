@@ -10,7 +10,7 @@ namespace Repositories.Auth {
         }
 
         public async Task<User?> SignIn(string email, string password) {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.CustomerEmail == email);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.CustomerEmail == email);
 
             if (user != null && user.CustomerPassword == password) {
                 return user;
