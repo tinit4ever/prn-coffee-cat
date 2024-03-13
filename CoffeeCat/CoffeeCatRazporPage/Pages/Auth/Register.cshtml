@@ -1,0 +1,40 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.Auth.RegisterModel
+@{
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Register</h2>
+            <br />
+        </div>
+
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="mb-3">
+            <label>Name</label>
+            <input asp-for="name" class="form-control" type="text" placeholder="Enter your name" autocomplete="nope" />
+            <span asp-validation-for="name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input asp-for="useremail" class="form-control" type="email" placeholder="Enter your email" autocomplete="nope" />
+            <span asp-validation-for="useremail" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input asp-for="password" class="form-control" type="text" placeholder="Enter your password" autocomplete="new-password" />
+            <span asp-validation-for="password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Confirm Password</label>
+            <input asp-for="confirmPassword" class="form-control" type="text" placeholder="Confirm your password" autocomplete="new-password" />
+            <span asp-validation-for="confirmPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px;">Register</button>
+    </div>
+</form>

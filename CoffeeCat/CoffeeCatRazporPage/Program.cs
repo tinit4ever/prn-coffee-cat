@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddTransient(typeof(ICoffeeShopManagerRepository<>), typeof(CoffeeShopManagerRepository<>));
 builder.Services.AddTransient(typeof(ICustomerRepository), typeof(CustomerRepository));
 builder.Services.AddTransient(typeof(ISignInRepository), typeof(SignInRepository));
+builder.Services.AddTransient(typeof(IRegisterRepository), typeof(RegisterRepository));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
