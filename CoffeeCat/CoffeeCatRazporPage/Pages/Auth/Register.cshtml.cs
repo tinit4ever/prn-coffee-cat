@@ -50,7 +50,13 @@ namespace CoffeeCatRazporPage.Pages.Auth {
             try {
                 await _registerRepository.RegisterAsync(userToCreate);
                 Console.WriteLine("User created successfully.");
-                return RedirectToPage("/Home/Customer");
+
+                // Save UserSession
+                HttpContext.Session.SetInt32("UserId", userToCreate.CustomerId);
+                HttpContext.Session.SetInt32("RoleId", userToCreate.RoleId.Value);
+
+                // Redirect To Home
+                return RedirectToPage("/Customer/CustomerHomePage");
             } catch (Exception ex) {
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 throw;

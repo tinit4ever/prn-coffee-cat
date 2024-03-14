@@ -4,11 +4,13 @@ using Repositories.Auth;
 
 namespace CoffeeCatRazporPage.Pages.Auth {
 
-    [BindProperties]
     public class SignInModel : PageModel {
         private readonly ISignInRepository _signInRepository;
+
+        [BindProperty]
         public string useremail { get; set; }
 
+        [BindProperty]
         public string password { get; set; }
 
         public SignInModel(ISignInRepository signInRepository) {
@@ -16,12 +18,19 @@ namespace CoffeeCatRazporPage.Pages.Auth {
             useremail = string.Empty;
             password = string.Empty;
         }
-        public void OnGet() {
+        public IActionResult OnGet() {
+            // Check login state
+            if (HttpContext.Session.GetInt32("UserId") != null) {
+                return RedirectToPage("/Home/UserProfile");
+            }
+
+            return Page();
         }
         public async Task<IActionResult> OnPostAsync() {
             string enteredEmail = useremail;
             string enteredPassword = password;
 
+            // Check field required
             if (!ModelState.IsValid) {
                 return Page();
             }
@@ -29,13 +38,22 @@ namespace CoffeeCatRazporPage.Pages.Auth {
             var user = await _signInRepository.SignIn(enteredEmail, enteredPassword);
 
             if (user != null) {
+                // Save UserSession
                 HttpContext.Session.SetInt32("UserId", user.CustomerId);
+                if (user.RoleId.HasValue) {
+                    HttpContext.Session.SetInt32("RoleId", user.RoleId.Value);
+                }
 
-                Console.WriteLine(user.RoleId);
-                int roleId = user.RoleId ?? 3;
-                string pageIndex = roleDivition(roleId);
-                return RedirectToPage(pageIndex);
+                // Role Divition
+                if (user.RoleId.HasValue) {
+                    // Get Role page index
+                    string pageIndex = roleDivition(user.RoleId.Value);
+                    return RedirectToPage(pageIndex);
+                } else {
+                    return Page();
+                }
             } else {
+                // Not username, password have been found!
                 ModelState.AddModelError(string.Empty, "Username or Password is Incorrect");
                 return Page();
             }
@@ -45,9 +63,11 @@ namespace CoffeeCatRazporPage.Pages.Auth {
             if (role == 1) {
                 return "/Admin/Admin";
             } else if (role == 2) {
-                return "/Home/ShopOwner";
+                return "/ShopOwner/ShopManager";
+            } else if (role == 3) {
+                return "/Staff/StaffHomePage";
             } else {
-                return "/Home/Customer";
+                return "/Customer/CustomerHomePage";
             }
         }
     }

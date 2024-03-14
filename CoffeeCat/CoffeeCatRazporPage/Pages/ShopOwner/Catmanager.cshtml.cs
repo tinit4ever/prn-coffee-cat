@@ -1,19 +1,14 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages.ShopOwner
-{
-    public class CatmanagerModel : PageModel
-    {
+namespace CoffeeCatRazporPage.Pages.ShopOwner {
+    public class CatmanagerModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Cat> repository;
 
-        public CatmanagerModel(ICoffeeShopManagerRepository<Cat> repository)
-        {
+        public CatmanagerModel(ICoffeeShopManagerRepository<Cat> repository) {
             this.repository = repository;
         }
 
@@ -30,14 +25,14 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         [BindProperty(SupportsGet = true)]
         public string SortOrder { get; set; }
 
-        public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId)
-        {
+        public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId) {
+            Authenticate();
+            Authorization();
             // Lấy danh sách cửa hàng từ repository
             IQueryable<Cat> catsQuery = await repository.GetCatsByAreaIdAsync(areaId);
             AreaId = areaId;
             // Tìm kiếm
-            if (!string.IsNullOrEmpty(SearchString))
-            {
+            if (!string.IsNullOrEmpty(SearchString)) {
                 catsQuery = catsQuery.Where(s => s.CatName.Contains(SearchString));
             }
 
@@ -45,8 +40,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AddressSortParm"] = sortOrder == "Address" ? "address_desc" : "Address";
 
-            switch (sortOrder)
-            {
+            switch (sortOrder) {
                 case "name_desc":
                     catsQuery = catsQuery.OrderByDescending(s => s.CatName);
                     break;
@@ -69,12 +63,10 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             Cats = await catsQuery.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
-        public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled)
-        {
+        public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled) {
             var cat = await repository.GetCatByIdAsync(id);
 
-            if (cat == null)
-            {
+            if (cat == null) {
                 return NotFound();
             }
 
@@ -82,6 +74,23 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             await repository.UpdateAsync(cat);
 
             return RedirectToPage(new { areaId = cat.AreaId, pageIndex = PageIndex });
+        }
+
+        private void Authenticate() {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null) {
+                HttpContext.Response.Redirect("/Auth/SignIn");
+            }
+        }
+
+        private void Authorization() {
+            int? roleId = HttpContext.Session.GetInt32("RoleId");
+            if (roleId.HasValue) {
+                if (roleId.Value != 2) {
+                    HttpContext.Response.Redirect("/Error/403");
+                }
+            }
         }
     }
 }

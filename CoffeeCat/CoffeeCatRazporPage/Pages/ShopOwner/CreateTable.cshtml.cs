@@ -3,15 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages.ShopOwner
-{
-    public class CreateTableModel : PageModel
-    {
+namespace CoffeeCatRazporPage.Pages.ShopOwner {
+    public class CreateTableModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Table> tableRepository;
         private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public CreateTableModel(ICoffeeShopManagerRepository<Table> tableRepository, ICoffeeShopManagerRepository<Area> areaRepository)
-        {
+        public CreateTableModel(ICoffeeShopManagerRepository<Table> tableRepository, ICoffeeShopManagerRepository<Area> areaRepository) {
             this.tableRepository = tableRepository;
             this.areaRepository = areaRepository;
             Tables = new List<Table>();
@@ -23,24 +20,22 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         public Table table { get; set; }
         public List<Table> Tables { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int areaId)
-        {
+        public async Task<IActionResult> OnGetAsync(int areaId) {
+            Authenticate();
+            Authorization();
 
             Tables = await tableRepository.GetTableByAreaIdAsync(areaId);
             // Kiểm tra xem khu vực có tồn tại không
             area = await areaRepository.GetAreaByIdAsync(areaId);
-            if (area == null)
-            {
+            if (area == null) {
                 return NotFound();
             }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IActionResult> OnPostAsync() {
+            if (!ModelState.IsValid) {
                 return Page();
             }
             table.TableEnabled = false;
@@ -51,6 +46,23 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
             return RedirectToPage("./TableManager", new { areaId = table.AreaId, pageIndex = 1 });
 
+        }
+
+        private void Authenticate() {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null) {
+                HttpContext.Response.Redirect("/Auth/SignIn");
+            }
+        }
+
+        private void Authorization() {
+            int? roleId = HttpContext.Session.GetInt32("RoleId");
+            if (roleId.HasValue) {
+                if (roleId.Value != 2) {
+                    HttpContext.Response.Redirect("/Error/403");
+                }
+            }
         }
     }
 }
