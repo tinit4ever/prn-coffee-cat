@@ -14,5 +14,23 @@
                 <button type="submit" class="btn btn-danger" asp-page-handler="Logout">Logout</button>
             </form>
         </div>
+        <br />
+
+        <div class="mt-5">
+            <label style="font-weight: bold; font-size: 22px;">Name</label>
+            <p>@Model.User.CustomerName</p>
+        </div>
+        <br />
+
+        <div>
+            <label style="font-weight: bold; font-size: 22px;">Email</label>
+            <p>@Model.User.CustomerEmail</p>
+        </div>
+        <br />
+
+        <div>
+            <label style="font-weight: bold; font-size: 22px;">Phone Number</label>
+            <p>@Model.User.CustomerTelephone</p>
+        </div>
     </div>
 </div>
