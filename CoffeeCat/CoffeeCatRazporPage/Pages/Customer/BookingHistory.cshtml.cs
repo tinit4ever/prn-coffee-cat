@@ -23,7 +23,7 @@ namespace CoffeeCatRazporPage.Pages.Customer
 
         public async Task<IActionResult> OnGet()
         {
-            int customerId = httpContextAccessor.HttpContext.Session.GetInt32("CustomerId") ?? 0;
+            int customerId = 1/*httpContextAccessor.HttpContext.Session.GetInt32("CustomerId") ?? 0*/;
 
             if (customerId == 0)
             {

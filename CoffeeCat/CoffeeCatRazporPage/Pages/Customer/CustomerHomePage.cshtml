@@ -1,0 +1,70 @@
+﻿@page
+@model CustomerModel
+@{
+
+
+<h1>CUSTOMER</h1>
+<div class="container">
+    <h1 class="text-center my-4">Coffee Shops</h1>
+
+    <!-- Sắp xếp và Tạo mới -->
+    <div class="d-flex justify-content-between my-3">
+        <div>
+            <a asp-page-handler="Sort" asp-route-sortOrder="Name" class="btn btn-link mx-2">Sort by Name</a>
+            <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort by Address</a>
+        </div>
+    </div>
+
+    <!-- Tìm kiếm -->
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="searchString" class="form-control" placeholder="Search">
+            <!-- Thêm trường sortOrder vào form tìm kiếm -->
+            <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Telephone</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var shop in Model.Shops)
+            {
+                <tr>
+                  
+                    <td>@shop.ShopName</td>
+                    <td>@shop.ShopEmail</td>
+                    <td>@shop.ShopAddress</td>
+                    <td>@shop.ShopTelephone</td>
+                    <td>@shop.ShopImage</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Phân trang -->
+    <div class="d-flex justify-content-center my-3">
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+}

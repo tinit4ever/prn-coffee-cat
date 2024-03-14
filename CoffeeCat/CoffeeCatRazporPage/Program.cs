@@ -15,7 +15,7 @@ options.UseSqlServer
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<CoffeeCatContext>();
 builder.Services.AddTransient(typeof(ICoffeeShopManagerRepository<>), typeof(CoffeeShopManagerRepository<>));
-builder.Services.AddTransient(typeof(ICustomerRepository), typeof(CustomerRepository));
+builder.Services.AddTransient(typeof(ICustomerRepository<>), typeof(CustomerRepository<>));
 builder.Services.AddTransient(typeof(ISignInRepository), typeof(SignInRepository));
 builder.Services.AddTransient(typeof(IRegisterRepository), typeof(RegisterRepository));
 builder.Services.AddTransient(typeof(IAdminRepository), typeof(AdminRepository));

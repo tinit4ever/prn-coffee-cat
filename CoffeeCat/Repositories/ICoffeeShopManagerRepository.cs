@@ -14,6 +14,8 @@ namespace Repositories
 
         Task<IQueryable<Cat>> GetCatsByAreaIdAsync(int areaId);
         Task<IQueryable<Area>> GetAreasByShopIdAsync(int shopId);
+        Task<IQueryable<MenuItem>> GetMenuItemsByShopIdAsync(int shopId);
+        Task<MenuItem> GetMenuItemsByIdAsync(int id);
         /*Task<IEnumerable<Shop>> GetEnabledShopsAsync();*/
         Task<List<Cat>> GetCatByAreaIdAsync(int id);
         Task AddAsync(T entity);

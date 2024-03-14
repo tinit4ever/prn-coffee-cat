@@ -38,6 +38,10 @@ namespace Repositories
         {
             return Task.FromResult(context.Tables.Where(c => c.AreaId == areaId));
         }
+        public Task<IQueryable<MenuItem>> GetMenuItemsByShopIdAsync(int shopId)
+        {
+            return Task.FromResult(context.MenuItems.Where(i => i.ShopId == shopId));
+        }
         public Task<IQueryable<Area>> GetAreasByShopIdAsync(int shopId)
         {
             return Task.FromResult(context.Areas.Where(c => c.ShopId == shopId));
@@ -148,6 +152,10 @@ namespace Repositories
         public async Task<Area> GetAreaByIdAsync(int id)
         {
             return await context.Areas.FindAsync(id);
+        }
+        public async Task<MenuItem> GetMenuItemsByIdAsync(int id)
+        {
+            return await context.MenuItems.FindAsync(id);
         }
         public async Task<Cat> GetCatByIdAsync(int id)
         {
