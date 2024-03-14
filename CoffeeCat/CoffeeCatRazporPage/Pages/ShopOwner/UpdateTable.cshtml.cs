@@ -29,7 +29,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task<IActionResult> OnPostAsync(int AreaId) {
 
             table.AreaId = AreaId;
-            table.TableEnabled = false;
+            table.TableEnabled = true;
             await tableRepository.UpdateAsync(table);
 
 

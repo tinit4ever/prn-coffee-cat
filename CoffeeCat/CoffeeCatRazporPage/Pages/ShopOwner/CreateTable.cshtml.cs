@@ -38,7 +38,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
             if (!ModelState.IsValid) {
                 return Page();
             }
-            table.TableEnabled = false;
+            table.TableEnabled = true;
             table.TableStatus = true;
 
             await tableRepository.AddAsync(table);

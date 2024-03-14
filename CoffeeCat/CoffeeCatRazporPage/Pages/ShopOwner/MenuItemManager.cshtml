@@ -1,10 +1,10 @@
-﻿@* @page
+﻿@page
 @model MenuItemManagerModel
 @{
     ViewData["Title"] = "MenuItem Manager";
 }
 <div class="container">
-    <h1 class="text-center my-4">MenuItem Manager</h1>
+    <h1 class="text-center my-4">Area Manager</h1>
 
     <!-- Sắp xếp và Tạo mới -->
     <div class="d-flex justify-content-between my-3">
@@ -13,7 +13,7 @@
         </div>
         <div>
 
-            <a asp-page="CreateArea" asp-route-shopId="@Model.ShopId" class="btn btn-primary">Create New Area</a>
+            <a asp-page="Createitem" asp-route-shopId="@Model.ShopId" class="btn btn-primary">Create New Item</a>
         </div>
     </div>
 
@@ -33,31 +33,25 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Price</th>
                 <th>Enabled</th>
-                <th>Manage</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var area in Model.MenuItems)
+            @foreach (var item in Model.MenuItems)
             {
                 <tr>
-                    <td>@area.AreaId</td>
-                    <td>@area.AreaName</td>
-                    <td>@(area.AreaEnabled ?? false)</td>
+                    <td>@item.ItemId</td>
+                    <td>@item.ItemName</td>
+                    <td>@item.ItemPrice</td>
+                    <td>@(item.ItemEnabled ?? false)</td>
                     <td>
-                        <div>
-                            <a asp-page="CatManager" asp-route-areaId="@area.AreaId">Manage Cat</a>
-                            <br />
-                            <a asp-page="TableManager" asp-route-areaId="@area.AreaId">Manage Table</a>
-                        </div>
-                    </td>
-                    <td>
-                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@area.AreaId" asp-route-isEnabled="@(!area.AreaEnabled)">
-                            <button type="submit" class="btn btn-link">@((area.AreaEnabled ?? false) ? "Disable" : "Enable")</button>
+                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@item.ItemId" asp-route-isEnabled="@(!item.ItemEnabled)">
+                            <button type="submit" class="btn btn-link">@((item.ItemEnabled ?? false) ? "Disable" : "Enable")</button>
                         </form>
                         <!-- Nút Update -->
-                        <a asp-page="UpdateArea" asp-route-shopId="@area.ShopId " asp-route-id="@area.AreaId" class="btn btn-link">Update</a>
+                        <a asp-page="UpdateItem" asp-route-shopId="@item.ShopId " asp-route-id="@item.ItemId" class="btn btn-link">Update</a>
                     </td>
                 </tr>
             }
@@ -73,11 +67,10 @@
                     @for (var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" asp-page="./AreaManager" asp-route-pageIndex="@i" asp-route-shopId="@Model.ShopId">@i</a>
+                            <a class="page-link" asp-page="./MenuItemManager" asp-route-pageIndex="@i" asp-route-shopId="@Model.ShopId">@i</a>
                         </li>
                     }
                 </ul>
             </nav>
         }
     </div>
- *@

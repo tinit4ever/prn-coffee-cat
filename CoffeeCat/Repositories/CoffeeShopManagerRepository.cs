@@ -30,10 +30,11 @@ namespace Repositories
         {
             return Task.FromResult(context.Cats.Where(c => c.AreaId == areaId));
         }
-        public async Task<IQueryable<Shop>> GetAllAsync()
+        public async Task<IQueryable<Shop>> GetShopAsync(int shopId)
         {
-            return await Task.FromResult(context.Shops.AsNoTracking());
+            return context.Shops.Where(c => c.ShopId == shopId);
         }
+
         public Task<IQueryable<Table>> GetTablesByAreaIdAsync(int areaId)
         {
             return Task.FromResult(context.Tables.Where(c => c.AreaId == areaId));
@@ -46,7 +47,7 @@ namespace Repositories
         {
             return Task.FromResult(context.Areas.Where(c => c.ShopId == shopId));
         }
-   
+        
         public async Task<List<Cat>> GetCatByAreaIdAsync(int AreaId)
         {
             return await context.Cats
@@ -142,6 +143,12 @@ namespace Repositories
                 shop.ShopEnabled = isEnabled;
                 await context.SaveChangesAsync();
             }
+        }
+        public async Task<List<MenuItem>> GetItemIByShopIdAsync(int ShopId)
+        {
+            return await context.MenuItems
+               .Where(t => t.ShopId == ShopId)
+               .ToListAsync();
         }
         public async Task<List<Area>> GetAreaByShopIdAsync(int ShopId)
         {

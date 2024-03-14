@@ -7,28 +7,6 @@
 <div class="container">
     <h1 class="text-center my-4">Coffee Shops</h1>
 
-    <!-- Sắp xếp và Tạo mới -->
-    <div class="d-flex justify-content-between my-3">
-        <div>
-            <a asp-page-handler="Sort" asp-route-sortOrder="Name" class="btn btn-link mx-2">Sort by Name</a>
-            <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort by Address</a>
-        </div>
-        <div>
-            <a asp-page="CreateShop" class="btn btn-primary">Create New Shop</a>
-        </div>
-    </div>
-
-    <!-- Tìm kiếm -->
-    <form method="get" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="searchString" class="form-control" placeholder="Search">
-            <!-- Thêm trường sortOrder vào form tìm kiếm -->
-            <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </div>
-    </form>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -44,48 +22,29 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var shop in Model.Shops)
-            {
-                <tr>
-                    <td>@shop.ShopId</td>
-                    <td>@shop.ShopName</td>
-                    <td>@shop.ShopEmail</td>
-                    <td>@shop.ShopAddress</td>
-                    <td>@shop.ShopTelephone</td>
-                    <td>@(shop.ShopEnabled ?? false)</td>
-                    <td>@shop.ShopImage</td>
-                    <td>
-                        <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@shop.ShopId" asp-route-isEnabled="@(!shop.ShopEnabled)">
-                            <button type="submit" class="btn btn-link">@((shop.ShopEnabled ?? false) ? "Disable" : "Enable")</button>
-                        </form>
-                        <!-- Nút Update -->
-                        <a asp-page="UpdateShop" asp-route-id="@shop.ShopId" class="btn btn-link">Update</a>
-                    </td>
-                    <td>
-                        <div>
-                            <a asp-page="AreaManager" asp-route-ShopId="@shop.ShopId" class="btn btn-link">Manage Area</a>
-                            <br />
-                            <a asp-page="MenuManager" asp-route-ShopId="@shop.ShopId" class="btn btn-link">Manage Menu</a>
-                        </div>
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td>@Model.Shop.ShopId</td>
+                <td>@Model.Shop.ShopName</td>
+                <td>@Model.Shop.ShopEmail</td>
+                <td>@Model.Shop.ShopAddress</td>
+                <td>@Model.Shop.ShopTelephone</td>
+                <td>@(Model.Shop.ShopEnabled ?? false)</td>
+                <td>@Model.Shop.ShopImage</td>
+                <td>
+                    <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@Model.Shop.ShopId" asp-route-isEnabled="@(!Model.Shop.ShopEnabled)">
+                        <button type="submit" class="btn btn-link">@((Model.Shop.ShopEnabled ?? false) ? "Disable" : "Enable")</button>
+                    </form>
+                    <!-- Nút Update -->
+                    <a asp-page="UpdateShop" asp-route-id="@Model.Shop.ShopId" class="btn btn-link">Update</a>
+                </td>
+                <td>
+                    <div>
+                        <a asp-page="AreaManager" asp-route-ShopId="@Model.Shop.ShopId" class="btn btn-link">Manage Area</a>
+                        <br />
+                        <a asp-page="MenuItemManager" asp-route-ShopId="@Model.Shop.ShopId" class="btn btn-link">Manage Menu</a>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <!-- Phân trang -->
-    <div class="d-flex justify-content-center my-3">
-        @if (Model.TotalPages > 1)
-        {
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    @for (var i = 1; i <= Model.TotalPages; i++)
-                    {
-                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        }
-    </div>
 </div>
