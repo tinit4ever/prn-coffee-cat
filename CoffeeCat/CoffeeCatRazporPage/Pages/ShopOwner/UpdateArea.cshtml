@@ -1,0 +1,69 @@
+﻿@page
+@model UpdateAreaModel
+@using Entities
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Update Area";
+}
+
+<style>
+    .shop-section, .area-section {
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+        .shop-section h3, .area-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="area.AreaId" />
+    <div class="area-section">
+        <h3>Area Details</h3>
+        <div>
+            <label asp-for="area.AreaName"></label>
+            <input asp-for="area.AreaName" class="form-control" />
+            <span asp-validation-for="area.AreaName" class="text-danger"></span>
+        </div>
+       
+    </div>
+
+
+
+    <input type="submit" value="Update Area" onclick="return confirm('Are you sure you want to update this area?');" />
+
+</form>

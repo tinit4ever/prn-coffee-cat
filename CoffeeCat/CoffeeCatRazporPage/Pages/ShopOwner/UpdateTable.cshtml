@@ -1,0 +1,75 @@
+﻿@page
+@model UpdateTableModel
+@using Entities
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Update Cat";
+}
+
+<style>
+    .area-section, .table-section {
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+        .area-section, .table-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="table.TableId" />
+    <div class="table-section">
+        <h3>Table Details</h3>
+        <div>
+            <label asp-for="table.TableName"></label>
+            <input asp-for="table.TableName" class="form-control" />
+            <span asp-validation-for="table.TableName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="table.TableCapacity"></label>
+            <input asp-for="table.TableCapacity" class="form-control" />
+            <span asp-validation-for="table.TableCapacity" class="text-danger"></span>
+        </div>
+
+       
+    </div>
+
+
+
+    <input type="submit" value="Update Table" onclick="return confirm('Are you sure you want to update this table?');" />
+
+</form>

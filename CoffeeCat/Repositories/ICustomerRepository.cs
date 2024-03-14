@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository<T> where T : class
     {
         Task<User?> GetUserByEmailAsync(string email);
+        Task<IQueryable<Shop>> GetShopEnableAsync();
     }
 }

@@ -1,0 +1,56 @@
+﻿ @page
+@model BookingTableModel
+@{
+    ViewData["Title"] = "Booking";
+}
+
+<h1>Booking</h1>
+
+<form method="post" onsubmit="return validateForm()">
+    @if (Model.IsTableSelectionRequired && Model.Tables != null && Model.Tables.Any())
+    {
+        <div class="form-group">
+            <label for="TableIds">Select Tables:</label>
+            <select multiple class="form-control" id="TableIds" asp-for="TableIds">
+                @foreach (var table in Model.Tables)
+                {
+                    <option value="@table.TableId">table: @table.TableName    capacity: @table.TableCapacity</option>
+                }
+            </select>
+        </div>
+    }
+
+    <div class="form-group">
+        <label for="BookingStartTime">Booking Start Time:</label>
+        <input type="datetime-local" class="form-control" id="BookingStartTime" asp-for="BookingStartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="BookingEndTime">Booking End Time:</label>
+        <input type="datetime-local" class="form-control" id="BookingEndTime" asp-for="BookingEndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" readonly>
+    </div>
+    <input type="hidden" id="AreaId" name="AreaId">
+    <button type="submit" class="btn btn-primary">Book</button>
+</form>
+
+@section Scripts {
+    <script>
+        // Lấy areaId từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const areaId = urlParams.get('areaId');
+
+        
+        document.getElementById('AreaId').value = areaId;
+
+      
+        function validateForm() {
+            
+            const selectedTables = document.getElementById('TableIds').selectedOptions;
+            if (selectedTables.length === 0) {
+                alert('Please select at least one table.');
+                return false; 
+            }
+
+            return true; 
+        }
+    </script>
+}

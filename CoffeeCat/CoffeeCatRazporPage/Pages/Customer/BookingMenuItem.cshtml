@@ -1,0 +1,25 @@
+﻿@page
+@model BookingMenuItemModel
+@{
+    ViewData["Title"] = "Booking Menu Items";
+}
+
+<h1>Booking Menu Items</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="BookingId" />
+    <input type="hidden" asp-for="ShopId" /> 
+
+    <div class="form-group">
+        <label for="menuItemIds">Select Menu Items:</label>
+        <select multiple class="form-control" id="menuItemIds" asp-for="menuItemIds">
+            @foreach (var menuItem in Model.MenuItems)
+            {
+                <option value="@menuItem.ItemId">@menuItem.ItemName: @menuItem.ItemPrice vnđ</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Confirm</button>
+</form>
+

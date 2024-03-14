@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository<T> : ICustomerRepository<T> where T : class
     {
         private readonly CoffeeCatContext context; // Đối tượng DbContext để tương tác với cơ sở dữ liệu
 
@@ -47,8 +48,10 @@ namespace Repositories
             await context.SaveChangesAsync();
             return true;
         }
-
+        public async Task<IQueryable<Shop>> GetShopEnableAsync()
+        {
+            return await Task.FromResult(context.Shops.Where(s => s.ShopEnabled == true));
+        }
 
     }
 }
-

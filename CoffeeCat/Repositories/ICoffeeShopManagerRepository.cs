@@ -14,6 +14,8 @@ namespace Repositories
 
         Task<IQueryable<Cat>> GetCatsByAreaIdAsync(int areaId);
         Task<IQueryable<Area>> GetAreasByShopIdAsync(int shopId);
+        Task<IQueryable<MenuItem>> GetMenuItemsByShopIdAsync(int shopId);
+        Task<MenuItem> GetMenuItemsByIdAsync(int id);
         /*Task<IEnumerable<Shop>> GetEnabledShopsAsync();*/
         Task<List<Cat>> GetCatByAreaIdAsync(int id);
         Task AddAsync(T entity);
@@ -30,6 +32,8 @@ namespace Repositories
         Task AddMultipleAsync(List<Booking> entities);
         Task AddTablesToBookingAsync(int bookingId, List<int> tableIds);
         Task<Booking> GetBookingByTableAndTimeAsync(int tableId, DateTime bookingStartTime, DateTime bookingEndTime);
-        Task<List<Table>> GetAvailableTablesAsync(DateTime startTime, DateTime endTime);
+        Task<List<Table>> GetAvailableTablesAsync(int areaId, DateTime startTime, DateTime endTime);
+        Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId);
+        Task<List<MenuItem>> GetAllMenuItemByShopIdAsync(int ShopId);
     }
 }

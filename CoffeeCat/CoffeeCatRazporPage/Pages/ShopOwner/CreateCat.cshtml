@@ -1,0 +1,23 @@
+﻿@page
+@model CreateCatModel
+@{
+    ViewData["Title"] = "Create Cat";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" id="createCatForm">
+    <!-- Các trường nhập liệu cho cửa hàng ở đây -->
+
+    <div id="catsDiv" class="form-group">
+        <label for="CatName">Cat Name:</label>
+        <input id="CatName" name="CatName" type="text" class="form-control" />
+
+        <label for="CatImage">Cat Image:</label>
+        <input id="CatImage" name="CatImage" type="file" class="form-control-file" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create Cat" class="btn btn-primary" onclick="return ('Are you sure you want to save ?');" />
+    </div>
+</form>
