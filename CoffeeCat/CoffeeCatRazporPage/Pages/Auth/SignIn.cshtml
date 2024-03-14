@@ -3,8 +3,6 @@
 @{
 }
 
-<link rel="stylesheet" href="~/@(nameof(CoffeeCatRazporPage)).styles.css" />
-
 <form method="post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -12,19 +10,20 @@
             <br />
         </div>
 
-        <div asp-validation-summary="All"></div>
+        <div asp-validation-summary="ModelOnly"></div>
         <div class="mb-3">
             <label>Email</label>
-            <input asp-for="useremail" class="form-control" />
+            <input asp-for="useremail" class="form-control" type="email" placeholder="Enter your email" autocomplete="nope" />
             <span asp-validation-for="useremail" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label>Password</label>
-            <input asp-for="password" class="form-control" />
+            <input asp-for="password" class="form-control" type="password" placeholder="Enter your password" autocomplete="new-password"/>
             <span asp-validation-for="password" class="text-danger"></span>
         </div>
+        <br />
         <button type="submit" class="btn btn-primary" style="width:150px;">Login</button>
-        <button type="submit" class="btn btn-secondary" style="width:150px;">Sign Up</button>
+        <a asp-page="/Auth/Register" class="btn btn-secondary" style="width:150px;">Sign Up</a>
     </div>
 </form>

@@ -1,0 +1,107 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.Home.AdminModel
+@{
+}
+
+<h1>ADMINISTRATOR</h1>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Acccounts
+            </h2>
+        </div>
+
+        <div class="col-6 text-end">
+            <a asp-page="/Admin/Create" class="btn btn-primary">
+                Create New Shop Owner
+            </a>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+
+                <th>
+                    Shop Name
+                </th>
+
+                <th>
+                    Email
+                </th>
+
+                <th>
+                    Password
+                </th>
+
+                <th>
+                    Role
+                </th>
+
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in Model.Users) {
+                <tr>
+                    <td width="20%">
+                        @user.CustomerName
+                    </td>
+
+                    <td width="25%">
+                        @if (user.Shop != null) {
+                            @user.Shop.ShopName
+                        } else {
+                            <span class="text-muted">No Shop</span>
+                        }
+                    </td>
+
+                    <td width="30%">
+                        @user.CustomerEmail
+                    </td>
+
+                    <td width="20%">
+                        @user.CustomerPassword
+                    </td>
+
+                    <td width="5%">
+                        @if (user.Role != null) {
+                            @user.Role.RoleName
+                        } else {
+                            <span class="text-muted">Unknown</span>
+                        }
+                    </td>
+
+                    <td width="10%">
+                        @if (user.CustomerEnabled == true) {
+                            <form method="post" asp-page-handler="Ban">
+                                <input type="hidden" name="customerId" value="@user.CustomerId" />
+                                <button type="submit" class="btn btn-danger mx-2">
+                                    Ban
+                                </button>
+                            </form>
+                        } else {
+                            <form method="post" asp-page-handler="Unban">
+                                <input type="hidden" name="customerId" value="@user.CustomerId" />
+                                <button type="submit" class="btn btn-primary mx-2">
+                                    Unban
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

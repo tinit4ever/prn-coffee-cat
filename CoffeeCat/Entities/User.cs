@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Entities;
-
-public partial class User
-{
+public partial class User {
     public int CustomerId { get; set; }
 
+    [Display(Name = "Name")]
+    [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
     public string CustomerName { get; set; } = null!;
 
+    [Display(Name = "Email")]
+    [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
     public string CustomerEmail { get; set; } = null!;
 
+    [Display(Name = "Password")]
+    [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
     public string CustomerPassword { get; set; } = null!;
 
     public string? CustomerTelephone { get; set; }

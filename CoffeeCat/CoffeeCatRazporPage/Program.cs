@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
+using Repositories.Admin;
 using Repositories.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddTransient(typeof(ICoffeeShopManagerRepository<>), typeof(CoffeeShopManagerRepository<>));
 builder.Services.AddTransient(typeof(ICustomerRepository), typeof(CustomerRepository));
 builder.Services.AddTransient(typeof(ISignInRepository), typeof(SignInRepository));
+builder.Services.AddTransient(typeof(IRegisterRepository), typeof(RegisterRepository));
+builder.Services.AddTransient(typeof(IAdminRepository), typeof(AdminRepository));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

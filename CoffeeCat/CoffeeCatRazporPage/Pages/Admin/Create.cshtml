@@ -1,0 +1,54 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.Admin.CreateModel
+@{
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Shop Creation</h2>
+            <br />
+        </div>
+
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="mb-3">
+            <label>Name</label>
+            <input asp-for="User.CustomerName" class="form-control" type="text" placeholder="Enter your name" autocomplete="nope" />
+            <span asp-validation-for="User.CustomerName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input asp-for="User.CustomerEmail" class="form-control" type="email" placeholder="Enter your email" autocomplete="nope" />
+            <span asp-validation-for="User.CustomerEmail" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input asp-for="User.CustomerPassword" class="form-control" type="text" placeholder="Enter your password" autocomplete="new-password" />
+            <span asp-validation-for="User.CustomerPassword" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Shop Name</label>
+            <input asp-for="Shop.ShopName" class="form-control" type="text" placeholder="Enter your shop name" autocomplete="new-password" />
+            <span asp-validation-for="Shop.ShopName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Shop Email</label>
+            <input asp-for="Shop.ShopEmail" class="form-control" type="text" placeholder="Enter your shop email" autocomplete="new-password" />
+            <span asp-validation-for="Shop.ShopEmail" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Shop Address</label>
+            <input asp-for="Shop.ShopAddress" class="form-control" type="text" placeholder="Enter your shop address" autocomplete="new-password" />
+            <span asp-validation-for="Shop.ShopAddress" class="text-danger"></span>
+        </div>
+
+        <br />
+        <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+        <a asp-page="/Home/Admin" class="btn btn-secondary" style="width:150px;">Back To Home</a>
+    </div>
+</form>
