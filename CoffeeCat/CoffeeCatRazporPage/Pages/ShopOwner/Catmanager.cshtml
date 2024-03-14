@@ -38,7 +38,6 @@
                 <th>Name</th>
                 <th>Image</th>
                 <th>Enabled</th>
-                <th>Manage</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -50,9 +49,9 @@
                     <td>@cat.CatName</td>
                     <td>
                         <img src="@cat.CatImage" alt="Cat Image" style="max-width: 100px; max-height: 100px;" />
-                    <td>
+                    </td>
                     <td>@(cat.CatEnabled ?? false)</td>
-                  
+                    <td>
                         <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@cat.CatId" asp-route-isEnabled="@(!cat.CatEnabled)">
                             <button type="submit" class="btn btn-link">@((cat.CatEnabled ?? false) ? "Disable" : "Enable")</button>
                         </form>
