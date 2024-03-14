@@ -19,6 +19,10 @@ builder.Services.AddTransient(typeof(ICustomerRepository), typeof(CustomerReposi
 builder.Services.AddTransient(typeof(ISignInRepository), typeof(SignInRepository));
 builder.Services.AddTransient(typeof(IRegisterRepository), typeof(RegisterRepository));
 builder.Services.AddTransient(typeof(IAdminRepository), typeof(AdminRepository));
+builder.Services.AddTransient(typeof(ISessionRepository), typeof(SessionRepository));
+
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +36,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

@@ -32,6 +32,11 @@ namespace CoffeeCatRazporPage.Pages.Auth {
                 return Page();
             }
 
+            if (_registerRepository.IsExistedEmail(useremail)) {
+                ModelState.AddModelError(string.Empty, "Email is have been existed");
+                return Page();
+            }
+
             User userToCreate = new User();
             // Default value
             userToCreate.CustomerEnabled = true;

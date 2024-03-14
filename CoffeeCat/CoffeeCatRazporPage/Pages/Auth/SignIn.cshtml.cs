@@ -29,6 +29,8 @@ namespace CoffeeCatRazporPage.Pages.Auth {
             var user = await _signInRepository.SignIn(enteredEmail, enteredPassword);
 
             if (user != null) {
+                HttpContext.Session.SetInt32("UserId", user.CustomerId);
+
                 Console.WriteLine(user.RoleId);
                 int roleId = user.RoleId ?? 3;
                 string pageIndex = roleDivition(roleId);
@@ -41,7 +43,7 @@ namespace CoffeeCatRazporPage.Pages.Auth {
 
         private String roleDivition(int role) {
             if (role == 1) {
-                return "/Home/Admin";
+                return "/Admin/Admin";
             } else if (role == 2) {
                 return "/Home/ShopOwner";
             } else {
