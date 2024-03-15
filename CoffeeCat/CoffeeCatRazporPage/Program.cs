@@ -20,6 +20,7 @@ builder.Services.AddTransient(typeof(ISignInRepository), typeof(SignInRepository
 builder.Services.AddTransient(typeof(IRegisterRepository), typeof(RegisterRepository));
 builder.Services.AddTransient(typeof(IAdminRepository), typeof(AdminRepository));
 builder.Services.AddTransient(typeof(ISessionRepository), typeof(SessionRepository));
+builder.Services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
 
 builder.Services.AddSession();
 

@@ -2,6 +2,7 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories.Auth;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoffeeCatRazporPage.Pages.Auth {
     [BindProperties]
@@ -9,13 +10,24 @@ namespace CoffeeCatRazporPage.Pages.Auth {
         private readonly IRegisterRepository _registerRepository;
 
         public string name { get; set; }
+
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter a valid 10-digit phone number")]
+        public string phone { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string useremail { get; set; }
+
+        [Display(Name = "Password")]
+        [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$", ErrorMessage = "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character")]
         public string password { get; set; }
         public string confirmPassword { get; set; }
 
         public RegisterModel(IRegisterRepository registerRepository) {
             _registerRepository = registerRepository;
             name = string.Empty;
+            phone = string.Empty;
             useremail = string.Empty;
             password = string.Empty;
             confirmPassword = string.Empty;
@@ -40,10 +52,11 @@ namespace CoffeeCatRazporPage.Pages.Auth {
             User userToCreate = new User();
             // Default value
             userToCreate.CustomerEnabled = true;
-            userToCreate.RoleId = 3;
+            userToCreate.RoleId = 4;
 
             // Dynamic value
             userToCreate.CustomerName = name;
+            userToCreate.CustomerTelephone = phone;
             userToCreate.CustomerEmail = useremail;
             userToCreate.CustomerPassword = password;
 

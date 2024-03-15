@@ -12,6 +12,7 @@ namespace Repositories.Auth {
             try {
                 User? user = _context.Users
                     .Include(u => u.Role)
+                    .Include(u => u.Shop)
                     .FirstOrDefault(u => u.CustomerId == id);
                 if (user == null) {
                     throw new InvalidOperationException();

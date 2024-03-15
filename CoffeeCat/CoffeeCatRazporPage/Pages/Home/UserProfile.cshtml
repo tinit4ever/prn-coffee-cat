@@ -6,7 +6,13 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2>Profile</h2>
+
+            <h2>
+                <button id="editBtn" class="btn btn-group">
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                Profile
+            </h2>
         </div>
 
         <div class="col-6 text-end">
@@ -14,5 +20,77 @@
                 <button type="submit" class="btn btn-danger" asp-page-handler="Logout">Logout</button>
             </form>
         </div>
+        <br />
+
+        <div class="mt-5 m-lg-3">
+            <form method="post">
+                <div>
+                    <label style="font-weight: bold; font-size: 22px;">Email</label> <br />
+                    <label>@Model.Mail</label>
+                </div>
+                <br />
+
+                <div>
+                    <label style="font-weight: bold; font-size: 22px;">Name</label>
+                    <br />
+                    <input id="nameInput" asp-for="UserName" readonly /> <br />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div>
+                    <label style="font-weight: bold; font-size: 22px;">Phone Number</label>
+                    <br />
+                    <input id="phoneInput" asp-for="Phone" readonly /> <br />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div>
+                    <label style="font-weight: bold; font-size: 22px;">Password</label>
+                    <br />
+                    <input id="passwordInput" asp-for="Password" readonly placeholder="********" /> <br />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div id="editButtons" class="mt-3" style="display: none;">
+                    <button id="saveBtn" class="btn btn-success" asp-page-handler="Save">Save</button>
+                    <button id="cancelBtn" class="m-lg-4 btn btn-danger" formnovalidate>Cancel</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+    var originalName;
+    var originalPhone;
+    var originalPassword;
+    document.getElementById('editBtn').addEventListener('click', function () {
+        originalName = document.getElementById('nameInput').value;
+        originalPhone = document.getElementById('phoneInput').value;
+        originalPassword = document.getElementById('passwordInput').value;
+        document.getElementById('nameInput').readOnly = false;
+        document.getElementById('phoneInput').readOnly = false;
+        document.getElementById('passwordInput').readOnly = false;
+        showEditButtons();
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', function () {
+        resetInputs();
+    });
+
+    function showEditButtons() {
+        document.getElementById('editButtons').style.display = 'block';
+    }
+
+    function resetInputs() {
+        document.getElementById('nameInput').readOnly = true;
+        document.getElementById('nameInput').value = originalName;
+        document.getElementById('phoneInput').readOnly = true;
+        document.getElementById('phoneInput').value = originalPhone;
+        document.getElementById('passwordInput').readOnly = true;
+        document.getElementById('passwordInput').value = originalPassword;
+        document.getElementById('editButtons').style.display = 'none';
+    }
+</script>
