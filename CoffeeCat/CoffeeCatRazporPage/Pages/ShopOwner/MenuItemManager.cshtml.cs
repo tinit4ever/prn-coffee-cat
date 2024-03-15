@@ -4,14 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 
-namespace CoffeeCatRazporPage.Pages.ShopOwner
-{
-    public class MenuItemManagerModel : PageModel
-    {
+namespace CoffeeCatRazporPage.Pages.ShopOwner {
+    public class MenuItemManagerModel : PageModel {
         private readonly ICoffeeShopManagerRepository<MenuItem> repository;
 
-        public MenuItemManagerModel(ICoffeeShopManagerRepository<MenuItem> repository)
-        {
+        public MenuItemManagerModel(ICoffeeShopManagerRepository<MenuItem> repository) {
             this.repository = repository;
         }
 
@@ -30,14 +27,14 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
 
 
-        public async Task OnGetAsync(int? pageIndex, string sortOrder, int shopId)
-        {
+        public async Task OnGetAsync(int? pageIndex, string sortOrder, int shopId) {
+            Authenticate();
+            Authorization();
 
             IQueryable<MenuItem> menusQuery = await repository.GetMenuItemsByShopIdAsync(shopId);
             ShopId = shopId;
             // Tìm ki?m
-            if (!string.IsNullOrEmpty(SearchString))
-            {
+            if (!string.IsNullOrEmpty(SearchString)) {
                 menusQuery = menusQuery.Where(s => s.ItemName.Contains(SearchString));
             }
 
@@ -45,8 +42,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AddressSortParm"] = sortOrder == "Address" ? "address_desc" : "Address";
 
-            switch (sortOrder)
-            {
+            switch (sortOrder) {
 
                 case "Address":
                     menusQuery = menusQuery.OrderBy(s => s.ItemId);
@@ -66,12 +62,10 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
         }
 
-        public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled)
-        {
+        public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled) {
             var item = await repository.GetMenuItemsByIdAsync(id);
 
-            if (item == null)
-            {
+            if (item == null) {
                 return NotFound();
             }
 
@@ -79,6 +73,23 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             await repository.UpdateAsync(item);
 
             return RedirectToPage(new { shopId = item.ShopId, pageIndex = PageIndex });
+        }
+
+        private void Authenticate() {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null) {
+                HttpContext.Response.Redirect("/Auth/SignIn");
+            }
+        }
+
+        private void Authorization() {
+            int? roleId = HttpContext.Session.GetInt32("RoleId");
+            if (roleId.HasValue) {
+                if (roleId.Value != 2) {
+                    HttpContext.Response.Redirect("/Error/403");
+                }
+            }
         }
     }
 }

@@ -2,6 +2,6 @@
 
 namespace Repositories.Auth {
     public interface ISessionRepository {
-        Task<User?> getUserByIdAsync(int id);
+        User GetUserById(int id);
     }
 }

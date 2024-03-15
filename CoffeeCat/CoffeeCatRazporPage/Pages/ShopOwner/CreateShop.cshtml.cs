@@ -4,40 +4,36 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
 
 namespace CoffeeCatRazporPage.Pages.ShopOwner {
-    public class UpdateAreaModel : PageModel {
+    public class CreateShopModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
         private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public UpdateAreaModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository) {
+        public CreateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository) {
             this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
+            Areas = new List<Area>();
         }
 
         [BindProperty]
-        public Shop shop { get; set; }
+        public Shop Shop { get; set; }
+        public bool ShopEnabled { get; set; }
         [BindProperty]
-        public Area area { get; set; }
         public List<Area> Areas { get; set; }
 
-
-        public async Task<IActionResult> OnGetAsync(int id, int shopId) {
+        public void OnGet() {
             Authenticate();
             Authorization();
-            Areas = await areaRepository.GetAreaByShopIdAsync(shopId);
-            area = await areaRepository.GetAreaByIdAsync(id);
-            area.ShopId = shopId;
-
-
-            return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int shopId) {
-            area.ShopId = shopId;
-            area.AreaEnabled = true;
-            await areaRepository.UpdateAsync(area);
+        public async Task<IActionResult> OnPostAsync() {
+            if (!ModelState.IsValid) {
+                return Page();
+            }
 
-            // Cập nhật lại thông tin phân trang
-            return RedirectToPage("./AreaManager", new { shopId = area.ShopId, pageIndex = 1 });
+            Shop.ShopEnabled = false;
+            await shopRepository.AddAsync(Shop);
+
+            return RedirectToPage("./ShopManager", new { pageIndex = 1 });
         }
 
         private void Authenticate() {

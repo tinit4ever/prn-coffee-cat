@@ -1,20 +1,14 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Protocol.Core.Types;
 using Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace CoffeeCatRazporPage.Pages.ShopOwner
-{
-    public class UpdateShopModel : PageModel
-    {
+namespace CoffeeCatRazporPage.Pages.ShopOwner {
+    public class UpdateShopModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
         private readonly ICoffeeShopManagerRepository<Area> areaRepository;
 
-        public UpdateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository)
-        {
+        public UpdateShopModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository) {
             this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
         }
@@ -22,23 +16,17 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         [BindProperty]
         public Shop Shop { get; set; }
 
-
-
-
-
-
-        public async Task<IActionResult> OnGetAsync(int id)
-        {
+        public async Task<IActionResult> OnGetAsync(int id) {
+            Authenticate();
+            Authorization();
             Shop = await shopRepository.GetShopByIdAsync(id);
 
-            if (Shop == null)
-            {
+            if (Shop == null) {
                 return NotFound();
             }
 
             // Kh?i t?o ShopName n?u nó là null
-            if (Shop.ShopName == null)
-            {
+            if (Shop.ShopName == null) {
                 Shop.ShopName = "";
             }
 
@@ -46,8 +34,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             return null;
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
+        public async Task<IActionResult> OnPostAsync() {
 
             Shop.ShopEnabled = true;
             await shopRepository.UpdateAsync(Shop);
@@ -55,6 +42,23 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
 
             return RedirectToPage("./ShopManager", new { pageIndex = 1 });
+        }
+
+        private void Authenticate() {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null) {
+                HttpContext.Response.Redirect("/Auth/SignIn");
+            }
+        }
+
+        private void Authorization() {
+            int? roleId = HttpContext.Session.GetInt32("RoleId");
+            if (roleId.HasValue) {
+                if (roleId.Value != 2) {
+                    HttpContext.Response.Redirect("/Error/403");
+                }
+            }
         }
     }
 }

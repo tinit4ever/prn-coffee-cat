@@ -8,12 +8,20 @@ namespace Repositories.Auth {
         public SessionRepository(CoffeeCatContext context) {
             _context = context;
         }
-        public async Task<User?> getUserByIdAsync(int id) {
+        public User GetUserById(int id) {
             try {
-                User? user = await _context.Users
+                User? user = _context.Users
                     .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.CustomerId == id);
-                return user;
+                    .FirstOrDefault(u => u.CustomerId == id);
+                if (user == null) {
+                    throw new InvalidOperationException();
+                } else {
+                    return user;
+                }
+
+            } catch (InvalidOperationException ex) {
+                Console.WriteLine(ex.StackTrace);
+                throw;
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
                 throw;
