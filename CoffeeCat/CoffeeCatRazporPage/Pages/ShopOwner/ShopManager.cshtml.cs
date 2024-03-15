@@ -20,7 +20,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task OnGetAsync() {
             Authenticate();
             Authorization();
-            var shopOwner =  sessionrepository.GetUserById(2);
+            var shopOwner =  sessionrepository.GetUserByRole(2);
             Shop = await repository.GetShopByIdAsync(shopOwner.ShopId);
         }
 

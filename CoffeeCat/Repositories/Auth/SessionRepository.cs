@@ -28,5 +28,9 @@ namespace Repositories.Auth {
                 throw;
             }
         }
+        public User GetUserByRole(int roleId)
+        {
+            return _context.Users.FirstOrDefault(u => u.RoleId == roleId);
+        }
     }
 }
