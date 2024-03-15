@@ -4,20 +4,13 @@
     ViewData["Title"] = "Coffee Shops";
 }
 
-@functions {
-    public string EncodeId(int id)
-    {
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(id.ToString());
-        return System.Convert.ToBase64String(plainTextBytes);
-    }
-}
-
 <div class="container">
     <h1 class="text-center my-4">Coffee Shops</h1>
 
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Address</th>
@@ -25,11 +18,12 @@
                 <th>Enabled</th>
                 <th>Image</th>
                 <th>Action</th>
-                <th>Manage</th> <!-- Cột mới -->
+                <th>Manage</th>
             </tr>
         </thead>
         <tbody>
-            <tr data-shop-id="@EncodeId(Model.Shop.ShopId)"> <!-- Mã hóa ID của cửa hàng -->
+            <tr>
+                <td>@Model.Shop.ShopId</td>
                 <td>@Model.Shop.ShopName</td>
                 <td>@Model.Shop.ShopEmail</td>
                 <td>@Model.Shop.ShopAddress</td>
@@ -40,14 +34,13 @@
                     <form method="post" asp-page-handler="ToggleEnabled" asp-route-id="@Model.Shop.ShopId" asp-route-isEnabled="@(!Model.Shop.ShopEnabled)">
                         <button type="submit" class="btn btn-link">@((Model.Shop.ShopEnabled ?? false) ? "Disable" : "Enable")</button>
                     </form>
-                    <!-- Nút Update -->
                     <a asp-page="UpdateShop" asp-route-id="@Model.Shop.ShopId" class="btn btn-link">Update</a>
                 </td>
                 <td>
                     <div>
-                        <a asp-page="AreaManager" data-shop-id="@EncodeId(Model.Shop.ShopId)" class="btn btn-link">Manage Area</a>
+                        <a asp-page="AreaManager" data-shop-id="(Model.Shop.ShopId)" class="btn btn-link">Manage Area</a>
                         <br />
-                        <a asp-page="MenuItemManager" data-shop-id="@EncodeId(Model.Shop.ShopId)" class="btn btn-link">Manage Menu</a>
+                        <a asp-page="MenuItemManager" data-shop-id="(Model.Shop.ShopId)" class="btn btn-link">Manage Menu</a>
                     </div>
                 </td>
             </tr>

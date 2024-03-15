@@ -1,4 +1,4 @@
---create database CoffeeCat;
+create database CoffeeCat;
 
 CREATE TABLE Roles (
     role_id INT PRIMARY KEY IDENTITY(1,1),

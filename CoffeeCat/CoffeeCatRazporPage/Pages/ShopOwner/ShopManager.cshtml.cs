@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
-
+using Repositories.Auth;
 namespace CoffeeCatRazporPage.Pages.ShopOwner {
     public class ShopManager : PageModel {
         private readonly ICoffeeShopManagerRepository<Shop> repository;
-
-        public ShopManager(ICoffeeShopManagerRepository<Shop> repository) {
+        private readonly ISessionRepository sessionrepository;
+        public ShopManager(ICoffeeShopManagerRepository<Shop> repository , ISessionRepository sessionrepository) {
             this.repository = repository;
+            this.sessionrepository = sessionrepository;
         }
 
         [BindProperty(SupportsGet = true)]
@@ -16,10 +17,11 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public Shop Shop { get; set; }
 
 
-        public async Task OnGetAsync(int shopId) {
+        public async Task OnGetAsync() {
             Authenticate();
             Authorization();
-            Shop = await repository.GetShopByIdAsync(shopId);
+            var shopOwner =  sessionrepository.GetUserById(2);
+            Shop = await repository.GetShopByIdAsync(shopOwner.ShopId);
         }
 
         public async Task<IActionResult> OnPostToggleEnabledAsync(int id, bool isEnabled) {
