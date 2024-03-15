@@ -21,6 +21,7 @@ builder.Services.AddTransient(typeof(IRegisterRepository), typeof(RegisterReposi
 builder.Services.AddTransient(typeof(IAdminRepository), typeof(AdminRepository));
 builder.Services.AddTransient(typeof(ISessionRepository), typeof(SessionRepository));
 builder.Services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
+builder.Services.AddTransient(typeof(ICoffeeShopStaffRepository), typeof(CoffeeShopStaffRepository));
 
 builder.Services.AddSession();
 

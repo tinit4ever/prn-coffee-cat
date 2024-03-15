@@ -43,8 +43,8 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         [BindProperty]
         public bool IsTableSelectionRequired { get; set; }
         public async Task<IActionResult> OnGet() {
-            Authenticate();
-            Authorization();
+           /* Authenticate();
+            Authorization();*/
             IsTableSelectionRequired = true;
             if (Request.Query.TryGetValue("areaId", out var areaId) &&
                 Request.Query.TryGetValue("shopId", out var shopId) &&

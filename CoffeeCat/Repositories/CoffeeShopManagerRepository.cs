@@ -198,7 +198,7 @@ namespace Repositories
 
             return booking;
         }
-
+ 
         public async Task<List<Table>> GetAvailableTablesAsync(int areaId, DateTime startTime, DateTime endTime)
         {
             var unavailableTables = await context.Tables

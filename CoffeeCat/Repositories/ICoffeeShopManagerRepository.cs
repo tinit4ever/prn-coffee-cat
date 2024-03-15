@@ -36,5 +36,6 @@ namespace Repositories
         Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId);
         Task<List<MenuItem>> GetAllMenuItemByShopIdAsync(int ShopId);
         Task<List<MenuItem>> GetItemIByShopIdAsync(int ShopId);
+        
     }
 }
