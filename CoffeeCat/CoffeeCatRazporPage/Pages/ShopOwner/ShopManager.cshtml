@@ -4,13 +4,20 @@
     ViewData["Title"] = "Coffee Shops";
 }
 
+@functions {
+    public string EncodeId(int id)
+    {
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(id.ToString());
+        return System.Convert.ToBase64String(plainTextBytes);
+    }
+}
+
 <div class="container">
     <h1 class="text-center my-4">Coffee Shops</h1>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Address</th>
@@ -22,8 +29,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>@Model.Shop.ShopId</td>
+            <tr data-shop-id="@EncodeId(Model.Shop.ShopId)"> <!-- Mã hóa ID của cửa hàng -->
                 <td>@Model.Shop.ShopName</td>
                 <td>@Model.Shop.ShopEmail</td>
                 <td>@Model.Shop.ShopAddress</td>
@@ -39,9 +45,9 @@
                 </td>
                 <td>
                     <div>
-                        <a asp-page="AreaManager" asp-route-ShopId="@Model.Shop.ShopId" class="btn btn-link">Manage Area</a>
+                        <a asp-page="AreaManager" data-shop-id="@EncodeId(Model.Shop.ShopId)" class="btn btn-link">Manage Area</a>
                         <br />
-                        <a asp-page="MenuItemManager" asp-route-ShopId="@Model.Shop.ShopId" class="btn btn-link">Manage Menu</a>
+                        <a asp-page="MenuItemManager" data-shop-id="@EncodeId(Model.Shop.ShopId)" class="btn btn-link">Manage Menu</a>
                     </div>
                 </td>
             </tr>

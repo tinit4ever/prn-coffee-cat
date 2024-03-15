@@ -17,7 +17,8 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
 
 
         public async Task OnGetAsync(int shopId) {
-            // Lấy danh sách cửa hàng từ repository
+            Authenticate();
+            Authorization();
             Shop = await repository.GetShopByIdAsync(shopId);
         }
 
