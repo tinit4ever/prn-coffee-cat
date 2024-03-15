@@ -10,7 +10,7 @@
             <br />
         </div>
 
-        <div asp-validation-summary="ModelOnly"></div>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <div class="mb-3">
             <label>Name</label>
             <input asp-for="name" class="form-control" type="text" placeholder="Enter your name" autocomplete="nope" />
@@ -18,8 +18,14 @@
         </div>
 
         <div class="mb-3">
+            <label>Phone Number</label>
+            <input asp-for="phone" class="form-control" type="text" placeholder="Enter your phone" autocomplete="nope" />
+            <span asp-validation-for="phone" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
             <label>Email</label>
-            <input asp-for="useremail" class="form-control" type="email" placeholder="Enter your email" autocomplete="nope" />
+            <input asp-for="useremail" class="form-control" type="text" placeholder="Enter your email" autocomplete="nope" />
             <span asp-validation-for="useremail" class="text-danger"></span>
         </div>
 

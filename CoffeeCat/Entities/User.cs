@@ -14,6 +14,7 @@ public partial class User {
 
     [Display(Name = "Password")]
     [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
+    [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$", ErrorMessage = "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character")]
     public string CustomerPassword { get; set; } = null!;
 
     public string? CustomerTelephone { get; set; }
