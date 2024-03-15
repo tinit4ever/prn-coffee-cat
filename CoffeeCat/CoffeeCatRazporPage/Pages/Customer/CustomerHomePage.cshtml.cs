@@ -20,8 +20,6 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public int TotalPages { get; set; }
 
         public async Task OnGetAsync(int? pageIndex, string sortOrder) {
-            Authenticate();
-            Authorization();
             // L?y danh sách c?a hàng t? repository
             IQueryable<Shop> shopsQuery = await repository.GetShopEnableAsync();
 
@@ -55,23 +53,6 @@ namespace CoffeeCatRazporPage.Pages.Customer {
             TotalPages = (int)Math.Ceiling(await shopsQuery.CountAsync() / (double)pageSize);
 
             Shops = await shopsQuery.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToListAsync();
-        }
-
-        private void Authenticate() {
-            int? userId = HttpContext.Session.GetInt32("UserId");
-
-            if (userId == null) {
-                HttpContext.Response.Redirect("/Auth/SignIn");
-            }
-        }
-
-        private void Authorization() {
-            int? roleId = HttpContext.Session.GetInt32("RoleId");
-            if (roleId.HasValue) {
-                if (roleId.Value != 4) {
-                    HttpContext.Response.Redirect("/Error/403");
-                }
-            }
         }
     }
 }
