@@ -49,7 +49,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         public async Task<IActionResult> OnPostAsync()
         {
 
-            Shop.ShopEnabled = false;
+            Shop.ShopEnabled = true;
             await shopRepository.UpdateAsync(Shop);
 
 

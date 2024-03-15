@@ -44,7 +44,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
                   {
                       return Page();
                   }*/
-            Cat.CatEnabled = false;
+            Cat.CatEnabled = true;
             await catRepository.AddAsync(Cat);
 
 

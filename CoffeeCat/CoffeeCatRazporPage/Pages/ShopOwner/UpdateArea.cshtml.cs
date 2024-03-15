@@ -37,7 +37,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         public async Task<IActionResult> OnPostAsync(int shopId)
         {
             area.ShopId = shopId;
-            area.AreaEnabled = false;
+            area.AreaEnabled = true;
             await areaRepository.UpdateAsync(area);
 
             // Cập nhật lại thông tin phân trang

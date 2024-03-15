@@ -53,7 +53,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
             // Gán các giá trị còn lại cho cat
             cat.AreaId = AreaId;
-            cat.CatEnabled = false;
+            cat.CatEnabled = true;
 
             // Lưu dữ liệu của cat vào cơ sở dữ liệu
             await catRepository.UpdateAsync(cat);

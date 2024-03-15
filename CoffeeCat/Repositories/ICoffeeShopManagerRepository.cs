@@ -9,7 +9,7 @@ namespace Repositories
         Task<Table> GetTableByIdAsync(int id);
 
         Task<Cat> GetCatByIdAsync(int id);
-        Task<IQueryable<Shop>> GetAllAsync();
+        Task<IQueryable<Shop>> GetShopAsync(int shopId);
         Task<List<Area>> GetAreaByShopIdAsync(int shopId);
 
         Task<IQueryable<Cat>> GetCatsByAreaIdAsync(int areaId);
@@ -35,5 +35,6 @@ namespace Repositories
         Task<List<Table>> GetAvailableTablesAsync(int areaId, DateTime startTime, DateTime endTime);
         Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId);
         Task<List<MenuItem>> GetAllMenuItemByShopIdAsync(int ShopId);
+        Task<List<MenuItem>> GetItemIByShopIdAsync(int ShopId);
     }
 }

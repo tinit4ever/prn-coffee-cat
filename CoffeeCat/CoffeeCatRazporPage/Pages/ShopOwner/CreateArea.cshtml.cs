@@ -43,7 +43,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
                 {
                     return Page();
                 }*/
-            area.AreaEnabled = false;
+            area.AreaEnabled = true;
 
             await areaRepository.AddAsync(area);
 

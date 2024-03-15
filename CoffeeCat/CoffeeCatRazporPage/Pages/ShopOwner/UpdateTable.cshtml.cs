@@ -32,7 +32,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         {
 
             table.AreaId = AreaId;
-            table.TableEnabled = false;
+            table.TableEnabled = true;
             await tableRepository.UpdateAsync(table);
 
 
