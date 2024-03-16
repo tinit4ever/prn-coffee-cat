@@ -10,5 +10,10 @@ namespace Repositories
     public interface ICoffeeShopStaffRepository
     {
         Task<List<Booking>> GetBookingsByShopIdAsync(int? shopId);
+        Task CreateStaff (User user);
+        Task <List<User>> GetUserbyRold(int roleId);
+        Task Ban(int id);
+        Task Unban(int id);
+        bool IsExistedEmail(string email);
     }
 }
