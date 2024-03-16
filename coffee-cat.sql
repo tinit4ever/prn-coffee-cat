@@ -1,5 +1,5 @@
 create database CoffeeCat;
-
+drop database CoffeeCat;
 CREATE TABLE Roles (
     role_id INT PRIMARY KEY IDENTITY(1,1),
     role_name VARCHAR(255) NOT NULL,
@@ -118,21 +118,99 @@ VALUES
 ( 'Cutomer', 1);
 INSERT INTO Shops ( shop_name, shop_email, shop_address, shop_telephone,shop_enabled,shop_image)
 VALUES
-('Coffee Shop 1', 'shop1@cpp.com', '123 Main St', '123456789', 1,''),
-( 'Coffee Shop 2', 'shop2@cpp.com', '456 Elm St', '987654321', 1,'');
+('Coffee Binh Tan', 'binhtan@cpp.com', '123 Main St', '081234567', 1,''),
+('Coffee Tan binh', 'tanbinh@cpp.com', '456 Elm St', '0898745632', 1,''),
+('Coffee Thu Duc', 'thuduc@cpp.com', '789 Main St', '0899675408', 0,''),
+('Coffee Ha Noi', 'hanoi@cpp.com', '111 Main St', '0862513970', 1,''),
+('Coffee Quang Ngai', 'quangngai@cpp.com', '458 Main St', '0399675408', 1,''),
+('Coffee Hue', 'hue@cpp.com', '888 Main St', '0903901492', 0,''),
+('Coffee Thanh Hoa', 'thanhhoa@cpp.com', '999 Main St', '0848640542', 1,''),
+('Coffee Tay Bac ', 'taybac@cpp.com', '645 Main St', '0322114478', 0,''),
+('Coffee Ca Mau', 'camau@cpp.com', '354 Main St', '0866778812', 1,''),
+('Coffee Quan Ninh', 'quanninh@cpp.com', '213 Main St', '0903648721', 1,'');
 INSERT INTO Areas ( area_name, area_enabled,shop_id)
 VALUES
 ('floor1', 1,1),
-( 'floor2', 1,1);
+('floor2', 1,1),
+('floor3', 1,1),
+('floor4', 0,1),
+('floor5', 1,1),
+('floor1', 1,2),
+('floor2', 1,2),
+('floor3', 1,2),
+('floor4', 0,2),
+('floor5', 1,2),
+('floor6', 1,2),
+('floor1', 1,3),
+('floor2', 1,3),
+('floor3', 1,3),
+('floor4', 0,3),
+('floor1', 1,4),
+('floor2', 1,4),
+('floor1', 1,5),
+('floor2', 0,5),
+('floor3', 1,5),
+('floor4', 1,5);
 INSERT INTO Users ( customer_name, customer_email, customer_password, customer_telephone, customer_enabled, role_id, shop_id)
 VALUES
 ( 'John Doe', 'admin@gmail.com', 'an123456', '123456789', 1, 1, 1),
 ( 'Jane Smith', 'owner@gmail.com', 'an123456', '987654321', 1, 2, 2),
 ( 'Tin', 'staff@gmail.com', 'an123456', '123456789', 1, 3, 1),
-( 'Kaido', 'cus@gmail.com', 'an123456', '987654321', 1, 4, 2);
+( 'Kaido', 'cus@gmail.com', 'an123456', '987654321', 1, 4, 2),
+( 'tri', 'tri@gmail.com', 'an123456', '0399675408', 1, 4, 2),
+( 'long', 'long@gmail.com', 'an123456', '0866557951', 1, 2, 2),
+( 'minh', 'minh@gmail.com', 'an123456', '0399885645', 1, 4, 2);
 
 INSERT INTO Cats ( cat_name, cat_image, cat_enabled, area_id)
 VALUES
 ( 'Fluffy', 'fluffy.jpg', 1, 1),
 ( 'Whiskers', 'whiskers.jpg', 1, 1),
-( 'Snowball', 'snowball.jpg', 1, 2);
+( 'Snowball', 'snowball.jpg', 1, 2),
+( 'Tom', 'tom.jpg', 1, 2),
+( 'Black', 'black.jpg', 1, 3),
+( 'Onw', 'onw.jpg', 1, 4),
+( 'Kiki', 'kiki.jpg', 1, 5),
+( 'Mimi', 'mimi.jpg', 1, 5),
+( 'Wawa', 'wawa.jpg', 1, 6);
+INSERT INTO MenuItems (item_name, item_price, item_enabled, shop_id)
+values
+('Mi trung',20000, 1, 1),
+('Sting',10000, 1, 1),
+('com chien',20000, 1, 2),
+('Coca',10000, 1, 2),
+('7up',10000, 1, 3),
+('Mi Tron',15000, 1, 3),
+('Tra da',5000, 1, 4),
+('banh kem',40000, 1, 4),
+('Banh dau do',20000, 1, 3),
+('Banh dau xanh',20000, 1, 2),
+('pepsi',10000, 1, 1),
+('TraSua',18000, 1, 2),
+('cafe den',20000, 1, 1),
+('cafe chon',20000, 1, 1),
+('cafe sua',20000, 1, 1),
+('cafe duong',20000, 1, 1),
+('cafe den',20000, 1, 2),
+('cafe chon',20000, 1, 2),
+('cafe sua',20000, 1, 2),
+('cafe duong',20000, 1, 2),
+('cafe den',20000, 1, 3),
+('cafe chon',20000, 1, 3),
+('cafe sua',20000, 1, 3),
+('cafe duong',20000, 1, 3),
+('cafe den',20000, 1, 4),
+('cafe chon',20000, 1, 4),
+('cafe sua',20000, 1, 4),
+('cafe duong',20000, 1, 4);
+INSERT INTO Tables(table_name, table_capacity, table_status, table_enabled, area_id)
+values
+('ban xanh', 4, 1, 1, 1),
+('ban quy toc', 1, 1, 1, 1),
+('ban binh dan', 5, 1, 1, 1),
+('ban do', 3, 1, 1, 2),
+('ban kitty', 3, 1, 1, 2),
+('ban doremon', 3, 1, 1, 2),
+('ban maval', 3, 1, 1, 2),
+('ban vang', 4, 1, 1, 3),
+('ban xanh', 4, 1, 1, 4),
+('ban xanh', 4, 1, 1, 5);
