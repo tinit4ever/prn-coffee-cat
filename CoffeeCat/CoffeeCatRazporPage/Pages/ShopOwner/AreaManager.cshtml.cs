@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
+using Repositories.Auth;
 
 namespace CoffeeCatRazporPage.Pages.ShopOwner {
     public class AreaManagerModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Area> repository;
-
-        public AreaManagerModel(ICoffeeShopManagerRepository<Area> repository) {
+        private readonly ISessionRepository sessionrepository;
+        public AreaManagerModel(ICoffeeShopManagerRepository<Area> repository, ISessionRepository sessionrepository) {
             this.repository = repository;
+            this.sessionrepository = sessionrepository;
         }
 
         [BindProperty(SupportsGet = true)]
@@ -30,8 +32,8 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task OnGetAsync(int? pageIndex, string sortOrder, int shopId) {
             Authenticate();
             Authorization();
-
-            IQueryable<Area> areasQuery = await repository.GetAreasByShopIdAsync(shopId);
+            var shopOwner = sessionrepository.GetUserByRole(2);
+            IQueryable<Area> areasQuery = await repository.GetAreasByShopIdAsync(shopOwner.ShopId);
             ShopId = shopId;
             // Tìm kiếm
             if (!string.IsNullOrEmpty(SearchString)) {

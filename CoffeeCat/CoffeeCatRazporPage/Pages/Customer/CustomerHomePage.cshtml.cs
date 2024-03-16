@@ -20,15 +20,14 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public int TotalPages { get; set; }
 
         public async Task OnGetAsync(int? pageIndex, string sortOrder) {
-            // L?y danh sách c?a hàng t? repository
+       
             IQueryable<Shop> shopsQuery = await repository.GetShopEnableAsync();
 
-            // Tìm ki?m
+          
             if (!string.IsNullOrEmpty(SearchString)) {
                 shopsQuery = shopsQuery.Where(s => s.ShopName.Contains(SearchString));
             }
 
-            // S?p x?p
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AddressSortParm"] = sortOrder == "Address" ? "address_desc" : "Address";
 

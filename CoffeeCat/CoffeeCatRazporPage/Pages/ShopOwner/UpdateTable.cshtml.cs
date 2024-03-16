@@ -15,7 +15,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
 
         [BindProperty]
         public Table table { get; set; }
-
+        public string ErrorMessage { get; set; }
         public async Task<IActionResult> OnGetAsync(int id, int AreaId) {
             Authenticate();
             Authorization();
@@ -27,7 +27,12 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         }
 
         public async Task<IActionResult> OnPostAsync(int AreaId) {
-
+            var existingTable = await tableRepository.GetTableByNameAsync(table.TableName, AreaId);
+            if (existingTable != null )
+            {
+                ErrorMessage = "table name already exists in this area.";
+                return Page();
+            }
             table.AreaId = AreaId;
             table.TableEnabled = true;
             await tableRepository.UpdateAsync(table);

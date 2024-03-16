@@ -76,7 +76,7 @@ namespace CoffeeCatRazporPage.Pages.Customer {
                 BookingStartTime = BookingStartTime,
                 BookingEndTime = BookingEndTime,
                 BookingEnabled = false,
-                CustomerId = customer.ShopId
+                CustomerId = customer.CustomerId
             };
 
             if (areAllTablesAvailable) {

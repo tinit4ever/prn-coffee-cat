@@ -21,3 +21,17 @@
         <input type="submit" value="Create Cat" class="btn btn-primary" onclick="return ('Are you sure you want to save ?');" />
     </div>
 </form>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<script>
+    var errorMessage = '@Model.ErrorMessage';
+    if (errorMessage !== '') {
+        alert(errorMessage);
+    }
+</script>
+

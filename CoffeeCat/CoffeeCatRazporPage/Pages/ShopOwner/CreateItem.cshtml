@@ -1,18 +1,19 @@
 ﻿@page
-@model CoffeeCatRazporPage.Pages.ShopOwner.CreateItemModel
+@model CreateItemModel
 @{
     ViewData["Title"] = "Create Item ";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<form method="post" id="Form">
+<form method="post" id="createItemForm">
     <!-- Các trường nhập liệu cho cửa hàng ở đây -->
 
     <div id="itemsDiv" class="form-group">
         <label for="ItemName">Item Name:</label>
         <input id="ItemName" name="ItemName" type="text" class="form-control" />
     </div>
+
     <div class="form-group">
         <label for="ItemPrice">Item Price:</label>
         <input id="ItemPrice" name="ItemPrice" type="number" class="form-control" step="100" min="0" />
@@ -22,4 +23,17 @@
 
     </div>
 </form>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<script>
+    var errorMessage = '@Model.ErrorMessage';
+    if (errorMessage !== '') {
+        alert(errorMessage);
+    }
+</script>
 

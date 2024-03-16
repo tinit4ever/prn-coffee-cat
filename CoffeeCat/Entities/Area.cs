@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entities;
 
 public partial class Area
 {
+    [Required(ErrorMessage = "Area name is required.")]
+    [RegularExpression(@"^[\w\d\s]+$", ErrorMessage = "Area name cannot contain special characters.")]
     public int AreaId { get; set; }
 
     public string AreaName { get; set; } = null!;

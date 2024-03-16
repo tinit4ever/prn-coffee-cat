@@ -2,15 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
+using Repositories.Auth;
 
 namespace CoffeeCatRazporPage.Pages.ShopOwner {
     public class UpdateAreaModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Shop> shopRepository;
         private readonly ICoffeeShopManagerRepository<Area> areaRepository;
-
-        public UpdateAreaModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository) {
+        private readonly ISessionRepository sessionrepository;
+        public UpdateAreaModel(ICoffeeShopManagerRepository<Shop> shopRepository, ICoffeeShopManagerRepository<Area> areaRepository, ISessionRepository sessionRepository) {
             this.shopRepository = shopRepository;
             this.areaRepository = areaRepository;
+            this.sessionrepository = sessionRepository;
         }
 
         [BindProperty]
@@ -18,12 +20,13 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         [BindProperty]
         public Area area { get; set; }
         public List<Area> Areas { get; set; }
-
+        public string ErrorMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id, int shopId) {
             Authenticate();
             Authorization();
-            Areas = await areaRepository.GetAreaByShopIdAsync(shopId);
+            var shopOwner = sessionrepository.GetUserByRole(2);
+            Areas = await areaRepository.GetAreaByShopIdAsync(shopOwner.ShopId);
             area = await areaRepository.GetAreaByIdAsync(id);
             area.ShopId = shopId;
 
@@ -32,6 +35,12 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         }
 
         public async Task<IActionResult> OnPostAsync(int shopId) {
+            var existingArea = await areaRepository.GetAreaByNameAsync(area.AreaName, shopId);
+            if (existingArea != null)
+            {
+                ErrorMessage = "cat name already exists in this area.";
+                return Page();
+            }
             area.ShopId = shopId;
             area.AreaEnabled = true;
             await areaRepository.UpdateAsync(area);

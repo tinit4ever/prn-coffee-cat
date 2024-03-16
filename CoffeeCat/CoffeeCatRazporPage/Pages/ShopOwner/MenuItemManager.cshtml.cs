@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
+using Repositories.Auth;
 
 namespace CoffeeCatRazporPage.Pages.ShopOwner {
     public class MenuItemManagerModel : PageModel {
         private readonly ICoffeeShopManagerRepository<MenuItem> repository;
-
-        public MenuItemManagerModel(ICoffeeShopManagerRepository<MenuItem> repository) {
+        private readonly ISessionRepository sessionrepository;
+        public MenuItemManagerModel(ICoffeeShopManagerRepository<MenuItem> repository, ISessionRepository sessionrepository) {
             this.repository = repository;
+            this.sessionrepository = sessionrepository;
         }
 
         [BindProperty(SupportsGet = true)]
@@ -30,8 +32,8 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task OnGetAsync(int? pageIndex, string sortOrder, int shopId) {
             Authenticate();
             Authorization();
-
-            IQueryable<MenuItem> menusQuery = await repository.GetMenuItemsByShopIdAsync(shopId);
+            var shopOwner = sessionrepository.GetUserByRole(2);
+            IQueryable<MenuItem> menusQuery = await repository.GetMenuItemsByShopIdAsync(shopOwner.ShopId);
             ShopId = shopId;
             // Tìm ki?m
             if (!string.IsNullOrEmpty(SearchString)) {

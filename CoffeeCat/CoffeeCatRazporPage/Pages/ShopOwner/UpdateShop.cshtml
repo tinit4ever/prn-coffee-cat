@@ -81,3 +81,16 @@
     <input type="submit" value="Update Shop" onclick="return confirm('Are you sure you want to update this shop?');" />
 
 </form>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<script>
+    var errorMessage = '@Model.ErrorMessage';
+    if (errorMessage !== '') {
+        alert(errorMessage);
+    }
+</script>

@@ -2,32 +2,52 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
+using Repositories.Auth;
 
 
 namespace CoffeeCatRazporPage.Pages.Customer {
     public class BookingHistoryModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Booking> bookingRepository;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ICoffeeShopStaffRepository repository;
+        private readonly ISessionRepository sessionrepository;
 
-        public BookingHistoryModel(ICoffeeShopManagerRepository<Booking> bookingRepository, IHttpContextAccessor httpContextAccessor) {
+        public BookingHistoryModel(ICoffeeShopManagerRepository<Booking> bookingRepository, ISessionRepository sessionrepository, ICoffeeShopStaffRepository repository) {
             this.bookingRepository = bookingRepository;
-            this.httpContextAccessor = httpContextAccessor;
+            this.sessionrepository = sessionrepository;
+            this.repository = repository;
         }
         public List<Booking> BookingHistory { get; set; }
-
+        [BindProperty]
+        public int bookingId { get; set; }
         public async Task<IActionResult> OnGet() {
             Authenticate();
             Authorization();
-            int customerId = 1/*httpContextAccessor.HttpContext.Session.GetInt32("CustomerId") ?? 0*/;
+            var customer = sessionrepository.GetUserByRole(4);
+            int customerId = customer.CustomerId;
 
-            if (customerId == 0) {
-                // Redirect to the login page or any other page to get the customer ID
-                return RedirectToPage("/LoginPage");
+       
+  
+            BookingHistory  = await bookingRepository.GetBookingHistoryForCustomerAsync(customerId);
+            return Page();
+        }
+        public async Task<IActionResult> OnPostCancelBookingAsync(int bookingId)
+        {
+            var booking = await repository.GetBookingByIdAsync(bookingId);
+
+            if (booking == null)
+            {
+                return NotFound();
             }
 
-            BookingHistory = await bookingRepository.GetBookingHistoryForCustomerAsync(customerId);
+            if (booking.BookingEnabled != false)
+            {
+                TempData["ErrorMessage"] = "Cannot cancel a booking that is already enabled.";
+                return RedirectToPage(); 
+            }
 
-            return Page();
+            await repository.DeleteAsync(booking);
+
+            return RedirectToPage();
         }
 
         private void Authenticate() {

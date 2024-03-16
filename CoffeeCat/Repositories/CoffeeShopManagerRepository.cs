@@ -39,11 +39,11 @@ namespace Repositories
         {
             return Task.FromResult(context.Tables.Where(c => c.AreaId == areaId));
         }
-        public Task<IQueryable<MenuItem>> GetMenuItemsByShopIdAsync(int shopId)
+        public Task<IQueryable<MenuItem>> GetMenuItemsByShopIdAsync(int? shopId)
         {
             return Task.FromResult(context.MenuItems.Where(i => i.ShopId == shopId));
         }
-        public Task<IQueryable<Area>> GetAreasByShopIdAsync(int shopId)
+        public Task<IQueryable<Area>> GetAreasByShopIdAsync(int? shopId)
         {
             return Task.FromResult(context.Areas.Where(c => c.ShopId == shopId));
         }
@@ -69,18 +69,15 @@ namespace Repositories
 
         public async Task AddTablesToBookingAsync(int bookingId, List<int> tableIds)
         {
-            // Lấy đặt bàn từ cơ sở dữ liệu
             var booking = await context.Bookings.FindAsync(bookingId);
             if (booking == null)
             {
-                // Xử lý khi không tìm thấy đặt bàn
+               
                 return;
-            }
-
-            // Lấy danh sách các bàn từ cơ sở dữ liệu
+            }       
             var tablesToAdd = await context.Tables.Where(t => tableIds.Contains(t.TableId)).ToListAsync();
 
-            // Thêm danh sách các bàn vào đặt bàn
+          
             foreach (var tableToAdd in tablesToAdd)
             {
                 booking.Tables.Add(tableToAdd);
@@ -144,23 +141,23 @@ namespace Repositories
                 await context.SaveChangesAsync();
             }
         }
-        public async Task<List<MenuItem>> GetItemIByShopIdAsync(int ShopId)
+        public async Task<List<MenuItem>> GetItemIByShopIdAsync(int? ShopId)
         {
             return await context.MenuItems
                .Where(t => t.ShopId == ShopId)
                .ToListAsync();
         }
-        public async Task<List<Area>> GetAreaByShopIdAsync(int ShopId)
+        public async Task<List<Area>> GetAreaByShopIdAsync(int? ShopId)
         {
             return await context.Areas
                 .Where(t => t.ShopId == ShopId)
                 .ToListAsync();
         }
-        public async Task<Area> GetAreaByIdAsync(int id)
+        public async Task<Area> GetAreaByIdAsync(int? id)
         {
             return await context.Areas.FindAsync(id);
         }
-        public async Task<MenuItem> GetMenuItemsByIdAsync(int id)
+        public async Task<MenuItem> GetMenuItemsByIdAsync(int? id)
         {
             return await context.MenuItems.FindAsync(id);
         }
@@ -218,18 +215,40 @@ namespace Repositories
         public async Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId)
         {
             return await context.Bookings.Include(b => b.Tables )
-            .Include(b => b.Items).Where(b => b.CustomerId == customerId && b.BookingEnabled == true).ToListAsync();
+            .Include(b => b.Items).Where(b => b.CustomerId == customerId ).ToListAsync();
         }
 
-   
+        public async Task<string> GetCatImageByIdAsync(int catId)
+        {
+            var cat = await context.Cats.FindAsync(catId);
+            return cat?.CatImage; 
+        }
 
         public async Task AddMultipleAsync(List<Booking> entities)
         {
             context.Bookings.AddRange(entities);
             await context.SaveChangesAsync();
         }
-
-
+        public async Task<Area> GetAreaByNameAsync(string areaName, int? shopId)
+        {
+            return await context.Areas.FirstOrDefaultAsync(a => a.AreaName == areaName && a.ShopId == shopId);
+        }
+        public async Task<Cat> GetCatByNameAsync(string catName, int areaId)
+        {
+            return await context.Cats.FirstOrDefaultAsync(a => a.CatName == catName && a.AreaId == areaId);
+        }
+        public async Task<MenuItem> GetMenuItemByNameAsync(string itemName, int? shopId)
+        {
+            return await context.MenuItems.FirstOrDefaultAsync(a => a.ItemName == itemName && a.ShopId == shopId);
+        }
+        public async Task<Table> GetTableByNameAsync(string tableName, int areaId)
+        {
+            return await context.Tables.FirstOrDefaultAsync(a => a.TableName == tableName && a.AreaId == areaId);
+        }
+        public async Task<Shop> GetShopByNameAsync(string shopName)
+        {
+            return await context.Shops.FirstOrDefaultAsync(a => a.ShopName== shopName );
+        }
     }
 }
 

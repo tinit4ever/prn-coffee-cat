@@ -15,7 +15,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
 
         [BindProperty]
         public Shop Shop { get; set; }
-
+        public string ErrorMessage { get; set; }
         public async Task<IActionResult> OnGetAsync(int id) {
             Authenticate();
             Authorization();
@@ -35,7 +35,12 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         }
 
         public async Task<IActionResult> OnPostAsync() {
-
+            var existingShop = await shopRepository.GetShopByNameAsync(Shop.ShopName);
+            if (existingShop != null )
+            {
+                ErrorMessage = "shop name already exists in this shop.";
+                return Page();
+            }
             Shop.ShopEnabled = true;
             await shopRepository.UpdateAsync(Shop);
 

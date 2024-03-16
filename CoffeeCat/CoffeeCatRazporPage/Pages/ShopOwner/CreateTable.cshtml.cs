@@ -19,7 +19,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         [BindProperty]
         public Table table { get; set; }
         public List<Table> Tables { get; set; }
-
+        public string ErrorMessage { get; set; }
         public async Task<IActionResult> OnGetAsync(int areaId) {
             Authenticate();
             Authorization();
@@ -34,19 +34,33 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync() {
-            if (!ModelState.IsValid) {
+        public async Task<IActionResult> OnPostAsync()
+        {
+           
+
+           
+            var existingTable = await tableRepository.GetTableByNameAsync(table.TableName, area.AreaId);
+            if (existingTable != null)
+            {
+                ErrorMessage = "Table name already exists in this area.";
                 return Page();
             }
+            
+
+            if (string.IsNullOrWhiteSpace(table.TableName))
+            {
+                ErrorMessage = "Table name cannot be empty.";
+                return Page();
+            }
+
             table.TableEnabled = true;
             table.TableStatus = true;
 
             await tableRepository.AddAsync(table);
 
-
             return RedirectToPage("./TableManager", new { areaId = table.AreaId, pageIndex = 1 });
-
         }
+
 
         private void Authenticate() {
             int? userId = HttpContext.Session.GetInt32("UserId");

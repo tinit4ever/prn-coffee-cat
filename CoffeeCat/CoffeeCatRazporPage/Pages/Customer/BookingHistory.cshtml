@@ -4,25 +4,27 @@
     ViewData["Title"] = "Booking History";
 }
 
-<h1>Booking History for Customer: @Model.BookingHistory.FirstOrDefault()?.CustomerId</h1>
+<h1>Booking History for Customer: </h1>
 
 @if (Model.BookingHistory != null && Model.BookingHistory.Any())
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Booking ID</th>
+                <th>Booking Code</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Items</th>
                 <th>Tables</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var booking in Model.BookingHistory)
             {
                 <tr>
-                    <td>@booking.BookingId</td>
+                    <td>@booking.BookingCode</td>
                     <td>@booking.BookingStartTime</td>
                     <td>@booking.BookingEndTime</td>
                     <td>
@@ -41,12 +43,17 @@
                             }
                         </ul>
                     </td>
+                    <td>@(booking.BookingEnabled == true ? "Enabled" : "Disabled")</td>
+                    <td>
+                        @if (booking.BookingEnabled == false)
+                        {
+                            <form method="post" asp-page-handler="CancelBooking" asp-route-bookingId="@booking.BookingId">
+                                <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                            </form>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-}
-else
-{
-    <p>No booking history found for this customer.</p>
 }

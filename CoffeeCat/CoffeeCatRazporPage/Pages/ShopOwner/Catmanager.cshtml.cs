@@ -28,15 +28,15 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId) {
             Authenticate();
             Authorization();
-            // Lấy danh sách cửa hàng từ repository
+         
             IQueryable<Cat> catsQuery = await repository.GetCatsByAreaIdAsync(areaId);
             AreaId = areaId;
-            // Tìm kiếm
+          
             if (!string.IsNullOrEmpty(SearchString)) {
                 catsQuery = catsQuery.Where(s => s.CatName.Contains(SearchString));
             }
 
-            // Sắp xếp
+         
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AddressSortParm"] = sortOrder == "Address" ? "address_desc" : "Address";
 

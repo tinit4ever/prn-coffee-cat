@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public class CoffeeShopStaffRepository  : ICoffeeShopStaffRepository
+    public class CoffeeShopStaffRepository : ICoffeeShopStaffRepository
     {
         private CoffeeCatContext context;
 
@@ -41,5 +41,25 @@ namespace Repositories
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
+
+
+        public async Task DeleteAsync(Booking entity)
+        {
+            
+            foreach (var menuItem in context.MenuItems.Include(m => m.Bookings).Where(m => m.Bookings.Any(b => b.BookingId == entity.BookingId)))
+            {
+                menuItem.Bookings.Remove(entity);
+            }
+
+            foreach (var table in context.Tables.Include(t => t.Bookings).Where(t => t.Bookings.Any(b => b.BookingId == entity.BookingId)))
+            {
+                table.Bookings.Remove(entity);
+            }
+
+            // Tiếp tục xóa Booking
+            context.Bookings.Remove(entity);
+
+            await context.SaveChangesAsync();
+        }
     }
-}
+    }

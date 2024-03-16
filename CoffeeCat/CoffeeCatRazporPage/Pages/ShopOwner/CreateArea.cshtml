@@ -15,7 +15,20 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Create Area" class="btn btn-primary" onclick="return ('Are you sure you want to save ?');" />
-
+        <input type="submit" value="Create Area" class="btn btn-primary" onclick="return confirm('Are you sure you want to save ?');" />
     </div>
 </form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<script>
+    var errorMessage = '@Model.ErrorMessage';
+    if (errorMessage !== '') {
+        alert(errorMessage);
+    }
+</script>

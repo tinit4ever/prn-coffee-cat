@@ -22,3 +22,16 @@
 
     </div>
 </form>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<script>
+    var errorMessage = '@Model.ErrorMessage';
+    if (errorMessage !== '') {
+        alert(errorMessage);
+    }
+</script>

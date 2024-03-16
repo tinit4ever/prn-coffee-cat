@@ -12,5 +12,8 @@ namespace Repositories
         Task<List<Booking>> GetBookingsByShopIdAsync(int? shopId);
         Task<Booking> GetBookingByIdAsync(int? bookingId);
          Task UpdateAsync(Booking entity);
+        Task DeleteAsync(Booking entity);
+
+
     }
 }

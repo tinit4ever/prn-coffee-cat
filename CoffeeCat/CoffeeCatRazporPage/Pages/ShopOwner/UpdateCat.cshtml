@@ -59,11 +59,6 @@
             <input asp-for="cat.CatName" class="form-control" />
             <span asp-validation-for="cat.CatName" class="text-danger"></span>
         </div>
-        <div>
-            <label asp-for="cat.CatImage"></label>
-            <input type="file" asp-for="CatImageFile" class="form-control" />
-            <span asp-validation-for="cat.CatImage" class="text-danger"></span>
-        </div>
 
     </div>
 
@@ -72,3 +67,16 @@
     <input type="submit" value="Update Cat" onclick="return confirm('Are you sure you want to update this cat?');" />
 
 </form>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<script>
+    var errorMessage = '@Model.ErrorMessage';
+    if (errorMessage !== '') {
+        alert(errorMessage);
+    }
+</script>
