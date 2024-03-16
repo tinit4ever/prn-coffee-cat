@@ -218,7 +218,7 @@ namespace Repositories
         public async Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId)
         {
             return await context.Bookings.Include(b => b.Tables )
-            .Include(b => b.Items).Where(b => b.CustomerId == customerId).ToListAsync();
+            .Include(b => b.Items).Where(b => b.CustomerId == customerId && b.BookingEnabled == true).ToListAsync();
         }
 
    

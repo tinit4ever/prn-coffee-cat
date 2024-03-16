@@ -29,9 +29,12 @@ namespace Repositories
         {
             return await context.Bookings
                 .Include(b => b.Customer)
+                .Include(b => b.Tables)
+                .Include(b => b.Items)
                 .Where(b => b.Customer.ShopId == shopId)
                 .ToListAsync();
         }
+
 
         public Task<List<User>> GetUserbyRold(int roleId)
         {
@@ -105,5 +108,21 @@ namespace Repositories
                 throw;
             }
         }
+        public async Task<Booking> GetBookingByIdAsync(int? bookingId)
+        {
+            if (bookingId == null)
+            {
+                return null;
+            }
+
+            return await context.Bookings.FindAsync(bookingId);
+        }
+        public async Task UpdateAsync(Booking entity)
+        {
+            context.Entry(entity).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+
+        }
     }
 }
+    

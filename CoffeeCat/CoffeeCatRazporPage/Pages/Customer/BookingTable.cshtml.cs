@@ -2,16 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repositories;
+using Repositories.Auth;
 using System.ComponentModel.DataAnnotations;
 
 namespace CoffeeCatRazporPage.Pages.Customer {
     public class BookingTableModel : PageModel {
         private readonly ICoffeeShopManagerRepository<Table> tableRepository;
         private readonly ICoffeeShopManagerRepository<Booking> bookingRepository;
+        private readonly ISessionRepository sessionrepository;
 
-        public BookingTableModel(ICoffeeShopManagerRepository<Table> tableRepository, ICoffeeShopManagerRepository<Booking> bookingRepository) {
+        public BookingTableModel(ICoffeeShopManagerRepository<Table> tableRepository, ICoffeeShopManagerRepository<Booking> bookingRepository, ISessionRepository sessionRepository) {
             this.tableRepository = tableRepository;
             this.bookingRepository = bookingRepository;
+            this.sessionrepository = sessionRepository;
         }
 
         [BindProperty]
@@ -43,8 +46,9 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         [BindProperty]
         public bool IsTableSelectionRequired { get; set; }
         public async Task<IActionResult> OnGet() {
-           /* Authenticate();
-            Authorization();*/
+            Authenticate();
+            Authorization();
+
             IsTableSelectionRequired = true;
             if (Request.Query.TryGetValue("areaId", out var areaId) &&
                 Request.Query.TryGetValue("shopId", out var shopId) &&
@@ -66,11 +70,13 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public async Task<IActionResult> OnPostAsync() {
             // Xử lý form booking
             bool areAllTablesAvailable = await CheckAllTablesAvailability(SelectedTables, BookingStartTime, BookingEndTime);
+            var customer = sessionrepository.GetUserByRole(4);
             var booking = new Booking {
                 BookingCode = GenerateBookingCode(),
                 BookingStartTime = BookingStartTime,
                 BookingEndTime = BookingEndTime,
-                BookingEnabled = true
+                BookingEnabled = false,
+                CustomerId = customer.ShopId
             };
 
             if (areAllTablesAvailable) {
