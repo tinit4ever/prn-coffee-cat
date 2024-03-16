@@ -10,5 +10,7 @@ namespace Repositories
     public interface ICoffeeShopStaffRepository
     {
         Task<List<Booking>> GetBookingsByShopIdAsync(int? shopId);
+        Task<Booking> GetBookingByIdAsync(int? bookingId);
+         Task UpdateAsync(Booking entity);
     }
 }

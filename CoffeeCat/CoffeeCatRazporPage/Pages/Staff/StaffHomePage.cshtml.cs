@@ -1,6 +1,7 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Protocol.Core.Types;
 using Repositories;
 using Repositories.Auth;
 
@@ -21,7 +22,15 @@ namespace CoffeeCatRazporPage.Pages.Staff {
             var staff =  sessionrepository.GetUserByRole(3);
             Bookings = await _cofffeeShopStaffRepository.GetBookingsByShopIdAsync(staff.ShopId);
         }
+        public async Task<IActionResult> OnPostConfirmBookingAsync(int id)
+        {
+            var booking = await _cofffeeShopStaffRepository.GetBookingByIdAsync(id);
 
+            booking.BookingEnabled = true;
+            await _cofffeeShopStaffRepository.UpdateAsync(booking);
+
+            return RedirectToPage();
+        }
         private void Authenticate() {
             int? userId = HttpContext.Session.GetInt32("UserId");
 

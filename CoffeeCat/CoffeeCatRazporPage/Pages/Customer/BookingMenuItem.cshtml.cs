@@ -18,8 +18,8 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public int ShopId { get; set; }
         public List<MenuItem> MenuItems { get; set; }
         public async Task<IActionResult> OnGetAsync(int bookingId, int shopId) {
-          /*  Authenticate();
-            Authorization();*/
+            Authenticate();
+            Authorization();
             BookingId = bookingId;
             ShopId = shopId;
             MenuItems = await menuItemRepository.GetAllMenuItemByShopIdAsync(shopId);
