@@ -53,7 +53,10 @@
                 var startDate = $("#BookingStartDate").val();
                 var startTime = $("#BookingStartTime").val();
                 var endTime = $("#BookingEndTime").val();
-
+                if (startDate === "") {
+                    alert("Please select Booking Start Date.");
+                    return;
+                }
                 var fullStartTime = startDate + "T" + startTime;
                 var fullEndTime = startDate + "T" + endTime;
 
