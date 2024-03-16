@@ -52,5 +52,10 @@
 
             return true; 
         }
+        var errorMessage = '@Model.ErrorMessage';
+        if (errorMessage !== '') {
+            alert(errorMessage);
+            window.location.href = '/Customer/BookingForm';
+        }
     </script>
 }

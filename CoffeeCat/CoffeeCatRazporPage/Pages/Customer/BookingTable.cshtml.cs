@@ -45,9 +45,10 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public int ShopId { get; set; }
         [BindProperty]
         public bool IsTableSelectionRequired { get; set; }
+        public string ErrorMessage { get; set; }
         public async Task<IActionResult> OnGet() {
-            Authenticate();
-            Authorization();
+          /*  Authenticate();
+            Authorization();*/
 
             IsTableSelectionRequired = true;
             if (Request.Query.TryGetValue("areaId", out var areaId) &&
@@ -62,6 +63,11 @@ namespace CoffeeCatRazporPage.Pages.Customer {
                 var availableTables = await bookingRepository.GetAvailableTablesAsync(AreaId, BookingStartTime, BookingEndTime);
                 Tables = availableTables.Where(table => table.TableStatus == true && table.TableEnabled == true).ToList();
             }
+            if (Tables == null || !Tables.Any())
+            {
+                ErrorMessage = "Sorry, the table is full.";
+                return Page();
+            }
 
             return Page();
         }
@@ -69,6 +75,7 @@ namespace CoffeeCatRazporPage.Pages.Customer {
 
         public async Task<IActionResult> OnPostAsync() {
             // Xử lý form booking
+
             bool areAllTablesAvailable = await CheckAllTablesAvailability(SelectedTables, BookingStartTime, BookingEndTime);
             var customer = sessionrepository.GetUserByRole(4);
             var booking = new Booking {
