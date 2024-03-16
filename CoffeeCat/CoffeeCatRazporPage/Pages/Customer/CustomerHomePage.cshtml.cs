@@ -18,6 +18,7 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public IEnumerable<Shop> Shops { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
+        public string ShopName { get; set; }
 
         public async Task OnGetAsync(int? pageIndex, string sortOrder) {
        

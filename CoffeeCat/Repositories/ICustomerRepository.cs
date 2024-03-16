@@ -11,5 +11,9 @@ namespace Repositories
     {
         Task<User?> GetUserByEmailAsync(string email);
         Task<IQueryable<Shop>> GetShopEnableAsync();
+        Task<IQueryable<Cat>> GetCatEnableAsync();
+        Task<IQueryable<Area>> GetAreaEnableAsync();
+        Task<IQueryable<MenuItem>> GetMenuItemEnableAsync();
+        Task<IQueryable<Table>> GetTableEnableAsync();
     }
 }

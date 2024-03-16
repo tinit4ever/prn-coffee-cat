@@ -32,18 +32,20 @@
                 <th>Address</th>
                 <th>Telephone</th>
                 <th>Image</th>
+                <th>Menu</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var shop in Model.Shops)
             {
                 <tr>
-                  
-                    <td>@shop.ShopName</td>
-                    <td>@shop.ShopEmail</td>
-                    <td>@shop.ShopAddress</td>
-                    <td>@shop.ShopTelephone</td>
-                    <td>@shop.ShopImage</td>
+
+                        <td><a asp-page="DetailArea" asp-route-shopId="@shop.ShopId">@shop.ShopName</a></td>
+                        <td>@shop.ShopEmail</td>
+                        <td>@shop.ShopAddress</td>
+                        <td>@shop.ShopTelephone</td>
+                        <td>@shop.ShopImage</td>
+                        <td><a asp-page="DetailMenu" asp-route-shopId="@shop.ShopId">@shop.ShopName Menu</a></td>
                 </tr>
             }
         </tbody>

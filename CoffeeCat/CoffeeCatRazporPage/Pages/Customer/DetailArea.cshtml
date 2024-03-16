@@ -1,0 +1,41 @@
+﻿@page
+@model DetailAreaModel
+@{
+
+    <div class="container">
+        <h1 class="text-center my-4">Areas</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Area Name</th>
+                    <th>Cat</th>
+            </thead>
+            <tbody>
+                @foreach (var area in Model.Areas)
+                {
+                    <tr>
+                        <td><a asp-page="DetailTable" asp-route-AreaId="@area.AreaId">@area.AreaName</a></td>
+                        <td><a asp-page="DetailCat" asp-route-AreaId="@area.AreaId">@area.AreaName Cat</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-center my-3">
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        @for (var i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

@@ -52,6 +52,21 @@ namespace Repositories
         {
             return await Task.FromResult(context.Shops.Where(s => s.ShopEnabled == true));
         }
-
+        public async Task<IQueryable<Cat>> GetCatEnableAsync()
+        {
+            return await Task.FromResult(context.Cats.Where(s => s.CatEnabled == true));
+        }
+        public async Task<IQueryable<Area>> GetAreaEnableAsync()
+        {
+            return await Task.FromResult(context.Areas.Where(s => s.AreaEnabled == true));
+        }
+        public async Task<IQueryable<MenuItem>> GetMenuItemEnableAsync()
+        {
+            return await Task.FromResult(context.MenuItems.Where(s => s.ItemEnabled == true));
+        }
+        public async Task<IQueryable<Table>> GetTableEnableAsync()
+        {
+            return await Task.FromResult(context.Tables.Where(s => s.TableEnabled == true));
+        }
     }
 }
