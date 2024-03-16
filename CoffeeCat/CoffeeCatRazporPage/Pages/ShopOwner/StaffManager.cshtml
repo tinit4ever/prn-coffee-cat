@@ -1,0 +1,46 @@
+﻿@page
+@model CoffeeCatRazporPage.Pages.ShopOwner.StaffManagerModel
+@{
+    ViewData["Title"] = "Coffee Shops";
+}
+<h1>List of Users by Role</h1>
+<a asp-page="/ShopOwner/CreateStaff" class="btn btn-primary">Create Staff</a>   
+<table>
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.UserList)
+        {
+            <tr>
+                <td>@user.CustomerId</td>
+                <td>@user.CustomerName</td>
+                <td>@user.CustomerEmail</td>
+                <td width="10%">
+                    @if (user.CustomerEnabled == true)
+                    {
+                        <form method="post" asp-page-handler="Ban">
+                            <input type="hidden" name="customerId" value="@user.CustomerId" />
+                            <button type="submit" class="btn btn-danger mx-2">
+                                Ban
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page-handler="Unban">
+                            <input type="hidden" name="customerId" value="@user.CustomerId" />
+                            <button type="submit" class="btn btn-primary mx-2">
+                                Unban
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
