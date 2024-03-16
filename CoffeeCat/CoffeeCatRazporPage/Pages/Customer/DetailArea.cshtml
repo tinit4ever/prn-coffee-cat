@@ -1,5 +1,6 @@
 ﻿@page
 @model DetailAreaModel
+
 @{
 
     <div class="container">
@@ -8,18 +9,24 @@
             <thead>
                 <tr>
                     <th>Area Name</th>
-                    <th>Cat</th>
+                    <th>List</th>
+                </tr>
             </thead>
             <tbody>
                 @foreach (var area in Model.Areas)
                 {
                     <tr>
-                        <td><a asp-page="DetailTable" asp-route-AreaId="@area.AreaId">@area.AreaName</a></td>
-                        <td><a asp-page="DetailCat" asp-route-AreaId="@area.AreaId">@area.AreaName Cat</a></td>
+                        <td>@area.AreaName</td>
+                        <td>
+                            <select onchange="window.location.href=this.value;">
+                                <option selected disabled>Choose...</option>
+                                <option value="@Url.Page("DetailTable", new { AreaId = @area.AreaId })">Table</option>
+                                <option value="@Url.Page("DetailCat", new { AreaId = @area.AreaId })">Cat</option>
+                            </select>
+                        </td>
                     </tr>
                 }
 
-            </tbody>
         </table>
         <!-- Phân trang -->
         <div class="d-flex justify-content-center my-3">

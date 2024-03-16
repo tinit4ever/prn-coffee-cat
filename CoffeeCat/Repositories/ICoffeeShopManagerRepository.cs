@@ -42,5 +42,6 @@ namespace Repositories
         Task<MenuItem> GetMenuItemByNameAsync(string itemName, int? shopId);
         Task<Table> GetTableByNameAsync(string tableName, int areaId);
         Task<Shop> GetShopByNameAsync(string shopName);
+       
     }
 }

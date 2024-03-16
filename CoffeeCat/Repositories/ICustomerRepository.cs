@@ -15,5 +15,6 @@ namespace Repositories
         Task<IQueryable<Area>> GetAreaEnableAsync();
         Task<IQueryable<MenuItem>> GetMenuItemEnableAsync();
         Task<IQueryable<Table>> GetTableEnableAsync();
+        Task<T> GetShopByIdAsync(int id);
     }
 }

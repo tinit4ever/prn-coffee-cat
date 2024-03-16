@@ -55,7 +55,7 @@
         var errorMessage = '@Model.ErrorMessage';
         if (errorMessage !== '') {
             alert(errorMessage);
-            window.location.href = '/Customer/BookingForm';
+            window.location.href = '/Customer/BookingForm?areaId=@Model.AreaId&shopId=@Model.ShopId';
         }
     </script>
 }

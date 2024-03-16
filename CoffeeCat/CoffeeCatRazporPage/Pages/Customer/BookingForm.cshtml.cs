@@ -16,11 +16,11 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         [BindProperty]
         public int ShopId { get; set; }
         public async Task<IActionResult> OnGetAsync(int? areaId, int? shopId) {
-         /*   Authenticate();
-            Authorization();*/
+            Authenticate();
+            Authorization();
 
-            AreaId = /*(int)areaId*/ 1;
-            ShopId = /*(int)shopId*/ 1;
+            AreaId = (int)areaId;
+            ShopId = (int)shopId;
 
             return Page();
         }

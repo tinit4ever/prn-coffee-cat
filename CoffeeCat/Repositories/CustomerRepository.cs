@@ -68,5 +68,9 @@ namespace Repositories
         {
             return await Task.FromResult(context.Tables.Where(s => s.TableEnabled == true));
         }
+        public async Task<T> GetShopByIdAsync(int id)
+        {
+            return await context.Set<T>().FindAsync(id);
+        }
     }
 }

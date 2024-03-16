@@ -249,6 +249,7 @@ namespace Repositories
         {
             return await context.Shops.FirstOrDefaultAsync(a => a.ShopName== shopName );
         }
+   
     }
 }
 

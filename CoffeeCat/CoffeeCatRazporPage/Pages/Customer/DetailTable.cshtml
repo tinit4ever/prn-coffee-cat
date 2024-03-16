@@ -1,6 +1,23 @@
 ﻿@page
 @model DetailTableModel
+
 @{
+    <style>
+        .btn-primary {
+            background-color: #f2aaed;
+            border-color: #f2aaed;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.5s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: #f2aaed;
+                border-color: #f2aaed;
+            }
+    </style>
     <div class="container">
         <h1 class="text-center my-4">Tables</h1>
         <table class="table table-striped">
@@ -14,10 +31,10 @@
                 @foreach (var table in Model.Tables)
                 {
                     <tr>
-
                         <td>@table.TableName</td>
                         <td>@table.TableCapacity</td>
                     </tr>
+                    <a asp-page="/Customer/BookingForm" asp-route-areaId="@Model.AreaId" asp-route-shopId="@Model.ShopId" class="btn btn-primary">Book Table</a>
                 }
             </tbody>
         </table>
