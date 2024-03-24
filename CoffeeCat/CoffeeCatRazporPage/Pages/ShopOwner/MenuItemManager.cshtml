@@ -4,7 +4,7 @@
     ViewData["Title"] = "MenuItem Manager";
 }
 <div class="container">
-    <h1 class="text-center my-4">Area Manager</h1>
+    <h1 class="text-center my-4">MenuItem Manager</h1>
 
     <!-- Sắp xếp và Tạo mới -->
     <div class="d-flex justify-content-between my-3">
@@ -57,7 +57,7 @@
             }
         </tbody>
     </table>
-
+    <a asp-page="./ShopManager" class="btn btn-primary">Back</a>
     <!-- Phân trang -->
     <div class="d-flex justify-content-center my-3">
         @if (Model.TotalPages > 1)
