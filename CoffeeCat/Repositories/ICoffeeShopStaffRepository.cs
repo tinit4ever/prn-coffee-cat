@@ -18,7 +18,11 @@ namespace Repositories
         Task<Booking> GetBookingByIdAsync(int? bookingId);
          Task UpdateAsync(Booking entity);
         Task DeleteAsync(Booking entity);
-
+        Task<List<User>> GetCustomersByShopId(int shopId);
+        Task<int> GetShopIdByRoleId(int roleId);
+        Task<List<User>> GetUsersByRoleIdAndShopId(int roleId, int shopId);
+        Task<int?> GetShopIdByOwnerId(int ownerId);
+        Task<List<User>> GetStaffByShopId(int shopId);
 
     }
 }

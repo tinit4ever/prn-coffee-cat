@@ -157,6 +157,36 @@ namespace Repositories
 
             return tableId;
         }*/
+        public async Task<List<User>> GetCustomersByShopId(int shopId)
+        {
+            return await context.Users.Where(u => u.RoleId == 4 && u.ShopId == shopId).ToListAsync();
+        }
+        public async Task<int> GetShopIdByRoleId(int roleId)
+        {
+            var userWithRoleId2 = await context.Users.FirstOrDefaultAsync(u => u.RoleId == roleId);
+            if (userWithRoleId2 != null)
+            {
+                return userWithRoleId2.ShopId ?? 0;
+            }
+            return 0; // Trả về 0 nếu không tìm thấy user nào có roleId = 2
+        }
+        public async Task<List<User>> GetUsersByRoleIdAndShopId(int roleId, int shopId)
+        {
+            return await context.Users
+                .Where(u => u.RoleId == roleId && u.ShopId == shopId)
+                .ToListAsync();
+        }
+        public async Task<int?> GetShopIdByOwnerId(int ownerId)
+        {
+            var owner = await context.Users.FirstOrDefaultAsync(u => u.CustomerId == ownerId && u.RoleId == 2);
+            return owner?.ShopId;
+        }
+        public async Task<List<User>> GetStaffByShopId(int shopId)
+        {
+            return await context.Users
+                .Where(u => u.RoleId == 3 && u.ShopId == shopId)
+                .ToListAsync();
+        }
     }
     }
 

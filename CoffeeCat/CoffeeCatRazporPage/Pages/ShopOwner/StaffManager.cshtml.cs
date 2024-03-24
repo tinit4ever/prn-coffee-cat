@@ -17,9 +17,20 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
         {
             Authenticate();
-          /*  Authorization();*/
+            /*  Authorization();*/
+            /* int roleId2ShopId = await _staffRepository.GetShopIdByRoleId(2);
+             UserList = await _staffRepository.GetUsersByRoleIdAndShopId(3, roleId2ShopId);*/
 
-            UserList = await _staffRepository.GetUserbyRold(3);
+            /*UserList = await _staffRepository.GetUserbyRold(3);*/
+            int? ownerId = HttpContext.Session.GetInt32("OwnerId");
+            if (ownerId != null)
+            {
+                int? shopId = await _staffRepository.GetShopIdByOwnerId(ownerId.Value);
+                if (shopId != null)
+                {
+                    UserList = await _staffRepository.GetStaffByShopId(shopId.Value);
+                }
+            }
         }
         public async Task<IActionResult> OnPostBanAsync(int customerId)
         {

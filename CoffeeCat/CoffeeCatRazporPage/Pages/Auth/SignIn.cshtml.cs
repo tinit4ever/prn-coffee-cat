@@ -43,6 +43,10 @@ namespace CoffeeCatRazporPage.Pages.Auth {
                 if (user.RoleId.HasValue) {
                     HttpContext.Session.SetInt32("RoleId", user.RoleId.Value);
                 }
+                if (user.RoleId.HasValue && user.RoleId == 2)
+                {
+                    HttpContext.Session.SetInt32("OwnerId", user.CustomerId); // L?u ownerId vào session
+                }
 
                 // Role Divition
                 if (user.RoleId.HasValue) {
