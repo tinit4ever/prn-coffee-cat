@@ -1,4 +1,4 @@
-﻿@page
+﻿@* @page
 @model CoffeeCatRazporPage.Pages.ShopOwner.StaffManagerModel
 @{
     ViewData["Title"] = "Coffee Shops";
@@ -37,6 +37,113 @@
                             <button type="submit" class="btn btn-primary mx-2">
                                 Unban
                             </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+@page
+@model CoffeeCatRazporPage.Pages.ShopOwner.StaffManagerModel
+@{
+    ViewData["Title"] = "Coffee Shops";
+}
+
+<style>
+    /* CSS cho bảng */
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #009879;
+            }
+
+    /* CSS cho nút */
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #009879;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 5px #00664d;
+    }
+
+        .btn:hover {
+            background-color: #007366;
+        }
+</style>
+
+<h1>List of Users by Role</h1>
+<a asp-page="/ShopOwner/CreateStaff" class="btn btn-primary">Create Staff</a>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.UserList)
+        {
+            <tr>
+                <td>@user.CustomerId</td>
+                <td>@user.CustomerName</td>
+                <td>@user.CustomerEmail</td>
+                <td>
+                    @if (user.CustomerEnabled == true)
+                    {
+                        <form method="post" asp-page-handler="Ban">
+                            <input type="hidden" name="customerId" value="@user.CustomerId" />
+                            <button type="submit" class="btn btn-danger mx-2">Ban</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page-handler="Unban">
+                            <input type="hidden" name="customerId" value="@user.CustomerId" />
+                            <button type="submit" class="btn btn-primary mx-2">Unban</button>
                         </form>
                     }
                 </td>

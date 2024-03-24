@@ -2,7 +2,17 @@
 @model CoffeeCatRazporPage.Pages.ShopOwner.CreateStaffModel
 @{
 }
-<form method="post">
+<style>
+    /* CSS cho form */
+    .form-container {
+        background-color: #f0f0f0; /* Màu nền của form */
+        padding: 20px; /* Khoảng cách giữa nội dung form và viền ngoài */
+        border-radius: 10px; /* Đường cong viền của form */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+    }
+</style>
+
+<form method="post" class="form-container">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary pl-3">CreateStaff</h2>
