@@ -25,7 +25,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task<IActionResult> OnGetAsync() {
             Authenticate();
             Authorization();
-            var shopOwner = sessionrepository.GetUserByRole(2);
+            var shopOwner = sessionrepository.GetUserByRole( HttpContext.Session.GetInt32("UserId"));
             Areas = await areaRepository.GetAreaByShopIdAsync(shopOwner.ShopId);
 
             area = await areaRepository.GetAreaByIdAsync(shopOwner.ShopId);
@@ -41,7 +41,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
                 return Page();
             }
 
-            var shopOwner = sessionrepository.GetUserByRole(2);
+            var shopOwner = sessionrepository.GetUserByRole( HttpContext.Session.GetInt32("UserId"));
             var existingArea = await areaRepository.GetAreaByNameAsync(area.AreaName, shopOwner.ShopId);
             if (existingArea != null)
             {

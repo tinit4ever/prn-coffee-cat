@@ -22,7 +22,7 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public async Task<IActionResult> OnGet() {
             Authenticate();
             Authorization();
-            var customer = sessionrepository.GetUserByRole(4);
+            var customer = sessionrepository.GetUserByRole(HttpContext.Session.GetInt32("UserId"));
             int customerId = customer.CustomerId;
 
        

@@ -31,7 +31,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         {
             Authenticate();
             Authorization();
-            var shopOwner = sessionRepository.GetUserByRole(2);
+            var shopOwner = sessionRepository.GetUserByRole(HttpContext.Session.GetInt32("UserId"));
             MenuItems = await itemRepository.GetItemIByShopIdAsync(shopOwner.ShopId);
             menuItem = await itemRepository.GetMenuItemsByIdAsync(id);
             menuItem.ShopId = shopId;

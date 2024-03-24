@@ -19,7 +19,7 @@ namespace CoffeeCatRazporPage.Pages.Staff {
         public async Task OnGet() {
             Authenticate();
             Authorization();
-            var staff =  sessionrepository.GetUserByRole(3);
+            var staff =  sessionrepository.GetUserByRole( HttpContext.Session.GetInt32("UserId"));
             Bookings = await _cofffeeShopStaffRepository.GetBookingsByShopIdAsync(staff.ShopId);
         }
         public async Task<IActionResult> OnPostConfirmBookingAsync(int id)

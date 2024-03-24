@@ -30,7 +30,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             Authenticate();
             Authorization();
             // L?y danh sách mèo theo areaId
-            var shopOwner = sessionrepository.GetUserByRole(2);
+            var shopOwner = sessionrepository.GetUserByRole(HttpContext.Session.GetInt32("UserId"));
             MenuItems = await itemRepository.GetItemIByShopIdAsync(shopOwner.ShopId);
 
             menuItem = await itemRepository.GetMenuItemsByIdAsync(shopOwner.ShopId);
@@ -55,7 +55,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
                 return Page();
             }
             menuItem.ItemEnabled = true;
-            var shopOwner = sessionrepository.GetUserByRole(2);
+            var shopOwner = sessionrepository.GetUserByRole( HttpContext.Session.GetInt32("UserId"));
             menuItem.ShopId = shopOwner.ShopId;
             await itemRepository.AddAsync(menuItem);
 

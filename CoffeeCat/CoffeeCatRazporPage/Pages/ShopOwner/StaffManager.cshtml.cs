@@ -17,8 +17,8 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
 
         {
             Authenticate();
-           /* Authorization();*/
-          
+          /*  Authorization();*/
+
             UserList = await _staffRepository.GetUserbyRold(3);
         }
         public async Task<IActionResult> OnPostBanAsync(int customerId)
@@ -42,7 +42,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
             }
         }
 
-     /*   private void Authorization()
+    /*    private void Authorization()
         {
             int? roleId = HttpContext.Session.GetInt32("RoleId");
             if (roleId.HasValue)

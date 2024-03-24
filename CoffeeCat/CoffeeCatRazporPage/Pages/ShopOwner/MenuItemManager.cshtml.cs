@@ -32,7 +32,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
         public async Task OnGetAsync(int? pageIndex, string sortOrder, int shopId) {
             Authenticate();
             Authorization();
-            var shopOwner = sessionrepository.GetUserByRole(2);
+            var shopOwner = sessionrepository.GetUserByRole( HttpContext.Session.GetInt32("UserId"));
             IQueryable<MenuItem> menusQuery = await repository.GetMenuItemsByShopIdAsync(shopOwner.ShopId);
             ShopId = shopId;
             // Tìm ki?m
