@@ -28,7 +28,7 @@
                         @for (var i = 1; i <= Model.TotalPages; i++)
                         {
                             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                <a class="page-link" asp-page="" asp-route-pageIndex="@i">@i</a>
+                                <a class="page-link" asp-page="./DetailMenu" asp-route-pageIndex="@i" asp-route-shopId="@Model.ShopId">@i</a>
                             </li>
                         }
                     </ul>
