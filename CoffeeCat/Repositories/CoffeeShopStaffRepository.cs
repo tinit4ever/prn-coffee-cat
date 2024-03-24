@@ -27,12 +27,16 @@ namespace Repositories
 
         public async Task<List<Booking>> GetBookingsByShopIdAsync(int? shopId)
         {
-            return await context.Bookings
+            var bookingsForShop = await context.Bookings
                 .Include(b => b.Customer)
-                .Include(b => b.Tables)
-                .Include(b => b.Items)
-                .Where(b => b.Customer.ShopId == shopId)
+                .Include(t => t.Tables)
+                .Include(t => t.Items)
+                .Where(b => context.Tables
+                    .Include(t => t.Area)
+                    .Any(t => t.Area.ShopId == shopId))
                 .ToListAsync();
+
+            return bookingsForShop;
         }
 
 
@@ -143,6 +147,16 @@ namespace Repositories
 
             await context.SaveChangesAsync();
         }
+
+        /*private int GetTableId(int? shopId)
+        {
+            var area = context.Areas.Find(shopId);
+            var table = context.Tables.Find(area.AreaId);
+
+            int tableId = table.TableId;
+
+            return tableId;
+        }*/
     }
     }
 

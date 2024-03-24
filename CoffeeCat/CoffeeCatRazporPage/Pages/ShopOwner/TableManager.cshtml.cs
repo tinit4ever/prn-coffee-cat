@@ -25,31 +25,18 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
 
         [BindProperty(SupportsGet = true)]
         public string SortOrder { get; set; }
-        public async Task OnGetAsync(int? pageIndex, string sortOrder, int areaId) {
+        public async Task OnGetAsync(int? pageIndex, int areaId) {
             Authenticate();
             Authorization();
             // Lấy danh sách cửa hàng từ repository
             IQueryable<Table> tableQuery = await repository.GetTablesByAreaIdAsync(areaId);
             AreaId = areaId;
-            // Tìm kiếm
+  
             if (!string.IsNullOrEmpty(SearchString)) {
                 tableQuery = tableQuery.Where(s => s.TableName.Contains(SearchString));
             }
 
-            // Sắp xếp
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["AddressSortParm"] = sortOrder == "Address" ? "address_desc" : "Address";
 
-            switch (sortOrder) {
-
-                case "Address":
-                    tableQuery = tableQuery.OrderBy(s => s.TableId);
-                    break;
-                case "address_desc":
-                    tableQuery = tableQuery.OrderByDescending(s => s.TableId);
-                    break;
-
-            }
 
             // Phân trang
             int pageSize = 5;

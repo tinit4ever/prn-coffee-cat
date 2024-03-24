@@ -41,7 +41,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
             }
 
             // S?p x?p
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "Address" : "";
             ViewData["AddressSortParm"] = sortOrder == "Address" ? "address_desc" : "Address";
 
             switch (sortOrder) {

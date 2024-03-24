@@ -37,23 +37,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner {
                 ErrorMessage = "cat name already exists in this area.";
                 return Page();
             }
-            if (CatImageFile != null && CatImageFile.Length > 0)
-            {
 
-                var imagePath = "Image/" + Guid.NewGuid().ToString() + "_" + CatImageFile.FileName;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await CatImageFile.CopyToAsync(stream);
-                }
-
-                cat.CatImage = imagePath;
-            }
-            else
-            {
-
-                cat.CatImage = await catRepository.GetCatImageByIdAsync(cat.CatId);
-            }
 
 
             cat.AreaId = AreaId;

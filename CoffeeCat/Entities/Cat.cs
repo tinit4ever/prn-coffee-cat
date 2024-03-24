@@ -9,7 +9,7 @@ public partial class Cat
 
     public string CatName { get; set; } = null!;
 
-    public string? CatImage { get; set; }
+    public string? CatImage { get; set; } = null;
 
     public bool? CatEnabled { get; set; }
 

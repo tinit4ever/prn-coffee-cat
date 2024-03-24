@@ -7,28 +7,14 @@
 <div class="container">
     <h1 class="text-center my-4">Coffee Shops</h1>
 
-    <!-- Sắp xếp và Tạo mới -->
     <div class="d-flex justify-content-between my-3">
         <div>
-            <a asp-page-handler="Sort" asp-route-sortOrder="Address" class="btn btn-link mx-2">Sort </a>
-        </div>
-        <div>
 
-            <a asp-page="CreateTable" asp-route-tableId="@Model.AreaId" class="btn btn-primary">Create New Table</a>
+            <a asp-page="CreateTable" asp-route-areaId="@Model.AreaId" class="btn btn-primary">Create New Table</a>
         </div>
     </div>
 
-    <!-- Tìm kiếm -->
-    <form method="get" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="searchString" class="form-control" placeholder="Search">
-            <!-- Thêm trường sortOrder vào form tìm kiếm -->
-            <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </div>
-    </form>
+
 
     <table class="table table-striped">
         <thead>

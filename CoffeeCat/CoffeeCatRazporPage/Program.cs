@@ -3,15 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Repositories.Admin;
 using Repositories.Auth;
-
+using Repositories.Extension;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 //DI
-builder.Services.AddDbContext<CoffeeCatContext>(options =>
-options.UseSqlServer
-(builder.Configuration.GetConnectionString("CoffeeCatDb")));
+builder.Services.AddDatabase();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<CoffeeCatContext>();
 builder.Services.AddTransient(typeof(ICoffeeShopManagerRepository<>), typeof(CoffeeShopManagerRepository<>));

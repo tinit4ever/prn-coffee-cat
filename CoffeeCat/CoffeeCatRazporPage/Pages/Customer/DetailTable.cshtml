@@ -34,8 +34,9 @@
                         <td>@table.TableName</td>
                         <td>@table.TableCapacity</td>
                     </tr>
-                    <a asp-page="/Customer/BookingForm" asp-route-areaId="@Model.AreaId" asp-route-shopId="@Model.ShopId" class="btn btn-primary">Book Table</a>
+                    
                 }
+                <a asp-page="/Customer/BookingForm" asp-route-areaId="@Model.AreaId" asp-route-shopId="@Model.ShopId" class="btn btn-primary">Book Table</a>
             </tbody>
         </table>
         <!-- Phân trang -->
