@@ -4,7 +4,7 @@ using Repositories.Auth;
 
 namespace CoffeeCatRazporPage.Pages.Auth {
 
-    public class SignInModel : PageModel {
+    public class SignInModel:PageModel {
         private readonly ISignInRepository _signInRepository;
 
         [BindProperty]
@@ -43,9 +43,15 @@ namespace CoffeeCatRazporPage.Pages.Auth {
                 if (user.RoleId.HasValue) {
                     HttpContext.Session.SetInt32("RoleId", user.RoleId.Value);
                 }
-                if (user.RoleId.HasValue && user.RoleId == 2)
-                {
+                if (user.RoleId.HasValue && user.RoleId == 2) {
                     HttpContext.Session.SetInt32("OwnerId", user.CustomerId); // L?u ownerId vào session
+                }
+
+                if (user.CustomerEnabled.HasValue) {
+                    if (!user.CustomerEnabled.Value) {
+                        ModelState.AddModelError(string.Empty, "Your account have been banned!");
+                        return Page();
+                    }
                 }
 
                 // Role Divition
