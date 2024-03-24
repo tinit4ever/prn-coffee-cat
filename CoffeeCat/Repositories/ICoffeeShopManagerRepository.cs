@@ -33,7 +33,7 @@ namespace Repositories
         Task AddTablesToBookingAsync(int bookingId, List<int> tableIds);
         Task<Booking> GetBookingByTableAndTimeAsync(int tableId, DateTime bookingStartTime, DateTime bookingEndTime);
         Task<List<Table>> GetAvailableTablesAsync(int areaId, DateTime startTime, DateTime endTime);
-        Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId);
+        Task<List<Booking>> GetBookingHistoryForCustomerAsync(int? customerId);
         Task<List<MenuItem>> GetAllMenuItemByShopIdAsync(int ShopId);
         Task<List<MenuItem>> GetItemIByShopIdAsync(int? ShopId);
         Task<string> GetCatImageByIdAsync(int catId);

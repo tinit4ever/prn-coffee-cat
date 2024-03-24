@@ -22,12 +22,7 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public async Task<IActionResult> OnGet() {
             Authenticate();
             Authorization();
-            var customer = sessionrepository.GetUserByRole(HttpContext.Session.GetInt32("UserId"));
-            int customerId = customer.CustomerId;
-
-       
-  
-            BookingHistory  = await bookingRepository.GetBookingHistoryForCustomerAsync(customerId);
+            BookingHistory  = await bookingRepository.GetBookingHistoryForCustomerAsync(HttpContext.Session.GetInt32("UserId"));
             return Page();
         }
         public async Task<IActionResult> OnPostCancelBookingAsync(int bookingId)
@@ -50,10 +45,12 @@ namespace CoffeeCatRazporPage.Pages.Customer {
             return RedirectToPage();
         }
 
-        private void Authenticate() {
+        private void Authenticate()
+        {
             int? userId = HttpContext.Session.GetInt32("UserId");
 
-            if (userId == null) {
+            if (userId == null)
+            {
                 HttpContext.Response.Redirect("/Auth/SignIn");
             }
         }

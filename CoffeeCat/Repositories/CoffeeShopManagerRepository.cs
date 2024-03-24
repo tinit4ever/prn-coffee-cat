@@ -212,10 +212,16 @@ namespace Repositories
             return availableTables;
         }
 
-        public async Task<List<Booking>> GetBookingHistoryForCustomerAsync(int customerId)
+        public async Task<List<Booking>> GetBookingHistoryForCustomerAsync(int? customerId)
         {
-            return await context.Bookings.Include(b => b.Tables )
-            .Include(b => b.Items).Where(b => b.CustomerId == customerId ).ToListAsync();
+            
+            var bookingsForCustomer = await context.Bookings
+               .Include(b => b.Tables)
+               .Include(b => b.Items)
+               .Where(b => b.CustomerId == customerId)
+               .ToListAsync();
+
+            return bookingsForCustomer;
         }
 
         public async Task<string> GetCatImageByIdAsync(int catId)

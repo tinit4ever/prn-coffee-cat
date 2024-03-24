@@ -47,8 +47,8 @@ namespace CoffeeCatRazporPage.Pages.Customer {
         public bool IsTableSelectionRequired { get; set; }
         public string ErrorMessage { get; set; }
         public async Task<IActionResult> OnGet() {
-          /*  Authenticate();
-            Authorization();*/
+            Authenticate();
+            Authorization();
 
             IsTableSelectionRequired = true;
             if (Request.Query.TryGetValue("areaId", out var areaId) &&
@@ -77,7 +77,7 @@ namespace CoffeeCatRazporPage.Pages.Customer {
             // Xử lý form booking
 
             bool areAllTablesAvailable = await CheckAllTablesAvailability(SelectedTables, BookingStartTime, BookingEndTime);
-            var customer = sessionrepository.GetUserByRole(4);
+            var customer = sessionrepository.GetUserByRole(HttpContext.Session.GetInt32("UserId"));
             var booking = new Booking {
                 BookingCode = GenerateBookingCode(),
                 BookingStartTime = BookingStartTime,
