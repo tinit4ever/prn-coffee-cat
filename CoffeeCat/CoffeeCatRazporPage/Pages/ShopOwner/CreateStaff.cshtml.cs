@@ -12,7 +12,7 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
     {
         private readonly ICoffeeShopStaffRepository _coffeeShopStaffRepository;
         private readonly ISessionRepository _sessionRepository;
-        public string name { get; set; }
+        /*public string name { get; set; }
 
         [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter a valid 10-digit phone number")]
         public string phone { get; set; }
@@ -25,6 +25,27 @@ namespace CoffeeCatRazporPage.Pages.ShopOwner
         [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
         [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$", ErrorMessage = "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character")]
         public string password { get; set; }
+        public string confirmPassword { get; set; }*/
+        [Required(ErrorMessage = "Name is required")]
+        public string name { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter a valid 10-digit phone number")]
+        public string phone { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string useremail { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [Display(Name = "Password")]
+        [StringLength(23, ErrorMessage = "Range must be from 1 to 23")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$", ErrorMessage = "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character")]
+        public string password { get; set; }
+
+        [Required(ErrorMessage = "Confirm password is required")]
+   /*     [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [Display(Name = "Confirm Password")]*/
         public string confirmPassword { get; set; }
 
         public CreateStaffModel(ICoffeeShopStaffRepository coffeeShopStaffRepository, ISessionRepository sessionRepository)
