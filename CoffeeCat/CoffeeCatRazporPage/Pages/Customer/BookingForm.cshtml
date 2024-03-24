@@ -33,6 +33,7 @@
     </div>
     <input type="hidden" name="ShopId" id="ShopId" value="@Model.ShopId">
     <button type="button" class="btn btn-primary" id="checkAvailability">Check Availability</button>
+    <a asp-page="./DetailTable" asp-route-AreaId="@Model.AreaId" class="btn btn-primary">Back</a>
 </form>
 
 @section Scripts {

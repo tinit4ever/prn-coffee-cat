@@ -30,6 +30,7 @@
     </div>
     <input type="hidden" id="AreaId" name="AreaId">
     <button type="submit" class="btn btn-primary">Book</button>
+    <a asp-page="./BookingForm" asp-route-AreaId="@Model.AreaId" asp-route-ShopId="@Model.ShopId" class="btn btn-primary">Back</a>
 </form>
 
 @section Scripts {
